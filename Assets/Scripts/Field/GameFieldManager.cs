@@ -1,38 +1,34 @@
 using System.Collections.Generic;
+using Data;
+using Field;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameFieldManager : MonoBehaviour
 {
 	[SerializeField] private Sprite[] _sprites; //todo TO SO
-	[SerializeField] private RectTransform field;
+	[SerializeField] private RectTransform fieldRoot;
 	[SerializeField] private Image prefab;
 	[SerializeField] private List<Image> pool;
 
 	private void Awake()
 	{
-		CreateField();
+		GenerateField();
 		// доступ к саб спрайтам получают через загрузку ресурсов
 		// заранее кэшировать данные в конфиг и дергать оттуда
 	}
 
-	private void CreateField()
+	private void GenerateField()
 	{
-		//Create/enable/disable elements from pool or create
-		var spriteSize = _sprites[0].rect;
-		int rows = (int) (field.rect.width / spriteSize.width);
-		var columns = (int) (field.rect.height / spriteSize.height);
-		var offset = new Vector2(spriteSize.width / 2, spriteSize.height / 2);
-		for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < columns; j++)
-			{
-				var cell = GameObject.Instantiate(prefab, field);
-				var pos = new Vector2(spriteSize.width * i, spriteSize.height * j);
-				cell.transform.localPosition = field.rect.min + pos;
-				pool.Add(cell);
-			}
-		}
+		var loadedData = new FieldData();
+
+		var activeField = new GameField();
+		activeField.CreateNewGameField(loadedData);
+	}
+
+	private void LoadField()
+	{
+
 	}
 
 	private void FillField()
@@ -61,7 +57,7 @@ public class GameFieldManager : MonoBehaviour
 			if (GUILayout.Button("Create field", style, GUILayout.Width(180), GUILayout.Height(20)))
 			{
 				_target.ClearPool();
-				_target.CreateField();
+				_target.GenerateField();
 			}
 			if (GUILayout.Button("Clear", style, GUILayout.Width(180), GUILayout.Height(20)))
 			{

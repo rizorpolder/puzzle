@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8256438469582522800}
   - component: {fileID: 3267008563211966113}
+  - component: {fileID: 2398308294104811977}
   - component: {fileID: 5526077530608638355}
   m_Layer: 5
-  m_Name: Cell
+  m_Name: PuzzleCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,6 +46,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455233147891949143}
   m_CullTransparentMesh: 1
+--- !u!114 &2398308294104811977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455233147891949143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d274ef9c90484cde99ca9c6436e71db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 5526077530608638355}
 --- !u!114 &5526077530608638355
 MonoBehaviour:
   m_ObjectHideFlags: 0
