@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace Common
 {
-	public class Singletone : MonoBehaviour
+	public class Singletone<T> : MonoBehaviour where T:MonoBehaviour
 	{
-		private static Singletone _instance;
+		private static T _instance;
 
-		public static Singletone Instance
+		public static T Instance
 		{
 			get => _instance;
 			private set
@@ -22,7 +22,7 @@ namespace Common
 
 		void Start()
 		{
-			_instance = this;
+			_instance = this as T;
 		}
 	}
 }

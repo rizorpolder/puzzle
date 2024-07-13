@@ -1,12 +1,18 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Field
 {
-	public class PuzzleCell: MonoBehaviour
+	public class PuzzleCell : MonoBehaviour
 	{
-		[SerializeField] private Image _image;
+		private Vector2 Coord;
 
-	}
+		private PuzzleChip _currentChip;
+		public bool IsEmpty => _currentChip is null;
+
+		public void Initialize(int row,int column)
+		{
+			Coord = new Vector2(column, row);
+		}
+}
 
 }

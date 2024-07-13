@@ -1,29 +1,43 @@
+using System;
 using System.Collections.Generic;
 using Data;
 using Field;
+using Global;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameFieldManager : MonoBehaviour
 {
-	[SerializeField] private Sprite[] _sprites; //todo TO SO
-	[SerializeField] private RectTransform fieldRoot;
-	[SerializeField] private Image prefab;
-	[SerializeField] private List<Image> pool;
+	[SerializeField] private Vector2 FieldSize;
+	[SerializeField] private List<PuzzleCell> pool;
+
+
+	private FieldData _data;
 
 	private void Awake()
 	{
 		GenerateField();
+		InitializeField();
 		// доступ к саб спрайтам получают через загрузку ресурсов
 		// заранее кэшировать данные в конфиг и дергать оттуда
 	}
-
+	
 	private void GenerateField()
 	{
-		var loadedData = new FieldData();
+		//заранее загруженные пользовательские данные  или созданные с нуля
+		_data = new FieldData();
+	}
 
-		var activeField = new GameField();
-		activeField.CreateNewGameField(loadedData);
+	private void InitializeField()
+	{
+		for (int i = 0;  i < FieldSize.x; i++)
+		{
+			for (int j = 0; j < FieldSize.y; j++)
+			{
+				pool[i+j].Initialize(i,j);
+				ConfigurableRoot.Instance.ImageRepositoryConfig.GetSprites();
+			}
+		}
 	}
 
 	private void LoadField()
@@ -37,13 +51,18 @@ public class GameFieldManager : MonoBehaviour
 		//Check if disabled - skip
 	}
 
-	private void ClearPool()
+	private void RenameElements()
 	{
-		foreach (var image in pool)
+		int currentIndex = 0;
+		for (int i = 0;  i < FieldSize.x; i++)
 		{
-			DestroyImmediate(image.gameObject);
+			for (int j = 0; j < FieldSize.y; j++)
+			{
+				var element = pool[currentIndex];
+				element.gameObject.name = $"{i}x{j}_cell";
+				currentIndex++;
+			}
 		}
-		pool.Clear();
 	}
 
 	[UnityEditor.CustomEditor(typeof(GameFieldManager))]
@@ -56,13 +75,9 @@ public class GameFieldManager : MonoBehaviour
 			style.normal.textColor = new Color(0, 150f / 255f, 90f / 255f);
 			if (GUILayout.Button("Create field", style, GUILayout.Width(180), GUILayout.Height(20)))
 			{
-				_target.ClearPool();
-				_target.GenerateField();
+				_target.RenameElements();
 			}
-			if (GUILayout.Button("Clear", style, GUILayout.Width(180), GUILayout.Height(20)))
-			{
-				_target.ClearPool();
-			}
+
 			base.OnInspectorGUI();
 		}
 	}

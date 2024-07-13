@@ -63,4 +63,11 @@ namespace Configs.TextureRepository
 		public List<Sprite> sprites;
 		public string textureName; //TODO To enum?
 	}
+
+	[Serializable]
+	public class TextureUnit
+	{
+		public Sprite sprite;
+		public Vector2 coords;
+	}
 }
