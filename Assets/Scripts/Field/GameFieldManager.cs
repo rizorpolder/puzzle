@@ -35,7 +35,7 @@ public class GameFieldManager : MonoBehaviour
 			for (int j = 0; j < FieldSize.y; j++)
 			{
 				pool[i+j].Initialize(i,j);
-				ConfigurableRoot.Instance.ImageRepositoryConfig.GetSprites();
+				var textureUnits = ConfigurableRoot.Instance.ImageRepositoryConfig.GetSprites("art_template");
 			}
 		}
 	}
