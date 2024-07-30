@@ -7,8 +7,6 @@ namespace Managers
 {
 	public class GameFieldManager : MonoBehaviour
 	{
-		private string tempArtName = "art_template";
-
 		[SerializeField] private PuzzleCell prefab;
 		[SerializeField] private Transform fieldRoot;
 		[SerializeField] private List<PuzzleCell> pool;

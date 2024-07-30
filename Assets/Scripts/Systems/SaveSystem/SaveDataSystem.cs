@@ -10,8 +10,11 @@ namespace Systems.SaveSystem
 	{
 		private IDataSerializer _dataSerializer;
 
+		public static SaveDataSystem Instance;
+
 		public SaveDataSystem(IDataSerializer dataSerializer)
 		{
+			Instance = this;
 			_dataSerializer = dataSerializer;
 		}
 
@@ -21,10 +24,13 @@ namespace Systems.SaveSystem
 			File.WriteAllText(Application.persistentDataPath + data.PATH, result);
 		}
 
-		public T LoadData<T>(string path) where T:ASavedData
+		public T LoadData<T>() where T : ASavedData, new()
 		{
+			var data = new T();
+			var path = data.PATH;
 			var result = File.ReadAllText(path);
-			return _dataSerializer.ToData<T>(result);
+			data = _dataSerializer.ToData<T>(result);
+			return data;
 		}
 
 

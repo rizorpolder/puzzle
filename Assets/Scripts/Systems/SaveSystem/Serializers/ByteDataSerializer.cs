@@ -9,7 +9,6 @@ namespace Systems.SaveSystem.Serializers
 
 		public T ToData<T>(string data)
 		{
-			throw new NotImplementedException();
 			var bytes = _encoding.GetBytes(data);
 			// bytes -> to T
 			return default;
@@ -17,7 +16,6 @@ namespace Systems.SaveSystem.Serializers
 
 		public string FromData<T>(T data)
 		{
-			throw new NotImplementedException();
 			// data -> to string
 			return _encoding.GetString(default);
 		}

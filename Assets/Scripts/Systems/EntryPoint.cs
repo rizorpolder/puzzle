@@ -13,9 +13,9 @@ namespace Systems
 		private void Awake()
 		{
 			DontDestroyOnLoad(this);
+			_systems.Add(new SaveDataSystem(new JsonDataSerializer()));
+			_systems.Add(new PlayerDataSystem());
 
-			_systems.Add(new SaveDataSystem(new JsonDataSerializer()))
-				;
 		}
 
 		public void Start()
