@@ -17,6 +17,9 @@ namespace Managers
 
 		private void Awake()
 		{
+			//TODO Load Data+
+			_data = new FieldData();
+
 			GenerateField();
 			InitializeField();
 			// доступ к саб спрайтам получают через загрузку ресурсов
@@ -25,8 +28,9 @@ namespace Managers
 
 		private void GenerateField()
 		{
-			//заранее загруженные пользовательские данные  или созданные с нуля
-			_data = new FieldData();
+			//по сохраненным данным получить название текстуры
+			// по ее размерам воссоздать поле
+			//проинициализировать ячейки из сохраненных (новых) данных
 		}
 
 		private void InitializeField()
