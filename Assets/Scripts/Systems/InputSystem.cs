@@ -11,11 +11,12 @@ namespace Systems
 		private Vector3 _endPosition;
 		private Vector3 _startPosition;
 
-		//Исключить длинные свайпы и короткие свайпы.
 		public Camera Camera => Camera.main;
 
 		public void Update()
 		{
+			//TODO сделать мертвую зону = клик (select by click),
+
 			if (Application.isMobilePlatform)
 			{
 				TouchInput();
