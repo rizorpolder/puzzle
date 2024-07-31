@@ -1,8 +1,10 @@
+using System;
 using Configs.TextureRepository;
 using Data;
 using Global;
 using Systems;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Field
 {
@@ -55,10 +57,19 @@ namespace Field
 			var textureUnits = _config.Sprites;
 			foreach (var cellData in _fieldData.Puzzles)
 			{
-				var spriteIndex = cellData.SpritePartIndex;
-				var textureUnitData = textureUnits[spriteIndex];
 				var cellCoords = cellData.cellCoords;
-				field[cellCoords.x, cellCoords.y].CreateChip(textureUnitData.sprite, textureUnitData.originalCoords);
+				var cell = field[cellCoords.x, cellCoords.y];
+
+				var spriteIndex = cellData.SpritePartIndex;
+				if (spriteIndex < 0)
+				{
+					cell.Clear();
+					_emptyCell = cell;
+					continue;
+				}
+
+				var textureUnitData = textureUnits[spriteIndex];
+				cell.CreateChip(textureUnitData.sprite, textureUnitData.originalCoords);
 			}
 		}
 
@@ -88,6 +99,39 @@ namespace Field
 
 		public void SwitchCells(SwipeDirection direction)
 		{
+			if (CanMove(direction, out var newCoords))
+			{
+				var puzzleCell = field[newCoords.x, newCoords.y];
+				SwapCellData(_emptyCell, puzzleCell);
+			}
+		}
+
+		private bool CanMove(SwipeDirection direction, out Vector2Int newCoords)
+		{
+			bool canMove = false;
+			newCoords = _emptyCell.CellCoord;
+
+			switch (direction)
+			{
+				case SwipeDirection.Up:
+					newCoords.x--;
+					canMove = newCoords.x >= 0;
+					break;
+				case SwipeDirection.Down:
+					newCoords.x++;
+					canMove = newCoords.x < _config.FieldSize.x;
+					break;
+				case SwipeDirection.Left:
+					newCoords.y--;
+					canMove = newCoords.y >= 0;
+					break;
+				case SwipeDirection.Right:
+					newCoords.y++;
+					canMove = newCoords.y < _config.FieldSize.y;
+					break;
+			}
+
+			return canMove;
 		}
 
 		private void SwapCellData(PuzzleCell from, PuzzleCell to)
@@ -96,6 +140,7 @@ namespace Field
 			var toChip = to.GetChip();
 			from.SetChip(toChip);
 			to.SetChip(fromChip);
+			_emptyCell = from.IsEmpty ? from : (to.IsEmpty ? to : _emptyCell);
 		}
 	}
 }

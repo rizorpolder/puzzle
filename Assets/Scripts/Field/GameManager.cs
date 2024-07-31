@@ -36,6 +36,7 @@ namespace Managers
 					{cellCoords = configSprite.originalCoords, SpritePartIndex = index});
 			}
 
+			result.Puzzles[^1].SpritePartIndex = -1;
 			return result;
 		}
 
