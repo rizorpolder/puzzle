@@ -1,4 +1,3 @@
-using System;
 using Configs.TextureRepository;
 using Data;
 using Global;
@@ -99,11 +98,25 @@ namespace Field
 
 		public void SwitchCells(SwipeDirection direction)
 		{
-			if (CanMove(direction, out var newCoords))
+			if (!CanMove(direction, out var newCoords)) return;
+
+			var puzzleCell = field[newCoords.x, newCoords.y];
+			SwapCellData(_emptyCell, puzzleCell);
+			if (CheckForCompletion())
 			{
-				var puzzleCell = field[newCoords.x, newCoords.y];
-				SwapCellData(_emptyCell, puzzleCell);
+				Debug.LogAssertionFormat("YOU WIN");
 			}
+		}
+
+		private bool CheckForCompletion()
+		{
+			foreach (var puzzleCell in field)
+			{
+				var chip = puzzleCell.GetChip();
+				if (!puzzleCell.CellCoord.Equals(chip.OriginalCoords)) return false;
+			}
+
+			return true;
 		}
 
 		private bool CanMove(SwipeDirection direction, out Vector2Int newCoords)
@@ -114,20 +127,20 @@ namespace Field
 			switch (direction)
 			{
 				case SwipeDirection.Up:
-					newCoords.x--;
-					canMove = newCoords.x >= 0;
-					break;
-				case SwipeDirection.Down:
 					newCoords.x++;
 					canMove = newCoords.x < _config.FieldSize.x;
 					break;
-				case SwipeDirection.Left:
-					newCoords.y--;
-					canMove = newCoords.y >= 0;
+				case SwipeDirection.Down:
+					newCoords.x--;
+					canMove = newCoords.x >= 0;
 					break;
-				case SwipeDirection.Right:
+				case SwipeDirection.Left:
 					newCoords.y++;
 					canMove = newCoords.y < _config.FieldSize.y;
+					break;
+				case SwipeDirection.Right:
+					newCoords.y--;
+					canMove = newCoords.y >= 0;
 					break;
 			}
 
