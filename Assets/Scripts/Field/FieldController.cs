@@ -25,6 +25,7 @@ namespace Field
 
 			GenerateField();
 			InitializeField();
+			Shuffle();
 		}
 
 		private void GenerateField()
@@ -51,12 +52,13 @@ namespace Field
 
 		private void InitializeField()
 		{
-			var sprites = _config.Sprites;
+			var textureUnits = _config.Sprites;
 			foreach (var cellData in _fieldData.Puzzles)
 			{
 				var spriteIndex = cellData.SpritePartIndex;
-				var sprite = sprites[spriteIndex].sprite;
-				field[cellData.cellCoords.x, cellData.cellCoords.y].CreateChip(sprite);
+				var textureUnitData = textureUnits[spriteIndex];
+				var cellCoords = cellData.cellCoords;
+				field[cellCoords.x, cellCoords.y].CreateChip(textureUnitData.sprite, textureUnitData.originalCoords);
 			}
 		}
 
@@ -68,10 +70,32 @@ namespace Field
 
 		private void Shuffle()
 		{
+			int iterations = 100;
+			for (int i = 0; i < iterations; i++)
+			{
+				var cell1 = GetRandomCell();
+				var cell2 = GetRandomCell();
+				SwapCellData(cell1, cell2);
+			}
+		}
+
+		private PuzzleCell GetRandomCell()
+		{
+			var x = Random.Range(0, _config.FieldSize.x);
+			var y = Random.Range(0, _config.FieldSize.y);
+			return field[x, y];
 		}
 
 		public void SwitchCells(SwipeDirection direction)
 		{
+		}
+
+		private void SwapCellData(PuzzleCell from, PuzzleCell to)
+		{
+			var fromChip = from.GetChip();
+			var toChip = to.GetChip();
+			from.SetChip(toChip);
+			to.SetChip(fromChip);
 		}
 	}
 }

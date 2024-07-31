@@ -7,8 +7,8 @@ namespace Field
 	{
 		[SerializeField] private PuzzleChip prefab;
 
-		private Vector2 _coords;
-		public Vector2 Coord => _coords;
+		private Vector2 _spriteCoords;
+		public Vector2 SpriteCoord => _spriteCoords;
 
 
 		private PuzzleChip _currentChip;
@@ -16,19 +16,29 @@ namespace Field
 
 		public void Initialize(Vector2 coords)
 		{
-			_coords = coords;
+			_spriteCoords = coords;
 		}
 
-		public void CreateChip(Sprite sprite)
+		public void CreateChip(Sprite sprite, Vector2Int originalCoords)
 		{
 			if (!_currentChip)
 				_currentChip = Instantiate(prefab, transform);
 			_currentChip.SetView(sprite);
+			_spriteCoords = originalCoords;
 		}
 
 		public void SetChip(PuzzleChip chip)
 		{
 			_currentChip = chip;
+			if(IsEmpty)
+				return;
+			chip.transform.SetParent(this.transform);
+			_currentChip.transform.localPosition = Vector3.zero;
+		}
+
+		public PuzzleChip GetChip()
+		{
+			return _currentChip;
 		}
 
 		public void Clear()
