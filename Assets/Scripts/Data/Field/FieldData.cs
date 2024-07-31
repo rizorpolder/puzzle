@@ -8,9 +8,13 @@ namespace Data
 	{
 		public override string PATH => "field_data";
 
-
 		//Данные о поле и то, что в последствии будет сохраняться
 		public string LastTextureName;
 		public List<PuzzleCellData> Puzzles;
+
+		public FieldData()
+		{
+			Puzzles = new List<PuzzleCellData>();
+		}
 	}
 }

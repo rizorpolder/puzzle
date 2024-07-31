@@ -681,13 +681,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1207943455}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41cd56de67f6479186ad78d103e07af5, type: 3}
+  m_Script: {fileID: 11500000, guid: 42141ddb6cfc46f5aa4c5947eaf36a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 2398308294104811977, guid: c73e2980bc56c004eb4146e9713116c4, type: 3}
   fieldRoot: {fileID: 1207943456}
-  pool: []
-  _config: {fileID: 11400000, guid: 8b423c5116714304689dd138956da854, type: 2}
 --- !u!1 &1261424579
 GameObject:
   m_ObjectHideFlags: 0
@@ -724,6 +722,51 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1261424579}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1358639665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1358639667}
+  - component: {fileID: 1358639666}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1358639666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358639665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41cd56de67f6479186ad78d103e07af5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _controller: {fileID: 1207943461}
+--- !u!4 &1358639667
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358639665}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -820,3 +863,4 @@ SceneRoots:
   - {fileID: 959836815}
   - {fileID: 1261424581}
   - {fileID: 2063477301}
+  - {fileID: 1358639667}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Serialization;
 
 namespace Configs.TextureRepository
 {
@@ -11,6 +12,11 @@ namespace Configs.TextureRepository
 	{
 		[SerializeField] private string ShortPath;
 		[SerializeField] private List<TextureUnitConfig> configs;
+
+		public TextureUnitConfig GetConfig(string name)
+		{
+			return configs.FirstOrDefault(x => x.TextureName.Equals(name));
+		}
 
 		public List<TextureUnit> GetSprites(string name)
 		{
@@ -75,7 +81,7 @@ namespace Configs.TextureRepository
 				}
 			}
 
-			private Vector2 CalculateFieldSize(int elementsCount) // 36
+			private Vector2Int CalculateFieldSize(int elementsCount) // 36
 			{
 				int rows = 0;
 				int columns = elementsCount;
@@ -91,11 +97,11 @@ namespace Configs.TextureRepository
 					locker++;
 					if (locker > 1000)
 					{
-						return Vector2.zero;
+						return Vector2Int.zero;
 					}
 				}
 
-				return new Vector2(rows, columns);
+				return new Vector2Int(rows, columns);
 			}
 		}
 #endif
@@ -107,7 +113,7 @@ namespace Configs.TextureRepository
 		/// <summary>
 		/// Column / Row
 		/// </summary>
-		public Vector2 FieldSize;
+		public Vector2Int FieldSize;
 		public string TextureName;
 		public Texture2D Texture;
 
@@ -128,7 +134,7 @@ namespace Configs.TextureRepository
 				{
 					var spriteIndex = i * (int)FieldSize.x + j;
 					var sprite = sprites[spriteIndex];
-					Vector2 spritePos = new Vector2(i, j);
+					Vector2Int spritePos = new Vector2Int(i, j);
 					var element = new TextureUnit(sprite, spritePos);
 					Sprites.Add(element);
 				}
@@ -144,12 +150,12 @@ namespace Configs.TextureRepository
 		/// <summary>
 		/// Column/Row
 		/// </summary>
-		public Vector2 coords;
+		public Vector2Int originalCoords;
 
-		public TextureUnit(Sprite sprite, Vector2 coords)
+		public TextureUnit(Sprite sprite, Vector2Int originalCoords)
 		{
 			this.sprite = sprite;
-			this.coords = coords;
+			this.originalCoords = originalCoords;
 		}
 	}
 }

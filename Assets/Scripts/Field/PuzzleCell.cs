@@ -1,9 +1,9 @@
-using Common.Pool;
+using System;
 using UnityEngine;
 
 namespace Field
 {
-	public class PuzzleCell : PoolObject
+	public class PuzzleCell : MonoBehaviour
 	{
 		[SerializeField] private PuzzleChip prefab;
 
