@@ -18,7 +18,7 @@ namespace Systems.SaveSystem
 			_dataSerializer = dataSerializer;
 		}
 
-		public void SaveData<T>(T data) where T:ASavedData
+		public void SaveData<T>(T data) where T : ASavedData
 		{
 			var result = _dataSerializer.FromData(data);
 			File.WriteAllText(Application.persistentDataPath + data.PATH, result);
@@ -27,14 +27,14 @@ namespace Systems.SaveSystem
 		public T LoadData<T>() where T : ASavedData, new()
 		{
 			var data = new T();
-			var path = data.PATH;
-			var result = File.ReadAllText(path);
-			data = _dataSerializer.ToData<T>(result);
+			var path = Application.persistentDataPath + data.PATH;
+			if (File.Exists(path))
+			{
+				var result = File.ReadAllText(path);
+				data = _dataSerializer.ToData<T>(result);
+			}
+
 			return data;
 		}
-
-
 	}
-
-
 }

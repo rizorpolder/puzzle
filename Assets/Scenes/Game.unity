@@ -6773,8 +6773,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41cd56de67f6479186ad78d103e07af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  fieldRoot: {fileID: 0}
+  prefab: {fileID: 2398308294104811977, guid: c73e2980bc56c004eb4146e9713116c4, type: 3}
+  fieldRoot: {fileID: 1207943456}
   pool:
   - {fileID: 403174971}
   - {fileID: 380968468}
@@ -7112,7 +7112,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1261424581}
   - component: {fileID: 1261424580}
-  - component: {fileID: 1261424582}
   m_Layer: 0
   m_Name: EntryPoint
   m_TagString: Untagged
@@ -7147,21 +7146,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1261424582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1261424579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41cd56de67f6479186ad78d103e07af5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  fieldRoot: {fileID: 0}
-  pool: []
 --- !u!1001 &1339155760
 PrefabInstance:
   m_ObjectHideFlags: 0

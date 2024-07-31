@@ -12,6 +12,7 @@ namespace Systems
 		public override void Initialize()
 		{
 			_currentPlayerData = SaveDataSystem.Instance.LoadData<PlayerData>();
+			//подумать над загрузкой / кэшированием данных
 		}
 	}
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Data;
 using Field;
+using Systems.SaveSystem;
 using UnityEngine;
 
 namespace Managers
@@ -15,9 +16,8 @@ namespace Managers
 
 		private void Awake()
 		{
-			//TODO Load Data+
-			_data = new FieldData();
-
+			//_data = SaveDataSystem.Instance.LoadData<FieldData>();
+			
 			GenerateField();
 			InitializeField();
 			// доступ к саб спрайтам получают через загрузку ресурсов
