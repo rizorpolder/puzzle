@@ -1,8 +1,9 @@
+using Common;
 using UnityEngine;
 
 namespace Systems
 {
-	public class InputSystem : MonoBehaviour
+	public class InputSystem : Singletone<InputSystem>
 	{
 		public System.Action<SwipeDirection> OnSwipe = direction => { };
 

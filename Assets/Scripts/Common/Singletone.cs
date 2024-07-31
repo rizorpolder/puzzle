@@ -20,7 +20,7 @@ namespace Common
 			}
 		}
 
-		void Start()
+		void Awake()
 		{
 			_instance = this as T;
 		}

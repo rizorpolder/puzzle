@@ -6,12 +6,10 @@ namespace Field
 	public class PuzzleChip : MonoBehaviour
 	{
 		[SerializeField] private Image _image;
-		private Vector2 _coord;
 
-		public void Initialize(Vector2 coord, Sprite sprite)
+		public void SetView(Sprite sprite)
 		{
 			_image.sprite = sprite;
-			_coord = coord;
 		}
 	}
 }
