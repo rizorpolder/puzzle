@@ -7,6 +7,12 @@ namespace Systems.SaveSystem.Serializers
 	{
 		private readonly Encoding _encoding = Encoding.UTF8;
 
+		public bool IsInitialized => true;
+
+		public void Initialize()
+		{
+		}
+
 		public T ToData<T>(string data)
 		{
 			var bytes = _encoding.GetBytes(data);

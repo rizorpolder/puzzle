@@ -1,0 +1,103 @@
+using System;
+using System.Collections;
+using System.Runtime.InteropServices;
+using Global;
+using Systems.LoadingSystem;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.ResourceProviders;
+
+public class LoadScene : MonoBehaviour
+{
+#if UNITY_WEBGL
+	[DllImport("__Internal")]
+	public static extern bool IsYandexSdkReady();
+#endif
+
+	private const int MinLoadDelay = 1;
+
+	[SerializeField] private AssetReference _menuSceneAsset;
+	[SerializeField] private AssetReference _coreSceneAsset;
+	[SerializeField] private GameObject loading;
+	[SerializeField] private bool _isInitializeScene;
+	private DateTime _startLoadDate;
+
+	private void Start()
+	{
+		if (_isInitializeScene)
+			Initialize();
+
+		DontDestroyOnLoad(loading);
+
+		if (Application.platform != RuntimePlatform.WebGLPlayer)
+		{
+			LoadData(LoadSceneAsync);
+		}
+		else
+		{
+#if UNITY_WEBGL
+			if (IsYandexSdkReady())
+				LoadData(LoadSceneAsync);
+#endif
+		}
+	}
+
+	//called from js code
+	public void OnYandexSdkInit()
+	{
+		LoadData(LoadSceneAsync);
+	}
+
+	private void Initialize()
+	{
+		// todo check memory pressure
+		GC.AddMemoryPressure(50 * 1024 * 2024);
+	}
+
+	private void LoadData(Action callback)
+	{
+		var dataManager = SharedContainer.Instance.DataManager;
+		dataManager.Initialize(callback);
+	}
+
+	private void LoadSceneAsync()
+	{
+		SharedContainer.Instance.SetRuntimeData(new RuntimeData(SharedContainer.Instance.DataManager));
+
+		_startLoadDate = DateTime.Now;
+
+
+		// потому что поле загружается в фоне, отрабатывает звук, тутор и все дела, не хорошо
+		StartCoroutine(Delay(MinLoadDelay,
+			() =>
+			{
+				Addressables.LoadSceneAsync(_menuSceneAsset).Completed += handle =>
+				{
+					OnLoadComplete(handle.Result);
+					// var loadTimeSeconds = (DateTime.Now - _startLoadDate).TotalSeconds;
+					// if (loadTimeSeconds > MinLoadDelay)
+					// {
+					// 	OnLoadComplete(handle.Result);
+					// }
+					// else
+					// {
+					//TODO Fake loading timer
+				};
+			}));
+	}
+
+	private IEnumerator Delay(float time, Action callback)
+	{
+		yield return new WaitForSeconds(time);
+
+		callback?.Invoke();
+	}
+
+	private void OnLoadComplete(SceneInstance sceneInstance)
+	{
+		DestroyImmediate(loading);
+		SharedEvents.OnFirstLoadingDestroyed?.Invoke();
+		ScenesContainer.Instance.AddScene(sceneInstance);
+		//ManagerAudio.SharedInstance.PlayMetaMusic();
+	}
+}

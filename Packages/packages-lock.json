@@ -1,5 +1,19 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "f057abff0f4ea52e4c9699c2831808d6c0a27bcc"
+    },
+    "com.rizorpolder.plugins.audiomanager": {
+      "version": "https://github.com/rizorpolder/packages.git?path=/Assets/Plugins/AudioManager",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "9fa5f39a89e27f97e51aae0d20450e7c62d817dc"
+    },
     "com.unity.2d.animation": {
       "version": "9.1.1",
       "depth": 1,

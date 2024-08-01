@@ -13,9 +13,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - Windows
+  - Particle
+  - Slot
   - 
   - 
   - 
@@ -38,6 +38,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 725897823
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Windows
+    uniqueID: 1437761495
+    locked: 0
+  - name: Foreground
+    uniqueID: 3370266189
+    locked: 0
+  - name: UI
+    uniqueID: 335095669
     locked: 0

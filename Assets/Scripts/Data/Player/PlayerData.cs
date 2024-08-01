@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Data.Player
 {
@@ -7,7 +8,7 @@ namespace Data.Player
 	{
 		public override string PATH => "player_data";
 
-		public int playerID;
-		public string lastPlayedLevel;
+		public string playerID = Application.identifier;
+		public string lastPlayedLevel = "";
 	}
 }
