@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
+using AudioManager.Runtime.Core.Manager;
 using Global;
 using Systems.LoadingSystem;
 using UnityEngine;
@@ -56,13 +57,13 @@ public class LoadScene : MonoBehaviour
 
 	private void LoadData(Action callback)
 	{
-		var dataManager = SharedContainer.Instance.DataManager;
-		dataManager.Initialize(callback);
+		//var dataManager = SharedContainer.Instance.DataManager;
+		//dataManager.Initialize(callback);
 	}
 
 	private void LoadSceneAsync()
 	{
-		SharedContainer.Instance.SetRuntimeData(new RuntimeData(SharedContainer.Instance.DataManager));
+		//SharedContainer.Instance.SetRuntimeData(new RuntimeData(SharedContainer.Instance.DataManager));
 
 		_startLoadDate = DateTime.Now;
 
@@ -96,8 +97,8 @@ public class LoadScene : MonoBehaviour
 	private void OnLoadComplete(SceneInstance sceneInstance)
 	{
 		DestroyImmediate(loading);
-		SharedEvents.OnFirstLoadingDestroyed?.Invoke();
+		//SharedEvents.OnFirstLoadingDestroyed?.Invoke();
 		ScenesContainer.Instance.AddScene(sceneInstance);
-		//ManagerAudio.SharedInstance.PlayMetaMusic();
+		ManagerAudio.SharedInstance.PlayMetaMusic();
 	}
 }

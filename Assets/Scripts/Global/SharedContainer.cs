@@ -13,14 +13,13 @@ namespace Global
 		#region fields
 
 		[SerializeField] private ConfigurableRoot _configurableRoot;
-		[SerializeField] private GameDataManager _gameDataManager;
 		[SerializeField] private LoadingController _loaderController;
 		[SerializeField] private WindowsController _windowsController;
 		[SerializeField] private GlobalUI _globalUI;
-		[SerializeField] private AdsController<GamePlacement> _adsController;
-		[SerializeField] private AdsConditionsController _adsConditions;
-		[SerializeField] private AnalyticInstaller _analyticInstaller;
-		[SerializeField] private BaseInAppManager _inAppManager;
+		// [SerializeField] private AdsController<GamePlacement> _adsController;
+		// [SerializeField] private AdsConditionsController _adsConditions;
+		// [SerializeField] private AnalyticInstaller _analyticInstaller;
+		// [SerializeField] private BaseInAppManager _inAppManager;
 
 
 		#endregion
@@ -29,18 +28,14 @@ namespace Global
 		#region props
 
 		public ConfigurableRoot ConfigurableRoot => _configurableRoot;
-		public GameDataManager DataManager => _gameDataManager;
 
 		public LoadingController LoadingController => _loaderController;
 		public WindowsController WindowsController => _windowsController;
 		public GlobalUI GlobalUI => _globalUI;
-		public IAdsController<GamePlacement> Ads => _adsController;
-		public AdsConditionsController AdsConditions => _adsConditions;
-		public IAnalyticManager Analytics { get; private set; }
-
-		public BaseInAppManager InAppManager => _inAppManager;
-
-		public RuntimeData RuntimeData { get; private set; }
+		// public IAdsController<GamePlacement> Ads => _adsController;
+		// public AdsConditionsController AdsConditions => _adsConditions;
+		//
+		// public RuntimeData RuntimeData { get; private set; }
 
 		#endregion
 

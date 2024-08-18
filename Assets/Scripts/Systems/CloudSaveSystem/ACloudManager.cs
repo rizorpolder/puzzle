@@ -13,7 +13,7 @@ public abstract class ACloudManager : MonoBehaviour
 
 	public class SaveData
 	{
-		public Dictionary<string, byte[]> SaveDictionary = new Dictionary<string, byte[]>();
+		public Dictionary<string, string> SaveDictionary = new Dictionary<string, string>();
 	}
 
 	[SerializeField] protected float saveTimeout = 3f;
@@ -113,36 +113,13 @@ public abstract class ACloudManager : MonoBehaviour
 	private SaveData LoadDataFromFile()
 	{
 		var data = new SaveData();
-		if (File.Exists(DataStorageManager.SavePath))
-		{
-			try
-			{
-				var bytes = File.ReadAllBytes(DataStorageManager.SavePath);
-				data = _dataSerializer.ToData<SaveData>(bytes);
-			}
-			catch (Exception e)
-			{
-				Debug.LogError($"LoadDataFromFile FAILED!\n{e.Message}");
-			}
-		}
-
 		return data;
-	}
-
-	public string GetData(string key)
-	{
-		if (!HasData(key))
-			return string.Empty;
-
-		return Encoding.UTF8.GetString(_actualData.SaveDictionary[key]);
 	}
 
 	public T GetData<T>(string key, T defaultVal)
 	{
-		if (!HasData(key))
+		//if (!HasData(key))
 			return defaultVal;
-
-		return _dataSerializer.ToData<T>(_actualData.SaveDictionary[key]);
 	}
 
 	public bool HasData(string key)
@@ -165,10 +142,10 @@ public abstract class ACloudManager : MonoBehaviour
 	{
 		var data = Encoding.UTF8.GetBytes(dataStr);
 
-		if (!_actualData.SaveDictionary.ContainsKey(key))
-			_actualData.SaveDictionary.Add(key, data);
-		else
-			_actualData.SaveDictionary[key] = data;
+		// if (!_actualData.SaveDictionary.ContainsKey(key))
+		// 	_actualData.SaveDictionary.Add(key, data);
+		// else
+		// 	_actualData.SaveDictionary[key] = data;
 
 		SaveToFile(false);
 	}
