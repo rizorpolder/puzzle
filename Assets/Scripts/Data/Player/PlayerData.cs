@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Game.Data;
 using Global;
 using UnityEngine;
 
@@ -14,6 +15,9 @@ namespace Data.Player
 		public string lastPlayedLevel = "";
 		public SessionData SessionData;
 		public List<string> PurchasedIds;
+
+		public int CurrentLevel;
+		public GameData GameData;
 
 		public PlayerData()
 		{

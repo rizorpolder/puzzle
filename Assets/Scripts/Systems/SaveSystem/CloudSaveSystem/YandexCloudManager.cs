@@ -30,10 +30,12 @@ namespace Systems.SaveSystem.CloudSaveSystem
                 return;
 
             SaveData remoteData;
+            //TODO change byte to string
+            var temp = data.ToString();
             try
             {
                 // data damaged
-                remoteData = _dataSerializer.ToData<SaveData>(data);
+                remoteData = _dataSerializer.ToData<SaveData>(temp);
             }
             catch (Exception ex)
             {
@@ -76,7 +78,8 @@ namespace Systems.SaveSystem.CloudSaveSystem
                 return;
 
 #if UNITY_WEBGL
-            SavePlayerData(Convert.ToBase64String(_dataSerializer.FromData(_actualData)));
+            //Convert.ToBase64String(
+            SavePlayerData(_dataSerializer.FromData(_actualData));
 #endif
         }
 
