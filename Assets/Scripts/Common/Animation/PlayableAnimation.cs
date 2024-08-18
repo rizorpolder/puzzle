@@ -15,17 +15,16 @@ namespace Common.Animation
 		[SerializeField] private PlayableAsset HidePlayable;
 		private List<IDisposable> _subscriptions = new List<IDisposable>();
 
-		public override IObservable<Unit> Show(PostAnimationAction action = null)
+		public override void Show(PostAnimationAction action = null)
 		{
 			var observable = Director.PlayAsObservable(ShowPlayable);
 			var subs = observable.Subscribe(_ => { }, e => { }, () => { action?.Invoke(); });
 
 			_subscriptions.Add(subs);
 
-			return observable;
 		}
 
-		public override IObservable<Unit> Hide(PostAnimationAction action = null)
+		public override void Hide(PostAnimationAction action = null)
 		{
 			var observable = Director.PlayAsObservable(HidePlayable);
 
@@ -33,7 +32,6 @@ namespace Common.Animation
 
 			_subscriptions.Add(subs);
 
-			return observable;
 		}
 
 		private void Reset()
@@ -46,9 +44,8 @@ namespace Common.Animation
 		{
 		}
 
-		public override IObservable<Unit> Play(string name, PostAnimationAction action = null)
+		public override void Play(string name, PostAnimationAction action = null)
 		{
-			return Observable.Empty<Unit>();
 		}
 	}
 }

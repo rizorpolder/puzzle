@@ -9,10 +9,10 @@ namespace Common.Animation
         public delegate void PostAnimationAction();
 
         public abstract void OnStart();
-        public abstract IObservable<Unit> Show(PostAnimationAction action = null);
-        public abstract IObservable<Unit> Hide(PostAnimationAction action = null);
+        public abstract void Show(PostAnimationAction action = null);
+        public abstract void Hide(PostAnimationAction action = null);
 
-        public abstract IObservable<Unit> Play(string name, PostAnimationAction action = null);
+        public abstract void Play(string name, PostAnimationAction action = null);
 
         public void Start()
         {
