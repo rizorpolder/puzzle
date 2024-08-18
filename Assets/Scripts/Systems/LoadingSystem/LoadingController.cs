@@ -60,7 +60,9 @@ namespace Systems.LoadingSystem
 			await UniTask.WaitUntil(() => animationCompleted);
 
 			await UnloadSceneAsync(unloadingTask.SceneName);
-			UnityEngine.Resources.UnloadUnusedAssets();
+
+			await Resources.UnloadUnusedAssets();
+
 			unloadingTask.Callback?.Invoke();
 		}
 
