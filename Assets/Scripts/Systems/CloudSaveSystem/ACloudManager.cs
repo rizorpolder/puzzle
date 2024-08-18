@@ -107,24 +107,24 @@ public abstract class ACloudManager : MonoBehaviour
 	private void RefreshSaveDateTime()
 	{
 		var now = DateTime.UtcNow;
-		_actualData.SaveDictionary[SaveDateTimeKey] = _dataSerializer.FromData(now);
+		//_actualData.SaveDictionary[SaveDateTimeKey] = _dataSerializer.FromData(now);
 	}
 
 	private SaveData LoadDataFromFile()
 	{
 		var data = new SaveData();
-		// if (File.Exists(DataStorageManager.SavePath))
-		// {
-		// 	try
-		// 	{
-		// 		var bytes = File.ReadAllBytes(DataStorageManager.SavePath);
-		// 		data = _dataSerializer.ToData<SaveData>(bytes);
-		// 	}
-		// 	catch (Exception e)
-		// 	{
-		// 		Debug.LogError($"LoadDataFromFile FAILED!\n{e.Message}");
-		// 	}
-		// }
+		if (File.Exists(DataStorageManager.SavePath))
+		{
+			try
+			{
+				var bytes = File.ReadAllBytes(DataStorageManager.SavePath);
+				data = _dataSerializer.ToData<SaveData>(bytes);
+			}
+			catch (Exception e)
+			{
+				Debug.LogError($"LoadDataFromFile FAILED!\n{e.Message}");
+			}
+		}
 
 		return data;
 	}
