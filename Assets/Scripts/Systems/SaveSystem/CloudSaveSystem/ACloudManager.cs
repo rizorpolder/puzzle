@@ -22,7 +22,7 @@ public abstract class ACloudManager : MonoBehaviour
 	protected DateTime _lastSaveData;
 
 	protected SaveData _actualData;
-	private IDataSerializer _dataSerializer;
+	protected IDataSerializer _dataSerializer;
 
 	public static ACloudManager Instance { get; private set; }
 

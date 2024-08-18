@@ -1,6 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
+using Ads.Runtime;
+using Advertising;
 using Systems;
+using Systems.Ads.Conditions;
 using Systems.LoadingSystem;
 using UnityEngine;
 
@@ -16,14 +19,13 @@ namespace Global
 		[SerializeField] private LoadingController _loaderController;
 		[SerializeField] private WindowsController _windowsController;
 		[SerializeField] private GlobalUI _globalUI;
-		// [SerializeField] private AdsController<GamePlacement> _adsController;
-		// [SerializeField] private AdsConditionsController _adsConditions;
+		[SerializeField] private AdsController<GamePlacement> _adsController;
+
+		[SerializeField] private AdsConditionsController _adsConditions;
 		// [SerializeField] private AnalyticInstaller _analyticInstaller;
 		// [SerializeField] private BaseInAppManager _inAppManager;
 
-
 		#endregion
-
 
 		#region props
 
@@ -32,10 +34,10 @@ namespace Global
 		public LoadingController LoadingController => _loaderController;
 		public WindowsController WindowsController => _windowsController;
 		public GlobalUI GlobalUI => _globalUI;
-		// public IAdsController<GamePlacement> Ads => _adsController;
-		// public AdsConditionsController AdsConditions => _adsConditions;
-		//
-		// public RuntimeData RuntimeData { get; private set; }
+		public IAdsController<GamePlacement> Ads => _adsController;
+		public AdsConditionsController AdsConditions => _adsConditions;
+
+		public RuntimeData RuntimeData { get; private set; }
 
 		#endregion
 
@@ -90,9 +92,9 @@ namespace Global
 			//Analytics = _analyticInstaller.AnalyticManager;
 		}
 
-		// public void SetRuntimeData(RuntimeData data)
-		// {
-		// 	RuntimeData = data;
-		// }
+		public void SetRuntimeData(RuntimeData data)
+		{
+			RuntimeData = data;
+		}
 	}
 }

@@ -2,27 +2,30 @@ using UnityEngine;
 
 namespace Common
 {
-	public class Singletone<T> : MonoBehaviour where T:MonoBehaviour
+	public class Singletone<T> : MonoBehaviour where T : MonoBehaviour
 	{
-		private static T _instance;
+		public static T Instance { get; private set; }
 
-		public static T Instance
+		protected void Awake()
 		{
-			get => _instance;
-			private set
+			if (Instance)
 			{
-				if (_instance != null)
-				{
-					DestroyImmediate(_instance);
-				}
-
-				_instance = value;
+				Debug.LogError($"{name} singleton duplication!");
+				return;
 			}
+
+			Instance = this as T;
+
+			OnAwakeAction();
 		}
 
-		void Awake()
+		protected virtual void OnAwakeAction()
 		{
-			_instance = this as T;
+		}
+
+		private void OnDestroy()
+		{
+			Instance = null;
 		}
 	}
 }

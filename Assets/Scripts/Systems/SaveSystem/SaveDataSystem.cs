@@ -21,13 +21,13 @@ namespace Systems.SaveSystem
 		public void SaveData<T>(T data) where T : ASavedData
 		{
 			var result = _dataSerializer.FromData(data);
-			File.WriteAllText(Application.persistentDataPath + data.PATH, result);
+			File.WriteAllText(Application.persistentDataPath + data.key, result);
 		}
 
 		public T LoadData<T>() where T : ASavedData, new()
 		{
 			var data = new T();
-			var path = Application.persistentDataPath + data.PATH;
+			var path = Application.persistentDataPath + data.key;
 			if (File.Exists(path))
 			{
 				var result = File.ReadAllText(path);
