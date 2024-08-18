@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using Ads.Runtime;
 using Advertising;
+using Game;
 using Systems;
 using Systems.Ads.Conditions;
 using Systems.LoadingSystem;
@@ -14,6 +15,8 @@ namespace Global
 		public static SharedContainer Instance;
 
 		#region fields
+
+		[SerializeField] private GameDataManager _gameDataManager;
 
 		[SerializeField] private ConfigurableRoot _configurableRoot;
 		[SerializeField] private LoadingController _loaderController;
@@ -36,6 +39,8 @@ namespace Global
 		public GlobalUI GlobalUI => _globalUI;
 		public IAdsController<GamePlacement> Ads => _adsController;
 		public AdsConditionsController AdsConditions => _adsConditions;
+
+		public GameDataManager DataManager => _gameDataManager;
 
 		public RuntimeData RuntimeData { get; private set; }
 
@@ -83,8 +88,6 @@ namespace Global
 			// 	LocalizationManager.CurrentLanguage = languages[0];
 		}
 
-		[DllImport("__Internal")]
-		public static extern IntPtr GetLanguageCodeFromUrl();
 #endif
 
 		private void Start()
@@ -96,5 +99,10 @@ namespace Global
 		{
 			RuntimeData = data;
 		}
+
+#if UNITY_WEBGL
+		[DllImport("__Internal")]
+		public static extern IntPtr GetLanguageCodeFromUrl();
+#endif
 	}
 }

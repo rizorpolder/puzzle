@@ -10,11 +10,6 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 
 public class LoadScene : MonoBehaviour
 {
-#if UNITY_WEBGL
-	[DllImport("__Internal")]
-	public static extern bool IsYandexSdkReady();
-#endif
-
 	private const int MinLoadDelay = 1;
 
 	[SerializeField] private AssetReference _menuSceneAsset;
@@ -57,8 +52,8 @@ public class LoadScene : MonoBehaviour
 
 	private void LoadData(Action callback)
 	{
-		//var dataManager = SharedContainer.Instance.DataManager;
-		//dataManager.Initialize(callback);
+		var dataManager = SharedContainer.Instance.DataManager;
+		dataManager.Initialize(callback);
 	}
 
 	private void LoadSceneAsync()
@@ -82,6 +77,7 @@ public class LoadScene : MonoBehaviour
 					// }
 					// else
 					// {
+					// }
 					//TODO Fake loading timer
 				};
 			}));
@@ -97,8 +93,13 @@ public class LoadScene : MonoBehaviour
 	private void OnLoadComplete(SceneInstance sceneInstance)
 	{
 		DestroyImmediate(loading);
-		//SharedEvents.OnFirstLoadingDestroyed?.Invoke();
+		//TODO animation menu
 		ScenesContainer.Instance.AddScene(sceneInstance);
 		ManagerAudio.SharedInstance.PlayMetaMusic();
 	}
+
+#if UNITY_WEBGL
+	[DllImport("__Internal")]
+	public static extern bool IsYandexSdkReady();
+#endif
 }
