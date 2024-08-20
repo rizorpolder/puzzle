@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: WindowsConfig
   m_EditorClassIdentifier: 
   windows:
-  - windowName: 
-    windowType: 0
+  - windowName: WinWindow
+    windowType: 1
     assetReference:
-      m_AssetGUID: 
+      m_AssetGUID: fd38619260091b54b9c0b998509848f9
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

@@ -16,7 +16,12 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 29fc2a0d93babd24bba5e799540b2404
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: fd38619260091b54b9c0b998509848f9
+    m_Address: Assets/Prefabs/Windows/WinWindow/WinWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 289088ab422df30449e4e356dcd686e0, type: 2}
   m_SchemaSet:

@@ -1,4 +1,3 @@
-using Audio;
 using AudioManager.Runtime.Core.Manager;
 using SharedLogic.UI.Common;
 using UnityEngine;
