@@ -23,5 +23,9 @@ namespace Configs
 
 	public enum WindowType
 	{
+		WinWindow = 1,
+		LooseWindow = 2,
+		SettingsWindow = 3,
+
 	}
 }

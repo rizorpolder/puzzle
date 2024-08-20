@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Systems.Ads.Data
 {
-	[CreateAssetMenu(fileName = "AdsConfig", menuName = "BGF/Configs/AdsConfig", order = 0)]
+	[CreateAssetMenu(fileName = "AdsConfig", menuName = "Project/Configs/AdsConfig", order = 0)]
 	public class AdsConfig : ScriptableObject
 	{
 		[field: SerializeField] public string SDKKey { get; private set; }
