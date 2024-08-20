@@ -642,9 +642,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1482131694035293136, guid: d56202f6459b2544dbaf5f6a67aaf089, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 656a474cf13514e10adc63006f3ac563, type: 3}
     - target: {fileID: 2407977860673587640, guid: d56202f6459b2544dbaf5f6a67aaf089, type: 3}
       propertyPath: m_Name
       value: GlobalUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675633634010857170, guid: d56202f6459b2544dbaf5f6a67aaf089, type: 3}
+      propertyPath: m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6923975256238821386, guid: d56202f6459b2544dbaf5f6a67aaf089, type: 3}
       propertyPath: m_Camera
