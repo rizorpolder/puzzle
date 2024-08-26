@@ -22,25 +22,30 @@ namespace Managers
 
 		private FieldData CreateFieldData()
 		{
-			//TODO repository data to field data
-			var result = new FieldData();
+			// грузим из сейва
 
-			result.LastTextureName = "grid";
-			var repositoryConfig = ConfigurableRoot.Instance.ImageRepositoryConfig;
-			var config = repositoryConfig.GetConfig(result.LastTextureName);
-
-			//Берем из сейва последнюю текстуру и размер поля (будет 3 размера)
-
-			for (var index = 0; index < config.Sprites.Count; index++)
+			if (LoadFieldData(out var fieldData))
 			{
-				var configSprite = config.Sprites[index];
-				result.Puzzles.Add(new PuzzleCellData()
-					{cellCoords = configSprite.originalCoords, SpritePartIndex = index});
+				return fieldData;
 			}
 
-			result.Puzzles[^1].SpritePartIndex = -1;
+			//грузим из выбранного уровня
+			var result = new FieldData
+			{
+				LastTextureName = "grid",
+				fieldSize = new Vector2Int(5,5)
+			};
+
 			return result;
 		}
+
+		private bool LoadFieldData(out FieldData fieldData)
+		{
+			fieldData = null;
+			return false;
+		}
+
+
 
 		private void OnSwipeAction(SwipeDirection direction)
 		{

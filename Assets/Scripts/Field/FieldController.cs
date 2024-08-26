@@ -13,7 +13,7 @@ namespace Field
 		[SerializeField] private Transform fieldRoot;
 
 		private PuzzleCell[,] field;
-		private TextureUnitConfig _config;
+		private ImageRepositoryConfig.TextureUnitConfig _config;
 		private FieldData _fieldData;
 		private PuzzleCell _emptyCell;
 
@@ -25,78 +25,58 @@ namespace Field
 			_config = repositoryConfig.GetConfig(_fieldData.LastTextureName);
 
 			GenerateField();
-			CutTexture();
-			// InitializeField();
 			// Shuffle();
-		}
-
-		private void CutTexture()
-		{
-			Vector2Int cellSize = new Vector2Int(10, 10);
-			Vector2Int spriteSize =
-				new Vector2Int(_config.Texture.height / cellSize.x, _config.Texture.width / cellSize.y);
-
-			var pivot = new Vector2(.5f, .5f);
-			for (int i = 0; i < cellSize.x; i++)
-			{
-				for (int j = 0; j < cellSize.y; j++)
-				{
-					Rect rect = new Rect(i * spriteSize.x, j * spriteSize.y, spriteSize.x, spriteSize.y);
-					var sprite = Sprite.Create(_config.Texture, rect, pivot);
-					var cell = field[j, i];
-					Vector2Int cellCoords = new Vector2Int(i, j);
-					cell.CreateChip(sprite, cellCoords);
-				}
-			}
 		}
 
 		private void GenerateField()
 		{
-			var fieldSize = _config.FieldSize;
+			var fieldSize = _fieldData.fieldSize;
 			field = new PuzzleCell[fieldSize.x, fieldSize.y];
 
-			var cellDatas = _fieldData.Puzzles;
-
-			foreach (var puzzleCellData in cellDatas)
+			for (var i = 0; i < fieldSize.x; i++)
 			{
-				var cellCoords = puzzleCellData.cellCoords;
-
-				var cell = field[cellCoords.x, cellCoords.y];
-				if (!cell)
+				for (int j = 0; j < fieldSize.y; j++)
 				{
-					cell = CreateCell();
-					cell.Initialize(cellCoords);
-					cell.name = $"{cellCoords.x}x{cellCoords.y}_cell";
-					field[cellCoords.x, cellCoords.y] = cell;
+					var cellCoords = new Vector2Int(j, i);
+					var cell = field[cellCoords.x, cellCoords.y];
+					if (!cell)
+					{
+						cell = AddCell(cellCoords);
+					}
+
+					ChipToCell(cell);
 				}
 			}
 		}
 
-		private void InitializeField()
+		private PuzzleCell AddCell(Vector2Int cellCoords)
 		{
-			var textureUnits = _config.Sprites;
-			foreach (var cellData in _fieldData.Puzzles)
-			{
-				var cellCoords = cellData.cellCoords;
-				var cell = field[cellCoords.x, cellCoords.y];
-
-				var spriteIndex = cellData.SpritePartIndex;
-				if (spriteIndex < 0)
-				{
-					cell.Clear();
-					_emptyCell = cell;
-					continue;
-				}
-
-				var textureUnitData = textureUnits[spriteIndex];
-				cell.CreateChip(textureUnitData.sprite, textureUnitData.originalCoords);
-			}
+			var cell = CreateCell();
+			cell.Initialize(cellCoords);
+			cell.name = $"{cellCoords.x}x{cellCoords.y}_cell";
+			field[cellCoords.x, cellCoords.y] = cell;
+			return cell;
 		}
 
 		private PuzzleCell CreateCell()
 		{
 			var newCell = Instantiate(prefab, this.fieldRoot);
 			return newCell;
+		}
+
+		private void ChipToCell(PuzzleCell puzzleCell)
+		{
+			var cellCoords = puzzleCell.CellCoord;
+
+			//calculating sprite data
+			var fieldSize = _fieldData.fieldSize;
+			Vector2Int spriteSize =
+				new Vector2Int(_config.Texture.height / fieldSize.x, _config.Texture.width / fieldSize.y);
+			var pivot = new Vector2(.5f, .5f);
+
+			Rect rect = new Rect(cellCoords.x * spriteSize.x, cellCoords.y * spriteSize.y, spriteSize.x, spriteSize.y);
+			var sprite = Sprite.Create(_config.Texture, rect, pivot);
+			puzzleCell.CreateChip(sprite, cellCoords);
 		}
 
 		private void Shuffle()
@@ -112,8 +92,8 @@ namespace Field
 
 		private PuzzleCell GetRandomCell()
 		{
-			var x = Random.Range(0, _config.FieldSize.x);
-			var y = Random.Range(0, _config.FieldSize.y);
+			var x = Random.Range(0, _fieldData.fieldSize.x);
+			var y = Random.Range(0, _fieldData.fieldSize.y);
 			return field[x, y];
 		}
 
@@ -127,6 +107,15 @@ namespace Field
 			{
 				Debug.LogAssertionFormat("YOU WIN");
 			}
+		}
+
+		private void SwapCellData(PuzzleCell from, PuzzleCell to)
+		{
+			var fromChip = from.GetChip();
+			var toChip = to.GetChip();
+			from.SetChip(toChip);
+			to.SetChip(fromChip);
+			_emptyCell = from.IsEmpty ? from : (to.IsEmpty ? to : _emptyCell);
 		}
 
 		private bool CheckForCompletion()
@@ -149,7 +138,7 @@ namespace Field
 			{
 				case SwipeDirection.Up:
 					newCoords.x++;
-					canMove = newCoords.x < _config.FieldSize.x;
+					canMove = newCoords.x < -_fieldData.fieldSize.x;
 					break;
 				case SwipeDirection.Down:
 					newCoords.x--;
@@ -157,7 +146,7 @@ namespace Field
 					break;
 				case SwipeDirection.Left:
 					newCoords.y++;
-					canMove = newCoords.y < _config.FieldSize.y;
+					canMove = newCoords.y < _fieldData.fieldSize.y;
 					break;
 				case SwipeDirection.Right:
 					newCoords.y--;
@@ -166,15 +155,6 @@ namespace Field
 			}
 
 			return canMove;
-		}
-
-		private void SwapCellData(PuzzleCell from, PuzzleCell to)
-		{
-			var fromChip = from.GetChip();
-			var toChip = to.GetChip();
-			from.SetChip(toChip);
-			to.SetChip(fromChip);
-			_emptyCell = from.IsEmpty ? from : (to.IsEmpty ? to : _emptyCell);
 		}
 	}
 }
