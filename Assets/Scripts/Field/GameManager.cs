@@ -29,6 +29,8 @@ namespace Managers
 			var repositoryConfig = ConfigurableRoot.Instance.ImageRepositoryConfig;
 			var config = repositoryConfig.GetConfig(result.LastTextureName);
 
+			//Берем из сейва последнюю текстуру и размер поля (будет 3 размера)
+
 			for (var index = 0; index < config.Sprites.Count; index++)
 			{
 				var configSprite = config.Sprites[index];
