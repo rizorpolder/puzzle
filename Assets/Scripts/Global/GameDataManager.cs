@@ -3,7 +3,6 @@ using Systems.SaveSystem.CloudSaveSystem;
 using Systems.SaveSystem.Serializers;
 using UnityEngine;
 
-
 namespace Game
 {
 	public class GameDataManager : MonoBehaviour
@@ -14,28 +13,25 @@ namespace Game
 
 		private ACloudManager storageManager;
 
-
 		public void Initialize(Action onComplete)
 		{
-            storageManager = GetRemoteDataManager();
+			_dataSerializer = new JsonDataSerializer();
 
-            storageManager.LoadFromCloud((data) =>
-			{
-				onComplete?.Invoke();
-			});
+			storageManager = GetRemoteDataManager();
+			storageManager.LoadFromCloud((data) => { onComplete?.Invoke(); });
 		}
 
 		public void ClearData(string key, Action<bool> callback = null)
 		{
 			storageManager.ClearData(key);
 			callback?.Invoke(true);
-        }
+		}
 
 		public void GetData<TData>(string key, Action<bool, TData> callback) where TData : class
 		{
-            //string dataStr = storageManager.GetData<TData>(key, default);
-            //callback?.Invoke(!string.IsNullOrEmpty(dataStr), JsonUtility.FromJson<TData>(dataStr));
-        }
+			//string dataStr = storageManager.GetData<TData>(key, default);
+			//callback?.Invoke(!string.IsNullOrEmpty(dataStr), JsonUtility.FromJson<TData>(dataStr));
+		}
 
 		public bool HasData(string key)
 		{
@@ -65,32 +61,31 @@ namespace Game
 		private ACloudManager GetRemoteDataManager()
 		{
 			ACloudManager cloudManager;
-            if (!ACloudManager.Instance)
-            {
-                if (!yandexRemoteDataManager)
-                {
-                    cloudManager = gameObject.AddComponent<EmptyCloudManager>();
-                }
-                else
-                {
-                    cloudManager = Instantiate(yandexRemoteDataManager, null);
-                    cloudManager.name = yandexRemoteDataManager.name;
-                }
-            }
-            else
-            {
-                cloudManager = ACloudManager.Instance;
-            }
+			if (!ACloudManager.Instance)
+			{
+				if (!yandexRemoteDataManager)
+				{
+					cloudManager = gameObject.AddComponent<EmptyCloudManager>();
+				}
+				else
+				{
+					cloudManager = Instantiate(yandexRemoteDataManager, null);
+					cloudManager.name = yandexRemoteDataManager.name;
+				}
+			}
+			else
+			{
+				cloudManager = ACloudManager.Instance;
+			}
 
 			cloudManager.SetSerializer(_dataSerializer);
 
 			return cloudManager;
-        }
+		}
 
 		public void ForceSave()
 		{
 			storageManager.ForceSaveToCloud();
 		}
-
 	}
 }

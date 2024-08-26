@@ -25,8 +25,29 @@ namespace Field
 			_config = repositoryConfig.GetConfig(_fieldData.LastTextureName);
 
 			GenerateField();
-			InitializeField();
-			Shuffle();
+			CutTexture();
+			// InitializeField();
+			// Shuffle();
+		}
+
+		private void CutTexture()
+		{
+			Vector2Int cellSize = new Vector2Int(10, 10);
+			Vector2Int spriteSize =
+				new Vector2Int(_config.Texture.height / cellSize.x, _config.Texture.width / cellSize.y);
+
+			var pivot = new Vector2(.5f, .5f);
+			for (int i = 0; i < cellSize.x; i++)
+			{
+				for (int j = 0; j < cellSize.y; j++)
+				{
+					Rect rect = new Rect(i * spriteSize.x, j * spriteSize.y, spriteSize.x, spriteSize.y);
+					var sprite = Sprite.Create(_config.Texture, rect, pivot);
+					var cell = field[j, i];
+					Vector2Int cellCoords = new Vector2Int(i, j);
+					cell.CreateChip(sprite, cellCoords);
+				}
+			}
 		}
 
 		private void GenerateField()

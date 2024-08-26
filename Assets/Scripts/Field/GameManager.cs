@@ -25,7 +25,7 @@ namespace Managers
 			//TODO repository data to field data
 			var result = new FieldData();
 
-			result.LastTextureName = "art_template";
+			result.LastTextureName = "grid";
 			var repositoryConfig = ConfigurableRoot.Instance.ImageRepositoryConfig;
 			var config = repositoryConfig.GetConfig(result.LastTextureName);
 
