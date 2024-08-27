@@ -3,7 +3,6 @@ using Data;
 using Global;
 using Systems;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Field
 {
@@ -25,7 +24,7 @@ namespace Field
 			_config = repositoryConfig.GetConfig(TextureCategory.Abstraction,_fieldData.LastTextureName);
 
 			GenerateField();
-			// Shuffle();
+			Shuffle();
 		}
 
 		private void GenerateField()
