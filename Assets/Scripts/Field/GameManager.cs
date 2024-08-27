@@ -1,6 +1,5 @@
 using Data;
 using Field;
-using Global;
 using Systems;
 using UnityEngine;
 
@@ -24,16 +23,13 @@ namespace Managers
 		{
 			// грузим из сейва
 
-			if (LoadFieldData(out var fieldData))
-			{
-				return fieldData;
-			}
+			if (LoadFieldData(out var fieldData)) return fieldData;
 
 			//грузим из выбранного уровня
 			var result = new FieldData
 			{
 				LastTextureName = "grid",
-				fieldSize = new Vector2Int(10,10)
+				fieldSize = new Vector2Int(10, 10)
 			};
 
 			return result;
@@ -45,12 +41,9 @@ namespace Managers
 			return false;
 		}
 
-
-
 		private void OnSwipeAction(SwipeDirection direction)
 		{
 			_controller.SwitchCells(direction);
 		}
-
 	}
 }

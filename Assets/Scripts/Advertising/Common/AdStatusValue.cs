@@ -9,6 +9,6 @@ namespace Ads.Runtime
 		SuccessWatched,
 		Failed,
 		Hidden,
-		Destroyed,
+		Destroyed
 	}
 }

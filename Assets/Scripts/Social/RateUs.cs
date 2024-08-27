@@ -51,7 +51,7 @@ public class RateUs : Singletone<RateUs>
 
 #if UNITY_WEBGL
 		if (Application.isEditor)
-			Debug.Log($"<color=green>RATEUS SHOWED!</color>");
+			Debug.Log("<color=green>RATEUS SHOWED!</color>");
 		else
 			RateAppYandex();
 #endif

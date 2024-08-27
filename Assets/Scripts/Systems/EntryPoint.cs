@@ -8,22 +8,18 @@ namespace Systems
 {
 	public class EntryPoint : MonoBehaviour
 	{
-		private readonly List<ASystem> _systems = new List<ASystem>();
+		private readonly List<ASystem> _systems = new();
 
 		private void Awake()
 		{
 			DontDestroyOnLoad(this);
 			_systems.Add(new SaveDataSystem(new JsonDataSerializer()));
 			_systems.Add(new PlayerDataSystem());
-
 		}
 
 		public void Start()
 		{
-			foreach (var system in _systems)
-			{
-				system.Initialize();
-			}
+			foreach (var system in _systems) system.Initialize();
 		}
 	}
 }

@@ -14,6 +14,65 @@ namespace Global
 	{
 		public static SharedContainer Instance;
 
+		private void Awake()
+		{
+			if (Instance != null && Instance != this)
+			{
+				DestroyImmediate(this);
+				return;
+			}
+
+			InitializeLocalization();
+
+			Instance = this;
+			DontDestroyOnLoad(this);
+		}
+
+		private void Start()
+		{
+			//Analytics = _analyticInstaller.AnalyticManager;
+		}
+
+		private void InitializeLocalization()
+		{
+			//LocalizationManager.InitializeIfNeeded();
+#if UNITY_WEBGL
+			if (!Application.isEditor)
+				SetLanguageFromWebUrl();
+#endif
+		}
+
+#if UNITY_WEBGL
+		private void SetLanguageFromWebUrl()
+		{
+			var languageCodePtr = GetLanguageCodeFromUrl();
+			// Convert the pointer to a managed string
+			var languageCode = Marshal.PtrToStringUTF8(languageCodePtr);
+			// Free the allocated memory
+			Marshal.FreeHGlobal(languageCodePtr);
+
+			// string lang = string.IsNullOrEmpty(languageCode)
+			// 	? LocalizationManager.GetCurrentDeviceLanguage()
+			// 	: LocalizationManager.GetLanguageFromCode(languageCode);
+			// var languages = LocalizationManager.GetAllLanguages();
+			// if (languages.Contains(lang))
+			// 	LocalizationManager.CurrentLanguage = lang;
+			// else
+			// 	LocalizationManager.CurrentLanguage = languages[0];
+		}
+
+#endif
+
+		public void SetRuntimeData(RuntimeData data)
+		{
+			RuntimeData = data;
+		}
+
+#if UNITY_WEBGL
+		[DllImport("__Internal")]
+		public static extern IntPtr GetLanguageCodeFromUrl();
+#endif
+
 		#region fields
 
 		[SerializeField] private GameDataManager _gameDataManager;
@@ -45,64 +104,5 @@ namespace Global
 		public RuntimeData RuntimeData { get; private set; }
 
 		#endregion
-
-		private void Awake()
-		{
-			if (Instance != null && Instance != this)
-			{
-				DestroyImmediate(this);
-				return;
-			}
-
-			InitializeLocalization();
-
-			Instance = this;
-			DontDestroyOnLoad(this);
-		}
-
-		private void InitializeLocalization()
-		{
-			//LocalizationManager.InitializeIfNeeded();
-#if UNITY_WEBGL
-			if (!Application.isEditor)
-				SetLanguageFromWebUrl();
-#endif
-		}
-
-#if UNITY_WEBGL
-		private void SetLanguageFromWebUrl()
-		{
-			IntPtr languageCodePtr = GetLanguageCodeFromUrl();
-			// Convert the pointer to a managed string
-			string languageCode = Marshal.PtrToStringUTF8(languageCodePtr);
-			// Free the allocated memory
-			Marshal.FreeHGlobal(languageCodePtr);
-
-			// string lang = string.IsNullOrEmpty(languageCode)
-			// 	? LocalizationManager.GetCurrentDeviceLanguage()
-			// 	: LocalizationManager.GetLanguageFromCode(languageCode);
-			// var languages = LocalizationManager.GetAllLanguages();
-			// if (languages.Contains(lang))
-			// 	LocalizationManager.CurrentLanguage = lang;
-			// else
-			// 	LocalizationManager.CurrentLanguage = languages[0];
-		}
-
-#endif
-
-		private void Start()
-		{
-			//Analytics = _analyticInstaller.AnalyticManager;
-		}
-
-		public void SetRuntimeData(RuntimeData data)
-		{
-			RuntimeData = data;
-		}
-
-#if UNITY_WEBGL
-		[DllImport("__Internal")]
-		public static extern IntPtr GetLanguageCodeFromUrl();
-#endif
 	}
 }

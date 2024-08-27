@@ -7,12 +7,11 @@ namespace Field
 	{
 		[SerializeField] private Image _image;
 
-		private Vector2Int _originalCoords;
-		public Vector2Int OriginalCoords => _originalCoords;
+		public Vector2Int OriginalCoords { get; private set; }
 
 		public void SetView(Vector2Int originalCoords, Sprite sprite)
 		{
-			_originalCoords = originalCoords;
+			OriginalCoords = originalCoords;
 			_image.sprite = sprite;
 		}
 	}

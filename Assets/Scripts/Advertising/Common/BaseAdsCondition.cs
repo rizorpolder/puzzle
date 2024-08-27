@@ -15,8 +15,8 @@ namespace Systems.Ads.Conditions
 			Settings = settings;
 		}
 
-		public abstract bool Check();
-
 		protected bool IsClassic => SharedContainer.Instance.RuntimeData.CurrentGameType == GameType.Classic;
+
+		public abstract bool Check();
 	}
 }

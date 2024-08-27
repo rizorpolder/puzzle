@@ -1,50 +1,48 @@
 ﻿using System;
-using Data;
 using Data.Player;
 using Systems.Ads.Data;
 
 namespace Systems.Ads.Conditions
 {
-    public class BaseInterstitialCondition : BaseAdsCondition
-    {
-        protected BaseInterstitialCondition(PlayerData data, AdsGameSettings settings) : base(data, settings)
-        {
-        }
+	public class BaseInterstitialCondition : BaseAdsCondition
+	{
+		protected BaseInterstitialCondition(PlayerData data, AdsGameSettings settings) : base(data, settings)
+		{
+		}
 
-        public override bool Check()
-        {
+		public override bool Check()
+		{
+			if (!CheckLevelConditions())
+				return false;
 
-            if (!CheckLevelConditions())
-                return false;
-            
-            return CheckTimeFromFirstLaunch() && CheckLastAdsTimeout();
-        }
+			return CheckTimeFromFirstLaunch() && CheckLastAdsTimeout();
+		}
 
-        protected virtual bool CheckLevelConditions()
-        {
-            if (IsClassic && PlayerData.GameData.ClassicAttempt < Settings.ClassicAttemptForStart.Interstitial)
-                return false;
-            
-            if(!IsClassic && PlayerData.CurrentLevel < Settings.AdventureLevelForStart.Interstitial)
-                return false;
+		protected virtual bool CheckLevelConditions()
+		{
+			if (IsClassic && PlayerData.GameData.ClassicAttempt < Settings.ClassicAttemptForStart.Interstitial)
+				return false;
 
-            return true;
-        }
+			if (!IsClassic && PlayerData.CurrentLevel < Settings.AdventureLevelForStart.Interstitial)
+				return false;
 
-        private bool CheckTimeFromFirstLaunch()
-        {
-            var timeToStart = new DateTime(PlayerData.SessionData.FirstLaunchDate)
-                .AddMinutes(Settings.TimeFromFirstStartInterstitial);
+			return true;
+		}
 
-            return DateTime.Now >= timeToStart;
-        }
+		private bool CheckTimeFromFirstLaunch()
+		{
+			var timeToStart = new DateTime(PlayerData.SessionData.FirstLaunchDate)
+				.AddMinutes(Settings.TimeFromFirstStartInterstitial);
 
-        private bool CheckLastAdsTimeout()
-        {
-            var nextAdsTime = new DateTime(PlayerData.SessionData.LastAdsWatchedDate)
-                .AddMinutes(Settings.InterstitialTimeout);
+			return DateTime.Now >= timeToStart;
+		}
 
-            return DateTime.Now >= nextAdsTime;
-        }
-    }
+		private bool CheckLastAdsTimeout()
+		{
+			var nextAdsTime = new DateTime(PlayerData.SessionData.LastAdsWatchedDate)
+				.AddMinutes(Settings.InterstitialTimeout);
+
+			return DateTime.Now >= nextAdsTime;
+		}
+	}
 }

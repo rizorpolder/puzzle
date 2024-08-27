@@ -1,1 +1,70 @@
-{"audios":[{"path":"","name":"BubbleButton","extension":".wav","index":3},{"path":"","name":"Button","extension":".wav","index":4},{"path":"","name":"ButtonLight","extension":".wav","index":5},{"path":"","name":"Close","extension":".mp3","index":6},{"path":"","name":"Lose","extension":".wav","index":7},{"path":"","name":"Magical","extension":".wav","index":8},{"path":"","name":"Magical02","extension":".wav","index":9},{"path":"","name":"Plop","extension":".wav","index":10},{"path":"","name":"Rain","extension":".mp3","index":11},{"path":"","name":"Thunder","extension":".wav","index":12},{"path":"","name":"Win","extension":".mp3","index":13}]}
+{
+  "audios": [
+    {
+      "path": "",
+      "name": "BubbleButton",
+      "extension": ".wav",
+      "index": 3
+    },
+    {
+      "path": "",
+      "name": "Button",
+      "extension": ".wav",
+      "index": 4
+    },
+    {
+      "path": "",
+      "name": "ButtonLight",
+      "extension": ".wav",
+      "index": 5
+    },
+    {
+      "path": "",
+      "name": "Close",
+      "extension": ".mp3",
+      "index": 6
+    },
+    {
+      "path": "",
+      "name": "Lose",
+      "extension": ".wav",
+      "index": 7
+    },
+    {
+      "path": "",
+      "name": "Magical",
+      "extension": ".wav",
+      "index": 8
+    },
+    {
+      "path": "",
+      "name": "Magical02",
+      "extension": ".wav",
+      "index": 9
+    },
+    {
+      "path": "",
+      "name": "Plop",
+      "extension": ".wav",
+      "index": 10
+    },
+    {
+      "path": "",
+      "name": "Rain",
+      "extension": ".mp3",
+      "index": 11
+    },
+    {
+      "path": "",
+      "name": "Thunder",
+      "extension": ".wav",
+      "index": 12
+    },
+    {
+      "path": "",
+      "name": "Win",
+      "extension": ".mp3",
+      "index": 13
+    }
+  ]
+}

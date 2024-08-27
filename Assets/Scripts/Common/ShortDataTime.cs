@@ -3,31 +3,31 @@ using System;
 [Serializable]
 public struct ShortDataTime
 {
-	public static ShortDataTime UtcNow => new ShortDataTime(DateTime.UtcNow);
+	public static ShortDataTime UtcNow => new(DateTime.UtcNow);
 
 	/// <summary>
-	/// Second
+	///     Second
 	/// </summary>
 	public int s;
 
 	/// <summary>
-	/// Minute
+	///     Minute
 	/// </summary>
 	public int m;
 
 	/// <summary>
-	/// Hour
+	///     Hour
 	/// </summary>
 	public int h;
 
 	/// <summary>
-	/// Day
+	///     Day
 	/// </summary>
 	public int d;
 
 	public ShortDataTime(DateTime dateTime)
 	{
-		TimeSpan timeSpan = dateTime - GetStartDateTime();
+		var timeSpan = dateTime - GetStartDateTime();
 		s = timeSpan.Seconds;
 		m = timeSpan.Minutes;
 		h = timeSpan.Hours;
@@ -59,7 +59,7 @@ public struct ShortDataTime
 
 	public DateTime ToDateTime()
 	{
-		DateTime dateTime = GetStartDateTime().AddDays(d).AddHours(h).AddMinutes(m).AddSeconds(s);
+		var dateTime = GetStartDateTime().AddDays(d).AddHours(h).AddMinutes(m).AddSeconds(s);
 		return dateTime;
 	}
 

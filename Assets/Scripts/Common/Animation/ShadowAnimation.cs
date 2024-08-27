@@ -81,7 +81,7 @@ namespace UI.Common.Animated
 		public void ChangeCanvasState(bool isEnabled)
 		{
 			// hack override not changed when object is disabled
-			bool isHidden = !gameObject.activeSelf;
+			var isHidden = !gameObject.activeSelf;
 			if (isHidden)
 				gameObject.SetActive(true);
 

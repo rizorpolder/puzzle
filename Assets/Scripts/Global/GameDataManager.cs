@@ -7,9 +7,8 @@ namespace Game
 {
 	public class GameDataManager : MonoBehaviour
 	{
-		private IDataSerializer _dataSerializer;
-
 		[SerializeField] private ACloudManager yandexRemoteDataManager;
+		private IDataSerializer _dataSerializer;
 
 		private ACloudManager storageManager;
 
@@ -18,7 +17,7 @@ namespace Game
 			_dataSerializer = new JsonDataSerializer();
 
 			storageManager = GetRemoteDataManager();
-			storageManager.LoadFromCloud((data) => { onComplete?.Invoke(); });
+			storageManager.LoadFromCloud(data => { onComplete?.Invoke(); });
 		}
 
 		public void ClearData(string key, Action<bool> callback = null)

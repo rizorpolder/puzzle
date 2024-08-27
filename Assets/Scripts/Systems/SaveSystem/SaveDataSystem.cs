@@ -8,9 +8,8 @@ namespace Systems.SaveSystem
 {
 	public class SaveDataSystem : ASystem
 	{
-		private IDataSerializer _dataSerializer;
-
 		public static SaveDataSystem Instance;
+		private readonly IDataSerializer _dataSerializer;
 
 		public SaveDataSystem(IDataSerializer dataSerializer)
 		{

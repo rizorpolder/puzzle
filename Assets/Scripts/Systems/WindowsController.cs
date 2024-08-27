@@ -14,25 +14,21 @@ namespace Systems
 {
 	public class WindowsController : MonoBehaviour
 	{
-		public event Action<WindowInstance> WindowHideStart;
-
-
 		[SerializeField] private ShadowAnimation shadow;
 		[SerializeField] private WindowsConfig windowsConfig;
 		[SerializeField] private Transform parent;
 
-		private WindowsFactory factory = new WindowsFactory();
-
 		// список открытых окон
-		private List<WindowInstance> activeWindows = new List<WindowInstance>();
-		private List<WindowInstance> createdWindow = new List<WindowInstance>();
-		private List<WindowInstance> closingWindows = new List<WindowInstance>();
+		private readonly List<WindowInstance> activeWindows = new();
+		private readonly List<WindowInstance> closingWindows = new();
+		private readonly List<WindowInstance> createdWindow = new();
 
-		private SortedDictionary<WindowInstance, Action<BaseWindow>> waitedWindows =
-			new SortedDictionary<WindowInstance, Action<BaseWindow>>();
+		private readonly WindowsFactory factory = new();
+
+		private readonly SortedDictionary<WindowInstance, Action<BaseWindow>> waitedWindows = new();
 
 		// корутина ожидания для waitedWindows
-		private IEnumerator waitToShowCoroutine = null;
+		private IEnumerator waitToShowCoroutine;
 
 		public bool HasActiveWindows => activeWindows.Count > 0;
 		public bool HasActiveOrInProcessWindow => activeWindows.Count > 0 || createdWindow.Count > 0;
@@ -46,9 +42,97 @@ namespace Systems
 			Initialize();
 		}
 
+		public event Action<WindowInstance> WindowHideStart;
+
 		private void Initialize()
 		{
 			factory.Initialize(windowsConfig);
+		}
+
+		private void AddToWait(WindowInstance window, Action<BaseWindow> callback)
+		{
+			waitedWindows.Add(window, callback);
+
+			if (waitToShowCoroutine == null)
+			{
+				waitToShowCoroutine = WaitToShow();
+				StartCoroutine(waitToShowCoroutine);
+			}
+		}
+
+		private IEnumerator WaitToShow()
+		{
+			while (waitedWindows.Count > 0)
+			{
+				yield return new WaitForSeconds(0.05f);
+				if (waitedWindows.Count > 0)
+					Show(waitedWindows.First().Key, waitedWindows.First().Value);
+			}
+
+			waitToShowCoroutine = null;
+			yield return null;
+		}
+
+		public bool GetWindow(WindowType windowType, out BaseWindow baseWindow)
+		{
+			if (factory.GetWindow(windowType, out var window))
+				if (window.Window != null)
+				{
+					baseWindow = window.Window;
+					return true;
+				}
+
+			baseWindow = null;
+			return false;
+		}
+
+		public bool GetWindowInstance(string windowID, out WindowInstance instance)
+		{
+			if (factory.GetWindow(windowID, out var windowInstance))
+				if (windowInstance.Window != null)
+				{
+					instance = windowInstance;
+					return true;
+				}
+
+			instance = null;
+			return false;
+		}
+
+		public bool IsWindowInProcess()
+		{
+			foreach (var window in activeWindows)
+				if (window.Window.Status != ElementStatus.Shown)
+					return true;
+
+			return false;
+		}
+
+		private void SetActiveAllWindows(bool value)
+		{
+			for (var index = activeWindows.Count - 1; index >= 0; index--)
+			{
+				var wp = activeWindows[index];
+				//при обычном выключении отваливаются спайн анимации окон (не отрабатывает show)
+
+				if (value)
+				{
+					wp.Window.Show();
+					if (wp.Properties.IsHasShadow)
+					{
+						shadow.Show();
+						var newIndex = wp.Window.transform.GetSiblingIndex();
+						shadow.transform.SetSiblingIndex(newIndex < 0 ? 0 : newIndex);
+					}
+
+					if (wp.Properties.IsHideOtherWindows)
+						break;
+				}
+				else
+				{
+					wp.Window.HideInstant();
+				}
+			}
 		}
 
 		#region Show
@@ -80,10 +164,7 @@ namespace Systems
 				if (createdWindow.Count > 0 || IsWindowInProcess())
 					return;
 
-			if (!factory.GetWindow(windowName, out var window))
-			{
-				return;
-			}
+			if (!factory.GetWindow(windowName, out var window)) return;
 
 			Show(window, callback);
 		}
@@ -95,10 +176,7 @@ namespace Systems
 
 			if (!IsCanShowWindow(window))
 			{
-				if (!waitedWindows.ContainsKey(window))
-				{
-					AddToWait(window, callback);
-				}
+				if (!waitedWindows.ContainsKey(window)) AddToWait(window, callback);
 
 				return;
 			}
@@ -162,12 +240,8 @@ namespace Systems
 
 			// нельзя показать, так как открыто окно с большим приоритетом
 			if (activeWindows.Count > 0)
-			{
 				if (activeWindows[0].Properties.priority > window.Properties.priority)
-				{
 					return false;
-				}
-			}
 
 			return true;
 		}
@@ -185,7 +259,7 @@ namespace Systems
 				waitedWindows.Clear();
 			}
 
-			int max = 0;
+			var max = 0;
 			while (activeWindows.Count > 0 && max < 10)
 			{
 				var window = activeWindows[0];
@@ -302,10 +376,7 @@ namespace Systems
 				}
 			}
 
-			if (window.Properties.IsHideHUD)
-			{
-				SharedContainer.Instance.GlobalUI.HUD.Show(window.Properties.windowName);
-			}
+			if (window.Properties.IsHideHUD) SharedContainer.Instance.GlobalUI.HUD.Show(window.Properties.windowName);
 		}
 
 		private void ClosingComplete(WindowInstance window)
@@ -319,112 +390,21 @@ namespace Systems
 				activeWindows.FindAll(x => x.Window.gameObject.activeSelf && x.Properties.IsHasShadow);
 			WindowInstance closest = null;
 			foreach (var w in windowsWithShadow)
-			{
 				if (closest == null)
 				{
 					closest = w;
 				}
 				else
 				{
-					int currentSiblingIndex = closest.Window.transform.GetSiblingIndex();
-					int wSiblingIndex = w.Window.transform.GetSiblingIndex();
+					var currentSiblingIndex = closest.Window.transform.GetSiblingIndex();
+					var wSiblingIndex = w.Window.transform.GetSiblingIndex();
 					if (wSiblingIndex > currentSiblingIndex)
 						closest = w;
 				}
-			}
 
 			return closest;
 		}
 
 		#endregion
-
-		private void AddToWait(WindowInstance window, Action<BaseWindow> callback)
-		{
-			waitedWindows.Add(window, callback);
-
-			if (waitToShowCoroutine == null)
-			{
-				waitToShowCoroutine = WaitToShow();
-				StartCoroutine(waitToShowCoroutine);
-			}
-		}
-
-		IEnumerator WaitToShow()
-		{
-			while (waitedWindows.Count > 0)
-			{
-				yield return new WaitForSeconds(0.05f);
-				if (waitedWindows.Count > 0)
-					Show(waitedWindows.First().Key, waitedWindows.First().Value);
-			}
-
-			waitToShowCoroutine = null;
-			yield return null;
-		}
-
-		public bool GetWindow(WindowType windowType, out BaseWindow baseWindow)
-		{
-			if (factory.GetWindow(windowType, out WindowInstance window))
-			{
-				if (window.Window != null)
-				{
-					baseWindow = window.Window;
-					return true;
-				}
-			}
-
-			baseWindow = null;
-			return false;
-		}
-
-		public bool GetWindowInstance(string windowID, out WindowInstance instance)
-		{
-			if (factory.GetWindow(windowID, out WindowInstance windowInstance))
-			{
-				if (windowInstance.Window != null)
-				{
-					instance = windowInstance;
-					return true;
-				}
-			}
-
-			instance = null;
-			return false;
-		}
-
-		public bool IsWindowInProcess()
-		{
-			foreach (var window in activeWindows)
-			{
-				if (window.Window.Status != ElementStatus.Shown)
-					return true;
-			}
-
-			return false;
-		}
-
-		private void SetActiveAllWindows(bool value)
-		{
-			for (var index = activeWindows.Count - 1; index >= 0; index--)
-			{
-				var wp = activeWindows[index];
-				//при обычном выключении отваливаются спайн анимации окон (не отрабатывает show)
-
-				if (value)
-				{
-					wp.Window.Show();
-					if (wp.Properties.IsHasShadow)
-					{
-						shadow.Show();
-						var newIndex = wp.Window.transform.GetSiblingIndex();
-						shadow.transform.SetSiblingIndex( newIndex < 0 ? 0 : newIndex );
-					}
-					if (wp.Properties.IsHideOtherWindows)
-						break;
-				}
-				else
-					wp.Window.HideInstant();
-			}
-		}
 	}
 }

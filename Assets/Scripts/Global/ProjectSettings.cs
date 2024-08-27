@@ -4,6 +4,7 @@ namespace Global
 {
 	public class ProjectSettings : MonoBehaviour
 	{
+		[SerializeField] private int _targetFPS = 60;
 		public static bool IsDesktop { get; private set; }
 		public static bool IsIos { get; private set; }
 
@@ -20,8 +21,6 @@ namespace Global
 		}
 
 		public static bool IsWebGLiOS => IsWebGL && IsIos;
-
-		[SerializeField] private int _targetFPS = 60;
 
 		private void Awake()
 		{

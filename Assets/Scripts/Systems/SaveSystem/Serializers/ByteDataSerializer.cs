@@ -1,9 +1,8 @@
-using System;
 using System.Text;
 
 namespace Systems.SaveSystem.Serializers
 {
-	public class ByteDataSerializer: IDataSerializer
+	public class ByteDataSerializer : IDataSerializer
 	{
 		private readonly Encoding _encoding = Encoding.UTF8;
 

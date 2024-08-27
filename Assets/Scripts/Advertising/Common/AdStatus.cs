@@ -7,8 +7,6 @@ namespace Ads.Runtime
 		public readonly UnityEvent<AdStatusValue> OnStatusChange;
 		public readonly UnityEvent OnSuccessWatched;
 
-		public AdStatusValue Value { get; private set; }
-
 		public AdStatus(AdStatusValue value)
 		{
 			Value = value;
@@ -16,13 +14,12 @@ namespace Ads.Runtime
 			OnSuccessWatched = new UnityEvent();
 		}
 
+		public AdStatusValue Value { get; private set; }
+
 		public void Set(AdStatusValue value)
 		{
 			Value = value;
-			if (Value == AdStatusValue.SuccessWatched)
-			{
-				OnSuccessWatched.Invoke();
-			}
+			if (Value == AdStatusValue.SuccessWatched) OnSuccessWatched.Invoke();
 			OnStatusChange.Invoke(Value);
 		}
 	}

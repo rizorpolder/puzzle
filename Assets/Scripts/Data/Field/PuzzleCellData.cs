@@ -7,7 +7,7 @@ namespace Data
 	public class PuzzleCellData
 	{
 		/// <summary>
-		/// Координаты на поле
+		///     Координаты на поле
 		/// </summary>
 		public Vector2Int cellCoords;
 	}

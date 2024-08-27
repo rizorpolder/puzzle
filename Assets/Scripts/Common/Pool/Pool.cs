@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Common.Pool
 {
@@ -9,8 +10,8 @@ namespace Common.Pool
 	//TODO fix
 	public class Pool<T> where T : PoolObject, new()
 	{
-		private List<T> _freeElements = new List<T>();
-		private List<T> _busyElements = new List<T>();
+		private List<T> _busyElements = new();
+		private List<T> _freeElements = new();
 		public int Count => _freeElements.Count;
 
 		public T this[int i] => _busyElements[i];
@@ -40,12 +41,12 @@ namespace Common.Pool
 
 		private T CreateObject()
 		{
-			var po = GameObject.Instantiate(new T());
+			var po = Object.Instantiate(new T());
 			return po;
 		}
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class PoolObject : MonoBehaviour
 	{
 	}

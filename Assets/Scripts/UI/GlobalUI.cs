@@ -2,14 +2,12 @@ using UI.HUD;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class GlobalUI : MonoBehaviour
 {
 	[SerializeField] private HUD hud;
-	public HUD HUD => hud;
 
 	[SerializeField] private Canvas _canvas;
-
+	public HUD HUD => hud;
 
 	private void Awake()
 	{
@@ -25,5 +23,4 @@ public class GlobalUI : MonoBehaviour
 	{
 		_canvas.worldCamera = Camera.main;
 	}
-
 }

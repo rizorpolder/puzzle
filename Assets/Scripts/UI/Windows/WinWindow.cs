@@ -1,4 +1,4 @@
-using Common.Windows;
+using UI.Common;
 
 namespace UI.Windows
 {

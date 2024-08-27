@@ -11,11 +11,11 @@ namespace Field
 	{
 		[SerializeField] private PuzzleCell prefab;
 		[SerializeField] private Transform fieldRoot;
+		private ImageRepositoryConfig.TextureUnitConfig _config;
+		private PuzzleCell _emptyCell;
+		private FieldData _fieldData;
 
 		private PuzzleCell[,] field;
-		private ImageRepositoryConfig.TextureUnitConfig _config;
-		private FieldData _fieldData;
-		private PuzzleCell _emptyCell;
 
 		public void CreateField(FieldData fieldData)
 		{
@@ -34,18 +34,13 @@ namespace Field
 			field = new PuzzleCell[fieldSize.x, fieldSize.y];
 
 			for (var i = 0; i < fieldSize.x; i++)
+			for (var j = 0; j < fieldSize.y; j++)
 			{
-				for (int j = 0; j < fieldSize.y; j++)
-				{
-					var cellCoords = new Vector2Int(j, i);
-					var cell = field[cellCoords.x, cellCoords.y];
-					if (!cell)
-					{
-						cell = AddCell(cellCoords);
-					}
+				var cellCoords = new Vector2Int(j, i);
+				var cell = field[cellCoords.x, cellCoords.y];
+				if (!cell) cell = AddCell(cellCoords);
 
-					ChipToCell(cell);
-				}
+				ChipToCell(cell);
 			}
 
 			//TODO подумать над формированием и сохранением "пустой клетки"
@@ -64,7 +59,7 @@ namespace Field
 
 		private PuzzleCell CreateCell()
 		{
-			var newCell = Instantiate(prefab, this.fieldRoot);
+			var newCell = Instantiate(prefab, fieldRoot);
 			return newCell;
 		}
 
@@ -74,19 +69,19 @@ namespace Field
 
 			//calculating sprite data
 			var fieldSize = _fieldData.fieldSize;
-			Vector2Int spriteSize =
+			var spriteSize =
 				new Vector2Int(_config.Texture.height / fieldSize.x, _config.Texture.width / fieldSize.y);
 			var pivot = new Vector2(.5f, .5f);
 
-			Rect rect = new Rect(cellCoords.x * spriteSize.x, cellCoords.y * spriteSize.y, spriteSize.x, spriteSize.y);
+			var rect = new Rect(cellCoords.x * spriteSize.x, cellCoords.y * spriteSize.y, spriteSize.x, spriteSize.y);
 			var sprite = Sprite.Create(_config.Texture, rect, pivot);
 			puzzleCell.CreateChip(sprite, cellCoords);
 		}
 
 		private void Shuffle()
 		{
-			int iterations = 100;
-			for (int i = 0; i < iterations; i++)
+			var iterations = 100;
+			for (var i = 0; i < iterations; i++)
 			{
 				var cell1 = GetRandomCell();
 				var cell2 = GetRandomCell();
@@ -107,10 +102,7 @@ namespace Field
 
 			var puzzleCell = field[newCoords.x, newCoords.y];
 			SwapCellData(_emptyCell, puzzleCell);
-			if (CheckForCompletion())
-			{
-				Debug.LogAssertionFormat("YOU WIN");
-			}
+			if (CheckForCompletion()) Debug.LogAssertionFormat("YOU WIN");
 		}
 
 		private void SwapCellData(PuzzleCell from, PuzzleCell to)
@@ -119,7 +111,7 @@ namespace Field
 			var toChip = to.GetChip();
 			from.SetChip(toChip);
 			to.SetChip(fromChip);
-			_emptyCell = from.IsEmpty ? from : (to.IsEmpty ? to : _emptyCell);
+			_emptyCell = from.IsEmpty ? from : to.IsEmpty ? to : _emptyCell;
 		}
 
 		private bool CheckForCompletion()
@@ -139,7 +131,7 @@ namespace Field
 
 		private bool CanMove(SwipeDirection direction, out Vector2Int newCoords)
 		{
-			bool canMove = false;
+			var canMove = false;
 			newCoords = _emptyCell.CellCoord;
 
 			switch (direction)

@@ -1,10 +1,10 @@
 ﻿namespace Systems.Ads.Conditions
 {
-    public class EmptyAdsCondition : ICondition
-    {
-        public bool Check()
-        {
-            return false;
-        }
-    }
+	public class EmptyAdsCondition : ICondition
+	{
+		public bool Check()
+		{
+			return false;
+		}
+	}
 }

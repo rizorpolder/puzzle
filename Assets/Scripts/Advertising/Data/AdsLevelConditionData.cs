@@ -1,6 +1,8 @@
+using System;
+
 namespace Systems.Ads.Data
 {
-	[System.Serializable]
+	[Serializable]
 	public class AdsLevelConditionData
 	{
 		public int Rewarded;

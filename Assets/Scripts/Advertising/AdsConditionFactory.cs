@@ -1,5 +1,4 @@
 using Advertising;
-using Data;
 using Data.Player;
 using Systems.Ads.Data;
 

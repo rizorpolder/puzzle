@@ -18,23 +18,23 @@ namespace Configs
 		public WindowType windowType;
 		public AssetReference assetReference;
 		public int priority;
-		public bool IsCached = false;
+		public bool IsCached;
 
 		[Tooltip("Скрывает ли окно HUD")]
 		public bool IsHideHUD = true;
 
 		[Tooltip("Скрывает ли окно остальные открытые окна при показе")]
-		public bool IsHideOtherWindows = false;
+		public bool IsHideOtherWindows;
 
 		[Tooltip("Показывает скрытые под ним окна по окончании анимации скрытия")]
-		public bool IsShowHiddenWindowsOnEndAnimations = false;
+		public bool IsShowHiddenWindowsOnEndAnimations;
 
 		//Shadow
 		[Tooltip("Есть ли у окна затемнение")]
 		public bool IsHasShadow = true;
 
 		public bool IsHideShadowOnEndAnimation;
-		public bool IsOverrideShadowColor = false;
+		public bool IsOverrideShadowColor;
 		public Color ShadowColor = Color.black;
 
 		[Tooltip("Рисуется ли тень над худом")]
@@ -47,5 +47,9 @@ namespace Configs
 		WinWindow = 1,
 		LooseWindow = 2,
 		SettingsWindow = 3,
+		LevelsWindow = 4,
+		LevelInfoWindow = 5,
+
+		SupportSubmit = 99
 	}
 }

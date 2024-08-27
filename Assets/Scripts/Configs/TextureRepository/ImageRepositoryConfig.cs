@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 using System.Linq;
+using UnityEditor;
+using UnityEngine;
 
 namespace Configs.TextureRepository
 {
@@ -11,7 +12,6 @@ namespace Configs.TextureRepository
 	{
 		[SerializeField] private string ShortPath;
 		[SerializeField] private List<TextureUnitConfig> configs;
-
 
 		//TODO Это будет репозиторий изображений разделенных по категориям ( и с ценами на них)
 
@@ -22,8 +22,8 @@ namespace Configs.TextureRepository
 
 #if UNITY_EDITOR
 
-		[UnityEditor.CustomEditor(typeof(ImageRepositoryConfig))]
-		public class ImageRepositoryConfigEditor : UnityEditor.Editor
+		[CustomEditor(typeof(ImageRepositoryConfig))]
+		public class ImageRepositoryConfigEditor : Editor
 		{
 			private ImageRepositoryConfig _target;
 
@@ -34,9 +34,7 @@ namespace Configs.TextureRepository
 				var style = new GUIStyle(GUI.skin.button);
 				style.normal.textColor = Color.green;
 				if (GUILayout.Button("Generate Config", style, GUILayout.Width(180), GUILayout.Height(30)))
-				{
 					GenerateConfig();
-				}
 
 				GUILayout.Space(10);
 				base.OnInspectorGUI();
@@ -55,7 +53,7 @@ namespace Configs.TextureRepository
 					if (fileInfo.Name.Contains(".meta"))
 						continue;
 					var texturePath = $"Assets{_target.ShortPath}/{fileInfo.Name}";
-					var texture = (Texture2D) UnityEditor.AssetDatabase.LoadAssetAtPath(texturePath, typeof(Texture2D));
+					var texture = (Texture2D) AssetDatabase.LoadAssetAtPath(texturePath, typeof(Texture2D));
 
 					if (!texture)
 						continue;
@@ -77,7 +75,7 @@ namespace Configs.TextureRepository
 		public class TextureUnitConfig
 		{
 			/// <summary>
-			/// Column / Row
+			///     Column / Row
 			/// </summary>
 			public string TextureName;
 
@@ -93,7 +91,7 @@ namespace Configs.TextureRepository
 		public class TextureUnit
 		{
 			/// <summary>
-			/// Column/Row
+			///     Column/Row
 			/// </summary>
 			public Vector2Int originalCoords;
 

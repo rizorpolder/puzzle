@@ -5,9 +5,9 @@ namespace Ads.Runtime
 {
 	public interface IAdsController<TEnum> where TEnum : Enum
 	{
-		bool IsInitialized();
 		float SecondsFromLastAd { get; }
 		bool AdInProgress { get; }
+		bool IsInitialized();
 		void Initialize(GamePlacements<TEnum> placements, string sdkKey, string playerId, bool ageRestrictedFlag);
 		AdStatus InitializeAdForPlacement(TEnum placement);
 		bool TryGetStatusForPlacement(TEnum gamePlacement, out AdStatus status);

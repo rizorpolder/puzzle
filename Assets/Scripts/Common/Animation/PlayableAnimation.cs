@@ -13,7 +13,13 @@ namespace Common.Animation
 		[SerializeField] private PlayableDirector Director;
 		[SerializeField] private PlayableAsset ShowPlayable;
 		[SerializeField] private PlayableAsset HidePlayable;
-		private List<IDisposable> _subscriptions = new List<IDisposable>();
+		private readonly List<IDisposable> _subscriptions = new();
+
+		private void Reset()
+		{
+			if (Director == null)
+				Director = GetComponent<PlayableDirector>();
+		}
 
 		public override void Show(PostAnimationAction action = null)
 		{
@@ -21,7 +27,6 @@ namespace Common.Animation
 			var subs = observable.Subscribe(_ => { }, e => { }, () => { action?.Invoke(); });
 
 			_subscriptions.Add(subs);
-
 		}
 
 		public override void Hide(PostAnimationAction action = null)
@@ -31,13 +36,6 @@ namespace Common.Animation
 			var subs = observable.Subscribe(_ => { }, e => { }, () => { action?.Invoke(); });
 
 			_subscriptions.Add(subs);
-
-		}
-
-		private void Reset()
-		{
-			if (Director == null)
-				Director = GetComponent<PlayableDirector>();
 		}
 
 		public override void OnStart()

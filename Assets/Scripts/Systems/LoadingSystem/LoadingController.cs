@@ -14,6 +14,22 @@ namespace Systems.LoadingSystem
 
 	public class LoadingController : MonoBehaviour
 	{
+		private string GetSceneName(Scenes scene)
+		{
+			var sceneName = "Menu";
+			switch (scene)
+			{
+				case Scenes.Core:
+					sceneName = "Core";
+					break;
+				case Scenes.Menu:
+					sceneName = "Menu";
+					break;
+			}
+
+			return sceneName;
+		}
+
 		#region LoadingProcess
 
 		public async void Load(Scenes TScene, Action callback = null)
@@ -48,7 +64,7 @@ namespace Systems.LoadingSystem
 		{
 			await UnloadSceneAsync(sceneName);
 
-			_ = UnityEngine.Resources.UnloadUnusedAssets();
+			_ = Resources.UnloadUnusedAssets();
 
 			callback?.Invoke();
 		}
@@ -82,21 +98,5 @@ namespace Systems.LoadingSystem
 		}
 
 		#endregion
-
-		private string GetSceneName(Scenes scene)
-		{
-			var sceneName = "Menu";
-			switch (scene)
-			{
-				case Scenes.Core:
-					sceneName = "Core";
-					break;
-				case Scenes.Menu:
-					sceneName = "Menu";
-					break;
-			}
-
-			return sceneName;
-		}
 	}
 }

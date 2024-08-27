@@ -4,7 +4,6 @@ namespace Common
 	{
 		public virtual void Initialize()
 		{
-
 		}
 	}
 }

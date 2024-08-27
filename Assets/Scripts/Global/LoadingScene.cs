@@ -5,7 +5,6 @@ using Systems.LoadingSystem;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceProviders;
-
 #if UNITY_WEBGL && YANDEX
 using System.Runtime.InteropServices;
 #endif

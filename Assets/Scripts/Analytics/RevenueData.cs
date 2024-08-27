@@ -8,7 +8,11 @@ namespace Analytics.Core.Runtime
 		public readonly string StoreId;
 		public readonly string ContentType;
 
-		public RevenueData(string transactionId, decimal decimalPrice, string currency, string storeId, string contentType)
+		public RevenueData(string transactionId,
+			decimal decimalPrice,
+			string currency,
+			string storeId,
+			string contentType)
 		{
 			TransactionId = transactionId;
 			DecimalPrice = decimalPrice;

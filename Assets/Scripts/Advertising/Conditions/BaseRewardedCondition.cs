@@ -1,28 +1,22 @@
-﻿using Data;
-using Data.Player;
+﻿using Data.Player;
 using Systems.Ads.Data;
 
 namespace Systems.Ads.Conditions
 {
-    public class BaseRewardedCondition : BaseAdsCondition
-    {
-        public BaseRewardedCondition(PlayerData data, AdsGameSettings settings) : base(data, settings)
-        {
-        }
+	public class BaseRewardedCondition : BaseAdsCondition
+	{
+		public BaseRewardedCondition(PlayerData data, AdsGameSettings settings) : base(data, settings)
+		{
+		}
 
-        public override bool Check()
-        {
-            if (Settings.MaxAmountRewardedAdvInDay <= PlayerData.SessionData.RewardedAdsWatchedToday)
-                return false;
-            
-            if (IsClassic)
-            {
-                return PlayerData.GameData.ClassicAttempt >= Settings.ClassicAttemptForStart.Rewarded;
-            }
-            else
-            {
-                return PlayerData.CurrentLevel >= Settings.AdventureLevelForStart.Rewarded;
-            }
-        }
-    }
+		public override bool Check()
+		{
+			if (Settings.MaxAmountRewardedAdvInDay <= PlayerData.SessionData.RewardedAdsWatchedToday)
+				return false;
+
+			if (IsClassic)
+				return PlayerData.GameData.ClassicAttempt >= Settings.ClassicAttemptForStart.Rewarded;
+			return PlayerData.CurrentLevel >= Settings.AdventureLevelForStart.Rewarded;
+		}
+	}
 }

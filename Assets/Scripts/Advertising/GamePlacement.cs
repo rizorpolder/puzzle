@@ -6,6 +6,6 @@ namespace Advertising
 		InterstitialLose = 1,
 		InterstitialWin = 2,
 		InterstitialReturn = 3,
-		Rewarded = 4,
+		Rewarded = 4
 	}
 }

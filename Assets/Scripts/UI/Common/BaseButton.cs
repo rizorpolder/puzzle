@@ -12,9 +12,11 @@ namespace UI.Buttons
 		[SerializeField] protected Button button;
 		[SerializeField] protected TAudio clickType = TAudio.Plop;
 
-		public Button ButtonInstance
+		public Button ButtonInstance => button;
+
+		protected virtual void OnValidate()
 		{
-			get { return button; }
+			if (button == null) button = GetComponent<Button>();
 		}
 
 		public event Action Clicked;
@@ -51,14 +53,6 @@ namespace UI.Buttons
 		{
 			ManagerAudio.SharedInstance.PlayAudioClip(clickType.ToString());
 			Clicked?.Invoke();
-		}
-
-		protected virtual void OnValidate()
-		{
-			if (button == null)
-			{
-				button = GetComponent<Button>();
-			}
 		}
 	}
 }

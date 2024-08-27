@@ -6,9 +6,8 @@ namespace Systems.LoadingSystem
 {
 	public class ScenesContainer : MonoBehaviour
 	{
-		private readonly Dictionary<string, SceneInstanceLogic> _scenes = new();
-
 		public static ScenesContainer Instance;
+		private readonly Dictionary<string, SceneInstanceLogic> _scenes = new();
 
 		public void Awake()
 		{
@@ -34,7 +33,7 @@ namespace Systems.LoadingSystem
 		}
 
 		/// <summary>
-		/// Call when all scenes in unloaded, for example single mode loading for new scene
+		///     Call when all scenes in unloaded, for example single mode loading for new scene
 		/// </summary>
 		public void RemoveAll()
 		{

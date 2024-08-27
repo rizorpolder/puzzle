@@ -6,12 +6,11 @@ namespace Systems
 {
 	public class PlayerDataSystem : ASystem
 	{
-		private PlayerData _currentPlayerData;
-		public PlayerData CurrentPlayerData => _currentPlayerData;
+		public PlayerData CurrentPlayerData { get; private set; }
 
 		public override void Initialize()
 		{
-			_currentPlayerData = SaveDataSystem.Instance.LoadData<PlayerData>();
+			CurrentPlayerData = SaveDataSystem.Instance.LoadData<PlayerData>();
 			//подумать над загрузкой / кэшированием данных
 		}
 	}

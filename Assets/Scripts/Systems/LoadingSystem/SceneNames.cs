@@ -8,7 +8,7 @@ namespace Systems.LoadingSystem
 		public static readonly string Menu = "Menu";
 
 		/// <summary>
-		/// Level editor for merge/match3
+		///     Level editor for merge/match3
 		/// </summary>
 		public static readonly string LevelEditor = "LevelEditor";
 

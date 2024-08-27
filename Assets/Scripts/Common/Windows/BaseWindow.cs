@@ -1,114 +1,31 @@
-using System;
-using Common.Animation;
-using UI.Common;
+using Global;
 using UnityEngine;
 
-namespace Common.Windows
+namespace UI.Common
 {
-	public abstract class BaseWindow : BasePanel
+	public class BaseWindow : BasePanel
 	{
-		public event Action OnShownAction;
-		public event Action OnHiddenAction;
+		[SerializeField] private bool _closableByBack = true;
+		public bool BlockScroll { get; protected set; } = true;
 
-		[SerializeField] protected ElementStatus status = ElementStatus.Hidden;
-		[SerializeField] private bool disableAfterHide = true;
-		[SerializeField] protected BaseAnimation animationElement;
-		[SerializeField] protected BaseAnimation[] additionalAnimationElements;
-
-		public virtual void Hide()
+		public void Open()
 		{
+			SharedContainer.Instance.WindowsController.Show(ID);
 		}
 
-		public virtual void Show(Action callback = null)
+		public virtual void Close()
 		{
-			if (IsShown())
-				return;
-
-			gameObject.SetActive(true);
-
-			if (HasAnimation())
-			{
-				status = ElementStatus.Showing;
-
-				foreach (var anim in additionalAnimationElements)
-				{
-					anim.Show();
-				}
-
-				animationElement.Show(() =>
-				{
-					if (status == ElementStatus.Showing)
-					{
-						OnShownAction?.Invoke();
-						callback?.Invoke();
-						status = ElementStatus.Shown;
-					}
-				});
-			}
-			else
-			{
-				OnShownAction?.Invoke();
-				callback?.Invoke();
-				status = ElementStatus.Shown;
-			}
-
-			OnShowAction();
+			SharedContainer.Instance.WindowsController.Hide(ID);
 		}
 
-		public virtual void Hide(Action callback = null)
+		//implementation of behaviour for back button event
+		public virtual bool ClosableByBack()
 		{
-			if (IsHidden())
-				return;
-
-			status = ElementStatus.Hiding;
-
-			if (HasAnimation())
-			{
-				foreach (var anim in additionalAnimationElements)
-				{
-					anim.Hide();
-				}
-
-				animationElement.Hide(() =>
-				{
-					if (status == ElementStatus.Hiding)
-					{
-						callback?.Invoke();
-						HidingComplete();
-					}
-				});
-			}
-			else
-			{
-				callback?.Invoke();
-				HidingComplete();
-			}
-
-			OnHideAction();
+			return _closableByBack;
 		}
 
-		protected virtual void HidingComplete()
+		public virtual void OnBackButton()
 		{
-			status = ElementStatus.Hidden;
-			if (disableAfterHide && gameObject)
-				gameObject.SetActive(false);
-
-			var hidedCallback = OnHiddenAction;
-			ResetHiddenAction();
-			hidedCallback?.Invoke();
-		}
-
-		private bool HasAnimation()
-		{
-			if (!animationElement)
-				animationElement = GetComponent<BaseAnimation>();
-
-			return animationElement;
-		}
-
-		public void ResetHiddenAction()
-		{
-			OnHiddenAction = null;
 		}
 	}
 }

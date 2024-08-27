@@ -13,15 +13,9 @@ namespace Extensions
 
 		public static IObservable<Unit> PlayAsObservable(this PlayableDirector director, PlayableAsset playableAsset)
 		{
-			if (director == null)
-			{
-				return Observable.Empty<Unit>();
-			}
+			if (director == null) return Observable.Empty<Unit>();
 
-			if (playableAsset == null)
-			{
-				return Observable.Empty<Unit>();
-			}
+			if (playableAsset == null) return Observable.Empty<Unit>();
 
 			director.time = 0;
 			director.initialTime = 0;

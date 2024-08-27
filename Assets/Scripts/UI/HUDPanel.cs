@@ -1,113 +1,106 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UI.Common;
+using UI.HUD;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace SharedLogic.UI.Common
 {
-    public class HUDPanel : BasePanel
-    {
-        [SerializeField] private Button[] _buttons;
-        private List<Button> _runtimeButtons = new List<Button>();
+	public class HUDPanel : BasePanel
+	{
+		[SerializeField] private Button[] _buttons;
 
         /// <summary>
-        /// Задержка на показ
+        ///     Задержка на показ
         /// </summary>
         [SerializeField] private int _delayShow = 200;
-        private bool _isCanceledShow = false;
-        private HashSet<string> lockList = new HashSet<string>();
 
-        protected override void OnAwakeAction()
-        {
-            base.OnAwakeAction();
-            status = ElementStatus.Shown;
-        }
+		private bool _isCanceledShow;
+		private readonly List<Button> _runtimeButtons = new();
+		private readonly HashSet<string> lockList = new();
 
-        public void AddLock(string reason)
+		public void Reset()
 		{
-            lockList.Add(reason);
-            SetButtonsInteractable(false);
+			lockList.Clear();
+		}
 
-            Hide();
-
-            _isCanceledShow = true;
-        }
-
-        public bool RemoveLock(string reason)
+		protected override void OnAwakeAction()
 		{
-            lockList.Remove(reason);
+			base.OnAwakeAction();
+			status = ElementStatus.Shown;
+		}
 
-            if (lockList.Count == 0)
-            {
-                _isCanceledShow = false;
-                Show(reason);
-            }
+		public void AddLock(string reason)
+		{
+			lockList.Add(reason);
+			SetButtonsInteractable(false);
 
-            return lockList.Count > 0;
-        }
+			Hide();
 
-        public bool HasLock(string reason)
-        {
-            return lockList.Contains(reason);
-        }
+			_isCanceledShow = true;
+		}
 
-        public bool HasLock()
-        {
-            return lockList.Count > 0;
-        }
+		public bool RemoveLock(string reason)
+		{
+			lockList.Remove(reason);
 
-        private async void Show(string reason)
-        {
-            var delay = reason.Equals("Core") ? 0 : _delayShow;
-            delay = reason.Equals("TaskWindow") ? 280 : delay;
+			if (lockList.Count == 0)
+			{
+				_isCanceledShow = false;
+				Show(reason);
+			}
 
-            await UniTask.Delay(delay);
+			return lockList.Count > 0;
+		}
 
-            if (_isCanceledShow)
-                return;
+		public bool HasLock(string reason)
+		{
+			return lockList.Contains(reason);
+		}
 
-            status = ElementStatus.Hidden;
-            Show(() =>
-            {
-                SetButtonsInteractable(true);
-            });
+		public bool HasLock()
+		{
+			return lockList.Count > 0;
+		}
 
-        }
+		private async void Show(string reason)
+		{
+			var delay = reason.Equals("Core") ? 0 : _delayShow;
+			delay = reason.Equals("TaskWindow") ? 280 : delay;
 
-        public virtual void SetMode(global::UI.HUD.HUDMode mode)
-        {
+			await UniTask.Delay(delay);
 
-        }
+			if (_isCanceledShow)
+				return;
 
-        public void Reset()
-        {
-            lockList.Clear();
-        }
+			status = ElementStatus.Hidden;
+			Show(() => { SetButtonsInteractable(true); });
+		}
 
-        private void SetButtonsInteractable(bool interactable)
-        {
-            foreach(var button in _buttons)
-            {
-                if(button != null)
-                    button.interactable = interactable;
-            }
+		public virtual void SetMode(HUDMode mode)
+		{
+		}
 
-            foreach(var button in _runtimeButtons)
-            {
-                if (button != null)
-                    button.interactable = interactable;
-            }
-        }
+		private void SetButtonsInteractable(bool interactable)
+		{
+			foreach (var button in _buttons)
+				if (button != null)
+					button.interactable = interactable;
 
-        public void AddButton(Button button)
-        {
-            _runtimeButtons.Add(button);
-        }
+			foreach (var button in _runtimeButtons)
+				if (button != null)
+					button.interactable = interactable;
+		}
 
-        public void RemoveButton(Button button)
-        {
-            _runtimeButtons.Remove(button);
-        }
-    }
+		public void AddButton(Button button)
+		{
+			_runtimeButtons.Add(button);
+		}
+
+		public void RemoveButton(Button button)
+		{
+			_runtimeButtons.Remove(button);
+		}
+	}
 }

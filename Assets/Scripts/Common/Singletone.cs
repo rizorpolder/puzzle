@@ -19,13 +19,13 @@ namespace Common
 			OnAwakeAction();
 		}
 
-		protected virtual void OnAwakeAction()
-		{
-		}
-
 		private void OnDestroy()
 		{
 			Instance = null;
+		}
+
+		protected virtual void OnAwakeAction()
+		{
 		}
 	}
 }

@@ -11,13 +11,13 @@ namespace Global
 
 	public class RuntimeData
 	{
-		public GameType CurrentGameType { get; private set; }
-		public PlayerData PlayerData { get; private set; }
-
 		public RuntimeData(GameDataManager dataManager)
 		{
 			LoadPlayerData(dataManager);
 		}
+
+		public GameType CurrentGameType { get; private set; }
+		public PlayerData PlayerData { get; private set; }
 
 		private void LoadPlayerData(GameDataManager dataManager)
 		{
@@ -25,25 +25,18 @@ namespace Global
 				(result, data) =>
 				{
 					if (result)
-					{
 						PlayerData = data;
-					}
 					else
-					{
 						PlayerData = new PlayerData();
-					}
 
 					PlayerData.SessionData.TrackSession();
-					dataManager.SaveData(PlayerData.key,PlayerData);
-				} );
+					dataManager.SaveData(PlayerData.key, PlayerData);
+				});
 		}
-
-
 
 		public void SetGameType(GameType type)
 		{
 			CurrentGameType = type;
 		}
-
 	}
 }

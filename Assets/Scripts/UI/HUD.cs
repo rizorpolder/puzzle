@@ -2,7 +2,6 @@ using AudioManager.Runtime.Core.Manager;
 using SharedLogic.UI.Common;
 using UnityEngine;
 
-
 namespace UI.HUD
 {
 	public class HUD : MonoBehaviour
@@ -10,6 +9,11 @@ namespace UI.HUD
 		public HUDPanel TopPanel;
 		private HUDMode _lastMode;
 		private HUDMode _mode;
+
+		public void Reset()
+		{
+			TopPanel.Reset();
+		}
 
 		public void Hide(string reason, bool top = true, bool bottom = true, bool left = true, bool right = true)
 		{
@@ -48,11 +52,6 @@ namespace UI.HUD
 		public void RestoreLastMode()
 		{
 			SetMode(_lastMode);
-		}
-
-		public void Reset()
-		{
-			TopPanel.Reset();
 		}
 	}
 }

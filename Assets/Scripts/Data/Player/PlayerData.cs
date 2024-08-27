@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Game.Data;
-using Global;
 using UnityEngine;
 
 namespace Data.Player
@@ -9,8 +8,6 @@ namespace Data.Player
 	[Serializable]
 	public class PlayerData : ASavedData
 	{
-		public override string key => "player_data";
-
 		public string playerID = Application.identifier;
 		public string lastPlayedLevel = "";
 		public SessionData SessionData;
@@ -24,6 +21,8 @@ namespace Data.Player
 			SessionData = new SessionData();
 			PurchasedIds = new List<string>();
 		}
+
+		public override string key => "player_data";
 
 		public void ResetAdventureData()
 		{

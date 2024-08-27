@@ -5,12 +5,12 @@ namespace Systems.LoadingSystem
 {
 	public class SceneInstanceLogic
 	{
-		public SceneInstance Instance { get; private set; }
-
 		public SceneInstanceLogic(SceneInstance instance)
 		{
 			Instance = instance;
 		}
+
+		public SceneInstance Instance { get; }
 
 		public virtual async UniTask ActivateAsync()
 		{
@@ -19,7 +19,6 @@ namespace Systems.LoadingSystem
 
 		public virtual void Destroy()
 		{
-
 		}
 	}
 }

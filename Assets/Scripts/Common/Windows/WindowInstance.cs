@@ -1,41 +1,30 @@
 using System;
 using Configs;
+using UI.Common;
 
 namespace Common.Windows
 {
 	public class WindowInstance : IComparable
 	{
-		private BaseWindow instance;
-
-		public BaseWindow Window
-		{
-			get { return instance; }
-			set { instance = value; }
-		}
-
-		private WindowProperties properties;
-
-		public WindowProperties Properties
-		{
-			get { return properties; }
-			set { properties = value; }
-		}
-
 		public WindowInstance(WindowProperties properties)
 		{
-			this.Properties = properties;
+			Properties = properties;
+		}
+
+		public BaseWindow Window { get; set; }
+
+		public WindowProperties Properties { get; set; }
+
+		public int CompareTo(object obj)
+		{
+			var w = obj as WindowInstance;
+			return Properties.priority.CompareTo(w.Properties.priority);
 		}
 
 		public void Destroy()
 		{
-			properties.assetReference.ReleaseInstance(instance.gameObject);
-			instance = null;
-		}
-
-		public int CompareTo(object obj)
-		{
-			WindowInstance w = obj as WindowInstance;
-			return properties.priority.CompareTo(w.properties.priority);
+			Properties.assetReference.ReleaseInstance(Window.gameObject);
+			Window = null;
 		}
 	}
 }

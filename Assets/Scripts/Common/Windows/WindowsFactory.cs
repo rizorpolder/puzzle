@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Configs;
+using UI.Common;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -8,15 +9,11 @@ namespace Common.Windows
 {
 	public class WindowsFactory
 	{
-		private List<WindowInstance> instances = new List<WindowInstance>();
+		private readonly List<WindowInstance> instances = new();
 
 		public void Initialize(WindowsConfig config)
 		{
-			foreach (var properties in config.windows)
-			{
-				instances.Add(new WindowInstance(properties));
-			}
-
+			foreach (var properties in config.windows) instances.Add(new WindowInstance(properties));
 		}
 
 		public bool GetWindow(string name, out WindowInstance window)
@@ -27,7 +24,7 @@ namespace Common.Windows
 
 		public bool GetWindow(WindowType type, out WindowInstance window)
 		{
-			window = instances.Find(x => x.Properties.windowType== type);
+			window = instances.Find(x => x.Properties.windowType == type);
 			return window != null;
 		}
 
@@ -42,19 +39,17 @@ namespace Common.Windows
 			}
 
 			// загружаем из ассета
-			window.Properties.assetReference.InstantiateAsync(parent, false).Completed += delegate (AsyncOperationHandle<GameObject> task)
-			{
-				window.Window = task.Result.GetComponent<BaseWindow>();
-				callback?.Invoke();
-			};
+			window.Properties.assetReference.InstantiateAsync(parent).Completed +=
+				delegate(AsyncOperationHandle<GameObject> task)
+				{
+					window.Window = task.Result.GetComponent<BaseWindow>();
+					callback?.Invoke();
+				};
 		}
 
 		public void DestroyWindow(WindowInstance window)
 		{
-			if (!window.Properties.IsCached)
-			{
-				window.Destroy();
-			}
+			if (!window.Properties.IsCached) window.Destroy();
 		}
 	}
 }

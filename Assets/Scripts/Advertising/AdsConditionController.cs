@@ -4,7 +4,6 @@ using Global;
 using Systems.Ads.Data;
 using UnityEngine;
 
-
 namespace Systems.Ads.Conditions
 {
 	public class AdsConditionsController : MonoBehaviour
@@ -39,10 +38,9 @@ namespace Systems.Ads.Conditions
 
 		public float GetProgressForRewarded()
 		{
-			if(SharedContainer.Instance.RuntimeData.CurrentGameType == GameType.Classic)
+			if (SharedContainer.Instance.RuntimeData.CurrentGameType == GameType.Classic)
 				return _config.Settings.ClassicProgressForRewarded;
-			else
-				return _config.Settings.AdventureProgressForRewarded;
+			return _config.Settings.AdventureProgressForRewarded;
 		}
 	}
 }

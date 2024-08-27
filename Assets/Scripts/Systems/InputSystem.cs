@@ -1,3 +1,4 @@
+using System;
 using Common;
 using UnityEngine;
 
@@ -5,12 +6,11 @@ namespace Systems
 {
 	public class InputSystem : Singletone<InputSystem>
 	{
-		public System.Action<SwipeDirection> OnSwipe = direction => { };
-
-		[SerializeField, Range(0f, 1f)] private Vector3 deadZone = new Vector3(0.1f, 0.1f, 0.1f);
+		[SerializeField] [Range(0f, 1f)] private Vector3 deadZone = new(0.1f, 0.1f, 0.1f);
 
 		private Vector3 _endPosition;
 		private Vector3 _startPosition;
+		public Action<SwipeDirection> OnSwipe = direction => { };
 
 		public Camera Camera => Camera.main;
 
@@ -19,13 +19,9 @@ namespace Systems
 			//TODO сделать мертвую зону = клик (select by click),
 
 			if (Application.isMobilePlatform)
-			{
 				TouchInput();
-			}
 			else
-			{
 				MouseInput();
-			}
 		}
 
 		private void TouchInput()
@@ -82,10 +78,7 @@ namespace Systems
 
 			var absX = Mathf.Abs(normalized.x);
 			var absY = Mathf.Abs(normalized.y);
-			if (absX > absY)
-			{
-				return normalized.x > 0 ? SwipeDirection.Right : SwipeDirection.Left;
-			}
+			if (absX > absY) return normalized.x > 0 ? SwipeDirection.Right : SwipeDirection.Left;
 
 			return normalized.y > 0 ? SwipeDirection.Up : SwipeDirection.Down;
 		}
@@ -96,6 +89,6 @@ namespace Systems
 		Up,
 		Down,
 		Left,
-		Right,
+		Right
 	}
 }

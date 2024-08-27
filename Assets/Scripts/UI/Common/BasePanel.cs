@@ -23,13 +23,10 @@ namespace UI.Common
 
 		[SerializeField] private bool disableAfterHide = true;
 
+		public ElementStatus Status => status;
+
 		public event Action OnShownAction;
 		public event Action OnHiddenAction;
-
-		public ElementStatus Status
-		{
-			get { return status; }
-		}
 
 		public override void Show(Action callback = null)
 		{
@@ -58,8 +55,8 @@ namespace UI.Common
 				OnShownAction?.Invoke();
 				callback?.Invoke();
 				status = ElementStatus.Shown;
-                OnShowFinishedAction();
-            }
+				OnShowFinishedAction();
+			}
 
 			OnShowAction();
 		}
@@ -119,8 +116,15 @@ namespace UI.Common
 			OnHiddenAction = null;
 		}
 
-		public bool IsHidden() => Status == ElementStatus.Hidden || Status == ElementStatus.Hiding;
-		public bool IsShown() => Status == ElementStatus.Shown || Status == ElementStatus.Showing;
+		public bool IsHidden()
+		{
+			return Status == ElementStatus.Hidden || Status == ElementStatus.Hiding;
+		}
+
+		public bool IsShown()
+		{
+			return Status == ElementStatus.Shown || Status == ElementStatus.Showing;
+		}
 
 		protected override void OnResetAction()
 		{

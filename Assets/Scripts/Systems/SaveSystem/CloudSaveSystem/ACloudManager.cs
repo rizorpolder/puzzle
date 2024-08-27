@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using Systems.SaveSystem.Serializers;
@@ -11,18 +10,13 @@ public abstract class ACloudManager : MonoBehaviour
 	protected const string FILE_NAME = "save_data";
 	protected const string SaveDateTimeKey = "LastSaveDateTime";
 
-	public class SaveData
-	{
-		public Dictionary<string, string> SaveDictionary = new Dictionary<string, string>();
-	}
-
 	[SerializeField] protected float saveTimeout = 3f;
-
-	protected Action<byte[]> _onComplete;
-	protected DateTime _lastSaveData;
 
 	protected SaveData _actualData;
 	protected IDataSerializer _dataSerializer;
+	protected DateTime _lastSaveData;
+
+	protected Action<byte[]> _onComplete;
 
 	public static ACloudManager Instance { get; private set; }
 
@@ -31,6 +25,11 @@ public abstract class ACloudManager : MonoBehaviour
 		_lastSaveData = DateTime.UnixEpoch;
 
 		Instance = this;
+	}
+
+	private void OnDestroy()
+	{
+		Instance = null;
 	}
 
 	public void SetSerializer(IDataSerializer dataSerializer)
@@ -119,7 +118,7 @@ public abstract class ACloudManager : MonoBehaviour
 	public T GetData<T>(string key, T defaultVal)
 	{
 		//if (!HasData(key))
-			return defaultVal;
+		return defaultVal;
 	}
 
 	public bool HasData(string key)
@@ -183,8 +182,8 @@ public abstract class ACloudManager : MonoBehaviour
 		ForceSaveToCloud();
 	}
 
-	private void OnDestroy()
+	public class SaveData
 	{
-		Instance = null;
+		public Dictionary<string, string> SaveDictionary = new();
 	}
 }

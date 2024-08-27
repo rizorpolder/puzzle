@@ -5,7 +5,6 @@ using Systems.LoadingSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 namespace UI.HUD
 {
 	public class TopPanel : HUDPanel
@@ -41,10 +40,7 @@ namespace UI.HUD
 
 		public void RebuildTopPanelLayout()
 		{
-			if (gameObject.activeInHierarchy)
-			{
-				StartCoroutine(RebuildTopPanelCoroutine());
-			}
+			if (gameObject.activeInHierarchy) StartCoroutine(RebuildTopPanelCoroutine());
 		}
 
 		public IEnumerator RebuildTopPanelCoroutine()
@@ -69,7 +65,6 @@ namespace UI.HUD
 				case HUDMode.Menu:
 					SetActiveSettings(false);
 					break;
-
 			}
 		}
 

@@ -6,15 +6,14 @@ namespace Field
 	{
 		[SerializeField] private PuzzleChip prefab;
 
-		private Vector2Int _cellCoords;
-		public Vector2Int CellCoord => _cellCoords;
-
 		private PuzzleChip _currentChip;
+		public Vector2Int CellCoord { get; private set; }
+
 		public bool IsEmpty => _currentChip is null;
 
 		public void Initialize(Vector2Int coords)
 		{
-			_cellCoords = coords;
+			CellCoord = coords;
 		}
 
 		public void CreateChip(Sprite sprite, Vector2Int originalCoords)
@@ -22,7 +21,7 @@ namespace Field
 			if (!_currentChip)
 				_currentChip = Instantiate(prefab, transform);
 			_currentChip.SetView(originalCoords, sprite);
-			_cellCoords = originalCoords;
+			CellCoord = originalCoords;
 		}
 
 		public void SetChip(PuzzleChip chip)
@@ -30,7 +29,7 @@ namespace Field
 			_currentChip = chip;
 			if (IsEmpty)
 				return;
-			chip.transform.SetParent(this.transform);
+			chip.transform.SetParent(transform);
 			_currentChip.transform.localPosition = Vector3.zero;
 		}
 

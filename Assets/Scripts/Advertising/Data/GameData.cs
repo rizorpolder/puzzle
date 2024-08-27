@@ -7,9 +7,9 @@ namespace Game.Data
 	public class GameData
 	{
 		public byte[] ClassicLevelSave;
-		public bool IsClassicIncomplete = false;
+		public bool IsClassicIncomplete;
 		public byte[] AdventureLevelSave;
-		public bool IsAdventureIncomplete = false;
+		public bool IsAdventureIncomplete;
 		public int ClassicAttempt;
 
 		public GameData()
@@ -18,8 +18,15 @@ namespace Game.Data
 			AdventureLevelSave = new byte[] { };
 		}
 
-		public bool HasClassicSaveData() => ClassicLevelSave.Length > 0 && IsClassicIncomplete;
-		public bool HasAdventureSaveData() => AdventureLevelSave.Length > 0 && IsAdventureIncomplete;
+		public bool HasClassicSaveData()
+		{
+			return ClassicLevelSave.Length > 0 && IsClassicIncomplete;
+		}
+
+		public bool HasAdventureSaveData()
+		{
+			return AdventureLevelSave.Length > 0 && IsAdventureIncomplete;
+		}
 
 		public byte[] GetLevelData(GameType type)
 		{

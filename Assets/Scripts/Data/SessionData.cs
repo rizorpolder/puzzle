@@ -6,14 +6,13 @@ namespace Data
 	public class SessionData
 	{
 		public static string DataKey = "Session_Data";
-		public long FirstLaunchDate = 0;
-		public long CurrentSessionDate = 0;
-		public long LastSessionDate = 0;
-		public int RewardedAdsWatchedToday = 0;
-		public long LastAdsWatchedDate = 0;
-		public long LevelStartedDate = 0;
+		public long FirstLaunchDate;
+		public long CurrentSessionDate;
+		public long LastSessionDate;
+		public int RewardedAdsWatchedToday;
+		public long LastAdsWatchedDate;
+		public long LevelStartedDate;
 		public bool RateUsShowed;
-
 
 		public void TrackSession()
 		{
@@ -24,7 +23,7 @@ namespace Data
 			CurrentSessionDate = DateTime.Now.Ticks;
 
 			var lastDate = new DateTime(LastSessionDate).Date;
-			if(lastDate != DateTime.Today.Date)
+			if (lastDate != DateTime.Today.Date)
 				RewardedAdsWatchedToday = 0;
 		}
 
@@ -42,6 +41,5 @@ namespace Data
 		{
 			LevelStartedDate = DateTime.Now.Ticks;
 		}
-
 	}
 }

@@ -1,9 +1,10 @@
+using System;
 using Advertising;
 using UnityEngine;
 
 namespace Systems.Ads.Data
 {
-	[System.Serializable]
+	[Serializable]
 	public class PlacementData
 	{
 		[field: SerializeField] public GamePlacement GamePlacement { get; private set; }
