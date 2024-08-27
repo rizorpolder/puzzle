@@ -11,13 +11,19 @@ namespace Configs.TextureRepository
 	public class ImageRepositoryConfig : ScriptableObject
 	{
 		[SerializeField] private string ShortPath;
-		[SerializeField] private List<TextureUnitConfig> configs;
+		[SerializeField] private List<TextureCategoryConfig> configs;
 
 		//TODO Это будет репозиторий изображений разделенных по категориям ( и с ценами на них)
 
-		public TextureUnitConfig GetConfig(string textureName)
+		public TextureUnitConfig GetConfig(TextureCategory data,string textureName)
 		{
-			return configs.FirstOrDefault(x => x.TextureName.Equals(textureName));
+			var category = configs.FirstOrDefault(x=>x.Category.Equals(data));
+			if (category != null)
+			{
+				return category.Textures.FirstOrDefault(x => x.TextureName.Equals(textureName));
+			}
+
+			return null;
 		}
 
 #if UNITY_EDITOR
@@ -44,61 +50,84 @@ namespace Configs.TextureRepository
 			{
 				var path = Application.dataPath + _target.ShortPath;
 				var info = new DirectoryInfo(path);
-				var files = info.GetFiles("*.*", SearchOption.AllDirectories);
+				var directories = info.GetDirectories("*.*", SearchOption.AllDirectories);
 
 				_target.configs.Clear();
 
-				foreach (var fileInfo in files)
+				foreach (var directoryInfo in directories)
 				{
-					if (fileInfo.Name.Contains(".meta"))
-						continue;
-					var texturePath = $"Assets{_target.ShortPath}/{fileInfo.Name}";
-					var texture = (Texture2D) AssetDatabase.LoadAssetAtPath(texturePath, typeof(Texture2D));
-
-					if (!texture)
+					if (!Enum.TryParse<TextureCategory>(directoryInfo.Name, out var currentCategory))
 						continue;
 
-
-					var unitConfig = new TextureUnitConfig(texture.name)
+					var textureCategoryConfig =
+						_target.configs.FirstOrDefault(x => x.Category.Equals(currentCategory));
+					if (textureCategoryConfig == null)
 					{
-						TextureName = texture.name,
-						Texture = texture
-					};
+						textureCategoryConfig = new TextureCategoryConfig()
+						{
+							Category = currentCategory
+						};
+						_target.configs.Add(textureCategoryConfig);
+					}
 
-					_target.configs.Add(unitConfig);
+
+					var files = directoryInfo.GetFiles("*.*", SearchOption.AllDirectories);
+
+					foreach (var fileInfo in files)
+					{
+						if (fileInfo.Name.Contains(".meta"))
+							continue;
+						var texturePath = $"Assets{_target.ShortPath}/{directoryInfo.Name}/{fileInfo.Name}";
+						var texture = (Texture2D) AssetDatabase.LoadAssetAtPath(texturePath, typeof(Texture2D));
+
+						if (!texture)
+							continue;
+
+						var unitConfig = new TextureUnitConfig(texture.name)
+						{
+							TextureName = texture.name,
+							Texture = texture
+						};
+						textureCategoryConfig.Textures.Add(unitConfig);
+					}
 				}
 			}
+		}
 #endif
-		}
+	}
 
-		[Serializable]
-		public class TextureUnitConfig
+	[Serializable]
+	public class TextureCategoryConfig
+	{
+		public TextureCategory Category;
+		public List<TextureUnitConfig> Textures;
+
+		public TextureCategoryConfig()
 		{
-			/// <summary>
-			///     Column / Row
-			/// </summary>
-			public string TextureName;
-
-			public Texture2D Texture;
-
-			public TextureUnitConfig(string textureName)
-			{
-				TextureName = textureName;
-			}
+			Textures = new List<TextureUnitConfig>();
 		}
+	}
 
-		[Serializable]
-		public class TextureUnit
+	[Serializable]
+	public class TextureUnitConfig
+	{
+		/// <summary>
+		///     Column / Row
+		/// </summary>
+		public string TextureName;
+
+		public Texture2D Texture;
+
+		public TextureUnitConfig(string textureName)
 		{
-			/// <summary>
-			///     Column/Row
-			/// </summary>
-			public Vector2Int originalCoords;
-
-			public TextureUnit(Vector2Int originalCoords)
-			{
-				this.originalCoords = originalCoords;
-			}
+			TextureName = textureName;
 		}
+	}
+
+	public enum TextureCategory
+	{
+		None,
+		Custom,
+		Abstraction,
 	}
 }

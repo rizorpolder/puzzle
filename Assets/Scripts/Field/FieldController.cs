@@ -11,7 +11,7 @@ namespace Field
 	{
 		[SerializeField] private PuzzleCell prefab;
 		[SerializeField] private Transform fieldRoot;
-		private ImageRepositoryConfig.TextureUnitConfig _config;
+		private TextureUnitConfig _config;
 		private PuzzleCell _emptyCell;
 		private FieldData _fieldData;
 
@@ -22,7 +22,7 @@ namespace Field
 			_fieldData = fieldData;
 
 			var repositoryConfig = ConfigurableRoot.Instance.ImageRepositoryConfig;
-			_config = repositoryConfig.GetConfig(_fieldData.LastTextureName);
+			_config = repositoryConfig.GetConfig(TextureCategory.Abstraction,_fieldData.LastTextureName);
 
 			GenerateField();
 			// Shuffle();
