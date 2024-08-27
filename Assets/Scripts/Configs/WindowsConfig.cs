@@ -19,13 +19,33 @@ namespace Configs
 		public AssetReference assetReference;
 		public int priority;
 		public bool IsCached = false;
+
+		[Tooltip("Скрывает ли окно HUD")]
+		public bool IsHideHUD = true;
+
+		[Tooltip("Скрывает ли окно остальные открытые окна при показе")]
+		public bool IsHideOtherWindows = false;
+
+		[Tooltip("Показывает скрытые под ним окна по окончании анимации скрытия")]
+		public bool IsShowHiddenWindowsOnEndAnimations = false;
+
+		//Shadow
+		[Tooltip("Есть ли у окна затемнение")]
+		public bool IsHasShadow = true;
+
+		public bool IsHideShadowOnEndAnimation;
+		public bool IsOverrideShadowColor = false;
+		public Color ShadowColor = Color.black;
+
+		[Tooltip("Рисуется ли тень над худом")]
+		public bool IsShadowUpperHUD = true;
 	}
 
 	public enum WindowType
 	{
+		Custom = 0,
 		WinWindow = 1,
 		LooseWindow = 2,
 		SettingsWindow = 3,
-
 	}
 }

@@ -2,14 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AudioManager.Runtime.Core.Manager;
 using Common.Windows;
 using Configs;
+using Global;
+using UI.Common;
+using UI.Common.Animated;
 using UnityEngine;
 
 namespace Systems
 {
 	public class WindowsController : MonoBehaviour
 	{
+		public event Action<WindowInstance> WindowHideStart;
+
+
+		[SerializeField] private ShadowAnimation shadow;
 		[SerializeField] private WindowsConfig windowsConfig;
 		[SerializeField] private Transform parent;
 
@@ -44,6 +52,24 @@ namespace Systems
 		}
 
 		#region Show
+
+		public void Show(WindowType windowType,
+			Action<BaseWindow> callback = null,
+			WindowSource source = WindowSource.Default)
+		{
+			// блокируем запуск других окон при нажатии на кнопки, если у нас есть уже одно окно в процесс открывания
+			if (source.Equals(WindowSource.Button))
+				if (createdWindow.Count > 0 || IsWindowInProcess())
+					return;
+
+			if (!factory.GetWindow(windowType, out var window))
+			{
+				Debug.LogAssertionFormat($"No window found with type: {windowType}");
+				return;
+			}
+
+			Show(window, callback);
+		}
 
 		public void Show(string windowName,
 			Action<BaseWindow> callback = null,
@@ -150,6 +176,166 @@ namespace Systems
 
 		#region Hide
 
+		public void HideAllWindows()
+		{
+			if (waitToShowCoroutine != null)
+			{
+				StopCoroutine(waitToShowCoroutine);
+				waitToShowCoroutine = null;
+				waitedWindows.Clear();
+			}
+
+			int max = 0;
+			while (activeWindows.Count > 0 && max < 10)
+			{
+				var window = activeWindows[0];
+				if (!window.Window.IsShown())
+				{
+					window.Window.Hide();
+					OnHideAction(window);
+					OnHiddenAction(window);
+					ClosingComplete(window);
+				}
+
+				++max;
+			}
+
+			max = 0;
+			while (activeWindows.Count > 0 && max < 10)
+			{
+				Hide(activeWindows.Last());
+				++max;
+			}
+		}
+
+		public void Hide(WindowType windowType)
+		{
+			Hide(activeWindows.Find(x => x.Properties.windowType == windowType));
+		}
+
+		public void Hide(string windowName)
+		{
+			Hide(activeWindows.Find(x => x.Properties.windowName == windowName));
+		}
+
+		private void Hide(WindowInstance window)
+		{
+			if (window == null || window.Window == null)
+				return;
+
+			if (waitedWindows.ContainsKey(window))
+				waitedWindows.Remove(window);
+
+			if (window.Window.Status == ElementStatus.Hiding || window.Window.Status == ElementStatus.Hidden)
+				return;
+
+			ManagerAudio.SharedInstance.PlayAudioClip(TAudio.Close.ToString());
+
+			OnHideAction(window);
+
+			window.Window.Hide(() => { OnHiddenAction(window); });
+		}
+
+		private void OnHiddenAction(WindowInstance window)
+		{
+			if (activeWindows.Count > 0 && !activeWindows.Last().Properties.IsShadowUpperHUD)
+				shadow.ChangeCanvasState(true);
+			else
+				shadow.ChangeCanvasState(false);
+
+			if (window.Properties.IsHasShadow && window.Properties.IsHideShadowOnEndAnimation)
+			{
+				var windowWithShadow = GetClosestWindowWithShadow();
+				if (windowWithShadow != null)
+				{
+					var newIndex = windowWithShadow.Window.transform.GetSiblingIndex();
+					var shadownIndex = shadow.transform.GetSiblingIndex();
+					if (shadownIndex + 1 != newIndex)
+						shadow.transform.SetSiblingIndex(newIndex);
+				}
+				else
+				{
+					shadow.Hide();
+				}
+			}
+
+			if (window.Properties.IsHideOtherWindows && window.Properties.IsShowHiddenWindowsOnEndAnimations)
+			{
+				var windowWithHide =
+					activeWindows.Find(x => x.Window.gameObject.activeSelf && x.Properties.IsHideOtherWindows);
+				if (windowWithHide == null)
+					SetActiveAllWindows(true);
+			}
+
+			factory.DestroyWindow(window);
+		}
+
+		private void OnHideAction(WindowInstance window)
+		{
+			WindowHideStart?.Invoke(window);
+
+			activeWindows.Remove(window);
+			closingWindows.Add(window);
+			window.Window.OnHiddenAction += () => { ClosingComplete(window); };
+
+			if (window.Properties.IsHideOtherWindows && !window.Properties.IsShowHiddenWindowsOnEndAnimations)
+			{
+				var windowWithHide =
+					activeWindows.Find(x => x.Window.gameObject.activeSelf && x.Properties.IsHideOtherWindows);
+				if (windowWithHide == null)
+					SetActiveAllWindows(true);
+			}
+
+			if (window.Properties.IsHasShadow && !window.Properties.IsHideShadowOnEndAnimation)
+			{
+				var windowWithShadow = GetClosestWindowWithShadow();
+				if (windowWithShadow != null)
+				{
+					var newIndex = windowWithShadow.Window.transform.GetSiblingIndex();
+					var shadownIndex = shadow.transform.GetSiblingIndex();
+					if (shadownIndex + 1 != newIndex)
+						shadow.transform.SetSiblingIndex(newIndex);
+				}
+				else
+				{
+					shadow.Hide();
+				}
+			}
+
+			if (window.Properties.IsHideHUD)
+			{
+				SharedContainer.Instance.GlobalUI.HUD.Show(window.Properties.windowName);
+			}
+		}
+
+		private void ClosingComplete(WindowInstance window)
+		{
+			closingWindows.Remove(window);
+		}
+
+		private WindowInstance GetClosestWindowWithShadow()
+		{
+			var windowsWithShadow =
+				activeWindows.FindAll(x => x.Window.gameObject.activeSelf && x.Properties.IsHasShadow);
+			WindowInstance closest = null;
+			foreach (var w in windowsWithShadow)
+			{
+				if (closest == null)
+				{
+					closest = w;
+				}
+				else
+				{
+					int currentSiblingIndex = closest.Window.transform.GetSiblingIndex();
+					int wSiblingIndex = w.Window.transform.GetSiblingIndex();
+					if (wSiblingIndex > currentSiblingIndex)
+						closest = w;
+				}
+			}
+
+			return closest;
+		}
+
 		#endregion
 
 		private void AddToWait(WindowInstance window, Action<BaseWindow> callback)
@@ -215,6 +401,30 @@ namespace Systems
 			}
 
 			return false;
+		}
+
+		private void SetActiveAllWindows(bool value)
+		{
+			for (var index = activeWindows.Count - 1; index >= 0; index--)
+			{
+				var wp = activeWindows[index];
+				//при обычном выключении отваливаются спайн анимации окон (не отрабатывает show)
+
+				if (value)
+				{
+					wp.Window.Show();
+					if (wp.Properties.IsHasShadow)
+					{
+						shadow.Show();
+						var newIndex = wp.Window.transform.GetSiblingIndex();
+						shadow.transform.SetSiblingIndex( newIndex < 0 ? 0 : newIndex );
+					}
+					if (wp.Properties.IsHideOtherWindows)
+						break;
+				}
+				else
+					wp.Window.HideInstant();
+			}
 		}
 	}
 }

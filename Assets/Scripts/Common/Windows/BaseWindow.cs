@@ -1,10 +1,11 @@
 using System;
 using Common.Animation;
+using UI.Common;
 using UnityEngine;
 
 namespace Common.Windows
 {
-	public abstract class BaseWindow : MonoBehaviour
+	public abstract class BaseWindow : BasePanel
 	{
 		public event Action OnShownAction;
 		public event Action OnHiddenAction;
@@ -13,9 +14,6 @@ namespace Common.Windows
 		[SerializeField] private bool disableAfterHide = true;
 		[SerializeField] protected BaseAnimation animationElement;
 		[SerializeField] protected BaseAnimation[] additionalAnimationElements;
-		public ElementStatus Status => status;
-		public bool IsHidden() => Status == ElementStatus.Hidden || Status == ElementStatus.Hiding;
-		public bool IsShown() => Status == ElementStatus.Shown || Status == ElementStatus.Showing;
 
 		public virtual void Hide()
 		{
@@ -108,25 +106,9 @@ namespace Common.Windows
 			return animationElement;
 		}
 
-		protected virtual void OnShowAction()
-		{
-		}
-
-		protected virtual void OnHideAction()
-		{
-		}
-
 		public void ResetHiddenAction()
 		{
 			OnHiddenAction = null;
 		}
-	}
-
-	public enum ElementStatus
-	{
-		Hidden,
-		Showing,
-		Shown,
-		Hiding
 	}
 }

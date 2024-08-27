@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
-using System.Runtime.InteropServices;
-using AudioManager.Runtime.Core.Manager;
 using Global;
 using Systems.LoadingSystem;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceProviders;
+
+#if UNITY_WEBGL && YANDEX
+using System.Runtime.InteropServices;
+#endif
 
 public class LoadScene : MonoBehaviour
 {
@@ -31,7 +33,7 @@ public class LoadScene : MonoBehaviour
 		}
 		else
 		{
-#if UNITY_WEBGL
+#if UNITY_WEBGL && YANDEX
 			if (IsYandexSdkReady())
 				LoadData(LoadSceneAsync);
 #endif
@@ -95,10 +97,9 @@ public class LoadScene : MonoBehaviour
 		DestroyImmediate(loading);
 		//TODO animation menu
 		ScenesContainer.Instance.AddScene(sceneInstance);
-		ManagerAudio.SharedInstance.PlayMetaMusic();
 	}
 
-#if UNITY_WEBGL
+#if UNITY_WEBGL && YANDEX
 	[DllImport("__Internal")]
 	public static extern bool IsYandexSdkReady();
 #endif
