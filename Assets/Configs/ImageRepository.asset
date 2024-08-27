@@ -13,4 +13,12 @@ MonoBehaviour:
   m_Name: ImageRepository
   m_EditorClassIdentifier: 
   ShortPath: /Textures/Levels
-  configs: []
+  configs:
+  - Category: 2
+    Textures:
+    - TextureName: art_template
+      Texture: {fileID: 2800000, guid: 10e903d4b86f89649a47a9ff0d7ca7d5, type: 3}
+    - TextureName: template_2
+      Texture: {fileID: 2800000, guid: d95850eb7bde3e64c98910a907d139c8, type: 3}
+    - TextureName: grid
+      Texture: {fileID: 2800000, guid: 2022e05977bac084ea0b977c9203738a, type: 3}
