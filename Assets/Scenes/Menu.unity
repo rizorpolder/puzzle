@@ -1030,9 +1030,9 @@ MonoBehaviour:
   ID: PlayButton
   button: {fileID: 1962733766}
   clickType: 10
-  windowType: 0
+  windowType: 4
   windowName: 
-  show: 0
+  show: 1
   _requiredNetwork: 0
 --- !u!1 &2001558546
 GameObject:
