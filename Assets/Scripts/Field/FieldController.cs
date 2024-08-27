@@ -47,6 +47,10 @@ namespace Field
 					ChipToCell(cell);
 				}
 			}
+
+			//TODO подумать над формированием и сохранением "пустой клетки"
+			_emptyCell = field[fieldSize.x - 1, fieldSize.y - 1];
+			_emptyCell.Clear();
 		}
 
 		private PuzzleCell AddCell(Vector2Int cellCoords)
@@ -123,7 +127,11 @@ namespace Field
 			foreach (var puzzleCell in field)
 			{
 				var chip = puzzleCell.GetChip();
-				if (!puzzleCell.CellCoord.Equals(chip.OriginalCoords)) return false;
+				if (!chip)
+					continue;
+
+				if (!puzzleCell.CellCoord.Equals(chip.OriginalCoords))
+					return false;
 			}
 
 			return true;
@@ -137,20 +145,23 @@ namespace Field
 			switch (direction)
 			{
 				case SwipeDirection.Up:
-					newCoords.x++;
-					canMove = newCoords.x < -_fieldData.fieldSize.x;
+					newCoords.y--;
+					canMove = newCoords.y >= 0;
 					break;
+
 				case SwipeDirection.Down:
-					newCoords.x--;
-					canMove = newCoords.x >= 0;
-					break;
-				case SwipeDirection.Left:
 					newCoords.y++;
 					canMove = newCoords.y < _fieldData.fieldSize.y;
 					break;
+
+				case SwipeDirection.Left:
+					newCoords.x--;
+					canMove = newCoords.x >= 0;
+					break;
+
 				case SwipeDirection.Right:
-					newCoords.y--;
-					canMove = newCoords.y >= 0;
+					newCoords.x++;
+					canMove = newCoords.x < _fieldData.fieldSize.x;
 					break;
 			}
 

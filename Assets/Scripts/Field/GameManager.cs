@@ -33,7 +33,7 @@ namespace Managers
 			var result = new FieldData
 			{
 				LastTextureName = "grid",
-				fieldSize = new Vector2Int(5,5)
+				fieldSize = new Vector2Int(10,10)
 			};
 
 			return result;
