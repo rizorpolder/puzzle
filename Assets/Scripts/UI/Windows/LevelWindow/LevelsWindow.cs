@@ -1,4 +1,4 @@
-using System;
+using Global;
 using UI.Common;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,39 +20,16 @@ namespace UI.Windows.LevelWindow
 			closeButton.onClick.AddListener(Close);
 		}
 
-		protected override void OnEnableAction()
-		{
-			base.OnEnableAction();
-			SwitchState(WindowState.Categories);
-		}
-
 		protected override void OnShowAction()
 		{
 			base.OnShowAction();
 			//Get Config,
 			//Create categories
 			//Fill Categories (ref config)
+
+			var config = SharedContainer.Instance.ConfigurableRoot.ImageRepositoryConfig;
 		}
 
-		private void SwitchState(WindowState state)
-		{
-			switch (state)
-			{
-				case WindowState.Categories:
-					categoriesRoot.gameObject.SetActive(true);
-					levelsDataRoot.gameObject.SetActive(false);
-					break;
-				case WindowState.Levels:
-					categoriesRoot.gameObject.SetActive(false);
-					levelsDataRoot.gameObject.SetActive(true);
-					break;
-			}
-		}
 
-		public enum WindowState
-		{
-			Categories,
-			Levels,
-		}
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using AudioManager.Runtime.Core.Manager;
 using Global;
 using Systems.LoadingSystem;
 using UnityEngine;
@@ -96,6 +97,8 @@ public class LoadScene : MonoBehaviour
 		DestroyImmediate(loading);
 		//TODO animation menu
 		ScenesContainer.Instance.AddScene(sceneInstance);
+		ManagerAudio.SharedInstance.PlayMetaMusic();
+
 	}
 
 #if UNITY_WEBGL && YANDEX

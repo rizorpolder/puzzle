@@ -7,12 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LilitaOne Counter
+  m_Name: LilitaOne Pink
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - BEVEL_ON
   - UNDERLAY_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -49,16 +48,16 @@ Material:
     m_Floats:
     - _Ambient: 0.5
     - _Bevel: 0.5
-    - _BevelClamp: 0.25
+    - _BevelClamp: 0
     - _BevelOffset: 0
-    - _BevelRoundness: 0.1
-    - _BevelWidth: 0.3
+    - _BevelRoundness: 0
+    - _BevelWidth: 0
     - _BumpFace: 0
     - _BumpOutline: 0
     - _ColorMask: 15
     - _CullMode: 0
-    - _Diffuse: 0
-    - _FaceDilate: 0.03
+    - _Diffuse: 0.5
+    - _FaceDilate: 0.15
     - _FaceUVSpeedX: 0
     - _FaceUVSpeedY: 0
     - _GlowInner: 0
@@ -66,23 +65,23 @@ Material:
     - _GlowOuter: 0
     - _GlowPower: 0
     - _GradientScale: 10
-    - _LightAngle: 3
+    - _LightAngle: 3.1416
     - _MaskSoftnessX: 0
     - _MaskSoftnessY: 0
-    - _OutlineSoftness: 0.1
+    - _OutlineSoftness: 0.21
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.12
     - _PerspectiveFilter: 0.875
-    - _Reflectivity: 14
+    - _Reflectivity: 10
     - _ScaleRatioA: 0.9
-    - _ScaleRatioB: 0.70425
-    - _ScaleRatioC: 0.70425
+    - _ScaleRatioB: 0.59624994
+    - _ScaleRatioC: 0.36136362
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
     - _Sharpness: 0
-    - _SpecularPower: 1.5
+    - _SpecularPower: 2
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
@@ -90,10 +89,10 @@ Material:
     - _StencilWriteMask: 255
     - _TextureHeight: 1024
     - _TextureWidth: 1024
-    - _UnderlayDilate: 0.1
+    - _UnderlayDilate: 1
     - _UnderlayOffsetX: 0
-    - _UnderlayOffsetY: -0.4
-    - _UnderlaySoftness: 0.1
+    - _UnderlayOffsetY: -0.6
+    - _UnderlaySoftness: 0.05
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
     - _WeightBold: 0.75
@@ -101,12 +100,12 @@ Material:
     m_Colors:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
-    - _FaceColor: {r: 0.017641952, g: 0.17144115, b: 0.2874409, a: 1}
-    - _GlowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FaceColor: {r: 0.9764706, g: 0.9529412, b: 0.96862745, a: 1}
+    - _GlowColor: {r: 0.8862745, g: 0.6862745, b: 0.8666667, a: 1}
     - _MaskCoord: {r: 0, g: 0, b: 32767, a: 32767}
-    - _OutlineColor: {r: 0.048171833, g: 0.21952623, b: 0.33245158, a: 1}
+    - _OutlineColor: {r: 0.9386859, g: 0.11443538, b: 0.26635566, a: 1}
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _UnderlayColor: {r: 0.0242969, g: 0.15749402, b: 0.24528301, a: 1}
+    - _UnderlayColor: {r: 0.9386859, g: 0.10224175, b: 0.25415218, a: 1}
   m_BuildTextureStacks: []

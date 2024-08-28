@@ -47,3 +47,20 @@ MonoBehaviour:
     IsOverrideShadowColor: 0
     ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     IsShadowUpperHUD: 1
+  - windowName: SettingsWindow
+    windowType: 3
+    assetReference:
+      m_AssetGUID: 6199daffb5cd1754d9cc2e36cff4afae
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    priority: 0
+    IsCached: 0
+    IsHideHUD: 1
+    IsHideOtherWindows: 0
+    IsShowHiddenWindowsOnEndAnimations: 0
+    IsHasShadow: 1
+    IsHideShadowOnEndAnimation: 0
+    IsOverrideShadowColor: 0
+    ShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    IsShadowUpperHUD: 1

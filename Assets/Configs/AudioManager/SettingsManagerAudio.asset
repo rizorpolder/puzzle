@@ -22,20 +22,22 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: 27c03b55aa7c4ba4080cc6faefa3fc95, type: 2}
   isEnableMusicOnStart: 1
   isEnabledDynamicListener: 0
-  metaMusic: []
+  metaMusic:
+  - LoFi
   coreMusic: []
   ambientSounds: []
   soundsAssets:
-  - {fileID: 11400000, guid: be4931a2309771048ba0faa43ab6f114, type: 2}
-  - {fileID: 11400000, guid: fa9714ad7e9be4d4bbca792211cec018, type: 2}
-  - {fileID: 11400000, guid: b0ff1f17233bb8248a8f10f8849dbdb6, type: 2}
-  - {fileID: 11400000, guid: 42acdc0213e66d84aa3d04d71bd3b09c, type: 2}
-  - {fileID: 11400000, guid: 18dec72bce49c8347828bd2feca0b393, type: 2}
-  - {fileID: 11400000, guid: 6b14d1c244d28cb4d91a9ac998e430e1, type: 2}
-  - {fileID: 11400000, guid: b882064099f6ab5499233031cc39fa33, type: 2}
-  - {fileID: 11400000, guid: 91218b4e724ae86449376832b972cfc4, type: 2}
-  - {fileID: 11400000, guid: 670c795aa9f8ca54287ad225a47fd93c, type: 2}
-  - {fileID: 11400000, guid: f0d0ba2b32b8ce94e99e5298209c3106, type: 2}
-  - {fileID: 11400000, guid: 3db432440b02a8146ae7bb321698a30e, type: 2}
+  - {fileID: 11400000, guid: aa451c6b4e07b9047849553b4637e86d, type: 2}
+  - {fileID: 11400000, guid: fbeb22273771e64419725955e9aad763, type: 2}
+  - {fileID: 11400000, guid: a3624b4d908c9d748ae71c603ffafcee, type: 2}
+  - {fileID: 11400000, guid: b78f10d45046089469e0315438f68fc5, type: 2}
+  - {fileID: 11400000, guid: 2648eb4d9a7a0304796bcc3edf243b5d, type: 2}
+  - {fileID: 11400000, guid: e5b1d9203bcef644db4ed13bf24eb234, type: 2}
+  - {fileID: 11400000, guid: bc183d51ce816704387f5b2303dcf056, type: 2}
+  - {fileID: 11400000, guid: 47233e33e067d844da219caf131f98cb, type: 2}
+  - {fileID: 11400000, guid: 1cdee1054c707b540a9cc0ad56c2c652, type: 2}
+  - {fileID: 11400000, guid: b28f972543b61b8458fb1ae55b727bab, type: 2}
+  - {fileID: 11400000, guid: 3788289803eecc94b8fefb1b3bf50a57, type: 2}
+  - {fileID: 11400000, guid: 6df925161f917e84785df6bb2711f1a4, type: 2}
   emotionsSounds: []
   <CanPlayUnfocused>k__BackingField: 1

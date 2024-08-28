@@ -15,15 +15,41 @@ namespace Configs.TextureRepository
 
 		//TODO Это будет репозиторий изображений разделенных по категориям ( и с ценами на них)
 
-		public TextureUnitConfig GetConfig(TextureCategory data,string textureName)
+		public TextureUnitConfig GetConfig(TextureCategory data, string textureName)
 		{
-			var category = configs.FirstOrDefault(x=>x.Category.Equals(data));
+			var category = configs.FirstOrDefault(x => x.Category.Equals(data));
 			if (category != null)
 			{
 				return category.Textures.FirstOrDefault(x => x.TextureName.Equals(textureName));
 			}
 
 			return null;
+		}
+
+		public List<TextureUnitConfig> GetLevelsByCategory(TextureCategory category)
+		{
+			var result = new List<TextureUnitConfig>();
+			var config = configs.FirstOrDefault(x => x.Category.Equals(category));
+			if (config != null)
+			{
+				result = config.Textures;
+			}
+
+			return result;
+		}
+
+		private List<TextureUnitConfig> GetAllLevels()
+		{
+			var result = new List<TextureUnitConfig>();
+			foreach (var textureCategoryConfig in configs)
+			{
+				foreach (var texture in textureCategoryConfig.Textures)
+				{
+					result.Add(texture);
+				}
+			}
+
+			return result;
 		}
 
 #if UNITY_EDITOR

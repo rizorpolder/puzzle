@@ -27,6 +27,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6199daffb5cd1754d9cc2e36cff4afae
+    m_Address: Assets/Prefabs/Windows/WinWindow/SettingsWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 289088ab422df30449e4e356dcd686e0, type: 2}
   m_SchemaSet:
