@@ -38,7 +38,7 @@ namespace Configs.TextureRepository
 			return result;
 		}
 
-		private List<TextureUnitConfig> GetAllLevels()
+		public List<TextureUnitConfig> GetAllLevels()
 		{
 			var result = new List<TextureUnitConfig>();
 			foreach (var textureCategoryConfig in configs)

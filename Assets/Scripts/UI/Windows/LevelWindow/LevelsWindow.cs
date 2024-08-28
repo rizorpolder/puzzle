@@ -7,11 +7,7 @@ namespace UI.Windows.LevelWindow
 {
 	public class LevelsWindow : BaseWindow
 	{
-		///2 вьюхи (категории и уровни)
-		/// игрок клацая по категории проваливается во вторую вьюху где уже уровни со звездами
-		/// звезды из правого угла вынести
-		[SerializeField] private RectTransform categoriesRoot;
-		[SerializeField] private RectTransform levelsDataRoot;
+		[SerializeField] private LevelsPanel levelsPanel;
 
 		[SerializeField] private Button closeButton;
 
@@ -26,10 +22,9 @@ namespace UI.Windows.LevelWindow
 			//Get Config,
 			//Create categories
 			//Fill Categories (ref config)
-
-			var config = SharedContainer.Instance.ConfigurableRoot.ImageRepositoryConfig;
+			var repositoryConfig = SharedContainer.Instance.ConfigurableRoot.ImageRepositoryConfig;
+			var levels = repositoryConfig.GetAllLevels();
+			levelsPanel.Initialize(levels);
 		}
-
-
 	}
 }

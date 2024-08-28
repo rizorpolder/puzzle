@@ -1003,10 +1003,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlobalUI
       objectReference: {fileID: 0}
-    - target: {fileID: 6923975256238821386, guid: d56202f6459b2544dbaf5f6a67aaf089, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1933109034}
     - target: {fileID: 7425221391605543858, guid: d56202f6459b2544dbaf5f6a67aaf089, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
