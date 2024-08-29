@@ -64,3 +64,20 @@ MonoBehaviour:
     IsOverrideShadowColor: 0
     ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     IsShadowUpperHUD: 1
+  - windowName: LevelInfoWindow
+    windowType: 5
+    assetReference:
+      m_AssetGUID: eaf7ac85d8d2dbb4ca45d83e9677fad0
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    priority: 0
+    IsCached: 0
+    IsHideHUD: 1
+    IsHideOtherWindows: 0
+    IsShowHiddenWindowsOnEndAnimations: 0
+    IsHasShadow: 1
+    IsHideShadowOnEndAnimation: 0
+    IsOverrideShadowColor: 0
+    ShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    IsShadowUpperHUD: 0

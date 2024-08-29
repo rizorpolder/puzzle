@@ -32,6 +32,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eaf7ac85d8d2dbb4ca45d83e9677fad0
+    m_Address: Assets/Prefabs/Windows/LevelWindow/LevelInfoWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 289088ab422df30449e4e356dcd686e0, type: 2}
   m_SchemaSet:
