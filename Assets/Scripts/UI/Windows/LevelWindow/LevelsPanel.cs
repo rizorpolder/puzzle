@@ -6,23 +6,34 @@ namespace UI.Windows.LevelWindow
 {
 	public class LevelsPanel : MonoBehaviour
 	{
+		public System.Action<int> OnWindowCall = i => { };
+
 		[SerializeField] private ItemElementView viewPrefab;
 		[SerializeField] private RectTransform root;
 		[SerializeField] private List<ItemElementView> views;
-
 		public void Initialize(List<TextureUnitConfig> levels)
 		{
 			//TODO Check save data if complete = fill stars
-
-			for (var i = 0; i < levels.Count; i++)
+			int i = 0;
+			for (; i < levels.Count; i++)
 			{
 				var textureUnitConfig = levels[i];
 				if (i >= views.Count)
 				{
 					AddViewToPool();
 				}
+
 				var view = views[i];
-				view.Initialize(textureUnitConfig);
+				view.SetIndex(i).
+					//todo from save
+					SetState(true);
+
+				view.OnButtonClick += CallLevelInfoWindow;
+			}
+
+			for (; i < views.Count; i++)
+			{
+				views[i].SetIndex(i).SetState(false);
 			}
 		}
 
@@ -30,6 +41,11 @@ namespace UI.Windows.LevelWindow
 		{
 			var newView = Instantiate(viewPrefab, root);
 			views.Add(newView);
+		}
+
+		private void CallLevelInfoWindow(int index)
+		{
+			OnWindowCall?.Invoke(index);
 		}
 	}
 }

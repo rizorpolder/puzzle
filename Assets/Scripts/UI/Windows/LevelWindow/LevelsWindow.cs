@@ -1,3 +1,5 @@
+using Configs;
+using Configs.TextureRepository;
 using Global;
 using UI.Common;
 using UnityEngine;
@@ -11,20 +13,41 @@ namespace UI.Windows.LevelWindow
 
 		[SerializeField] private Button closeButton;
 
+		private ImageRepositoryConfig _config;
 		private void Start()
 		{
 			closeButton.onClick.AddListener(Close);
 		}
 
-		protected override void OnShowAction()
+		protected override void OnAwakeAction()
 		{
-			base.OnShowAction();
+			base.OnAwakeAction();
+
 			//Get Config,
 			//Create categories
 			//Fill Categories (ref config)
-			var repositoryConfig = SharedContainer.Instance.ConfigurableRoot.ImageRepositoryConfig;
-			var levels = repositoryConfig.GetAllLevels();
+			_config = SharedContainer.Instance.ConfigurableRoot.ImageRepositoryConfig;
+			var levels = _config.GetAllLevels();
 			levelsPanel.Initialize(levels);
+			levelsPanel.OnWindowCall += CallLevelInfoWindow;
+		}
+
+		private void CallLevelInfoWindow(int index)
+		{
+			SharedContainer.Instance.WindowsController.Show(WindowType.LevelInfoWindow,
+				window =>
+				{
+					var unit = _config.GetConfigByIndex(index);
+					if (window is LevelInfoWindow infoWindow)
+					{
+						infoWindow.SetData(unit);
+					}
+				});
+		}
+
+		protected override void OnShowAction()
+		{
+			base.OnShowAction();
 		}
 	}
 }

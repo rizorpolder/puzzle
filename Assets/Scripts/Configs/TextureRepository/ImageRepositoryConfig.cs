@@ -15,6 +15,15 @@ namespace Configs.TextureRepository
 
 		//TODO Это будет репозиторий изображений разделенных по категориям ( и с ценами на них)
 
+		//TODO Temp
+		public TextureUnitConfig GetConfigByIndex(int index)
+		{
+			var textures = configs[0].Textures;
+			if (index >= textures.Count) return textures[^1];
+			return textures[index];
+		}
+
+
 		public TextureUnitConfig GetConfig(TextureCategory data, string textureName)
 		{
 			var category = configs.FirstOrDefault(x => x.Category.Equals(data));
@@ -141,8 +150,8 @@ namespace Configs.TextureRepository
 		///     Column / Row
 		/// </summary>
 		public string TextureName;
-
 		public Texture2D Texture;
+		public int TextureCost;
 
 		public TextureUnitConfig(string textureName)
 		{
