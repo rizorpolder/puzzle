@@ -1,3 +1,4 @@
+#if UNITY_WEBGL && YANDEX
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -16,9 +17,8 @@ namespace Systems.SaveSystem.CloudSaveSystem
 				return;
 			}
 
-#if UNITY_WEBGL
+
 			LoadPlayerData();
-#endif
 		}
 
 		public override void TryInitFirstData(byte[] data)
@@ -79,18 +79,15 @@ namespace Systems.SaveSystem.CloudSaveSystem
 			if (Application.isEditor)
 				return;
 
-#if UNITY_WEBGL
 			//Convert.ToBase64String(
 			SavePlayerData(_dataSerializer.FromData(_actualData));
-#endif
 		}
 
-#if UNITY_WEBGL
 		[DllImport("__Internal")]
 		private static extern void LoadPlayerData();
 
 		[DllImport("__Internal")]
 		private static extern void SavePlayerData(string data);
-#endif
 	}
 }
+#endif

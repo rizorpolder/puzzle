@@ -1,5 +1,7 @@
+using System;
 using Data.Player;
 using Game;
+using Systems.SaveSystem;
 
 namespace Global
 {
@@ -11,27 +13,29 @@ namespace Global
 
 	public class RuntimeData
 	{
-		public RuntimeData(GameDataManager dataManager)
+		public RuntimeData()
 		{
-			LoadPlayerData(dataManager);
+			LoadPlayerData();
 		}
 
 		public GameType CurrentGameType { get; private set; }
 		public PlayerData PlayerData { get; private set; }
 
-		private void LoadPlayerData(GameDataManager dataManager)
+		private void LoadPlayerData()
 		{
-			dataManager.GetData<PlayerData>(PlayerData.key,
-				(result, data) =>
-				{
-					if (result)
-						PlayerData = data;
-					else
-						PlayerData = new PlayerData();
-
-					PlayerData.SessionData.TrackSession();
-					dataManager.SaveData(PlayerData.key, PlayerData);
-				});
+			throw new NotImplementedException();
+			// var dataManager = SaveDataSystem.Instance;
+			// dataManager.LoadData<PlayerData>(PlayerData.key,
+			// 	(result, data) =>
+			// 	{
+			// 		if (result)
+			// 			PlayerData = data;
+			// 		else
+			// 			PlayerData = new PlayerData();
+			//
+			// 		PlayerData.SessionData.TrackSession();
+			// 		dataManager.SaveData(PlayerData.key, PlayerData);
+			// 	});
 		}
 
 		public void SetGameType(GameType type)

@@ -3,6 +3,7 @@ using System.Collections;
 using AudioManager.Runtime.Core.Manager;
 using Global;
 using Systems.LoadingSystem;
+using Systems.SaveSystem;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceProviders;
@@ -40,11 +41,14 @@ public class LoadScene : MonoBehaviour
 		}
 	}
 
+#if UNITY_WEBGL && YANDEX
+
 	//called from js code
 	public void OnYandexSdkInit()
 	{
 		LoadData(LoadSceneAsync);
 	}
+#endif
 
 	private void Initialize()
 	{
@@ -54,13 +58,13 @@ public class LoadScene : MonoBehaviour
 
 	private void LoadData(Action callback)
 	{
-		var dataManager = SharedContainer.Instance.DataManager;
-		dataManager.Initialize(callback);
+		//TODO load player data then load scene
+		SaveDataSystem.Instance.Initialize();
 	}
 
 	private void LoadSceneAsync()
 	{
-		SharedContainer.Instance.SetRuntimeData(new RuntimeData(SharedContainer.Instance.DataManager));
+		SharedContainer.Instance.SetRuntimeData(new RuntimeData());
 
 		_startLoadDate = DateTime.Now;
 
@@ -98,7 +102,6 @@ public class LoadScene : MonoBehaviour
 		//TODO animation menu
 		ScenesContainer.Instance.AddScene(sceneInstance);
 		ManagerAudio.SharedInstance.PlayMetaMusic();
-
 	}
 
 #if UNITY_WEBGL && YANDEX

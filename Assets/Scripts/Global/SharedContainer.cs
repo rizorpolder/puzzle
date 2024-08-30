@@ -75,8 +75,6 @@ namespace Global
 
 		#region fields
 
-		[SerializeField] private GameDataManager _gameDataManager;
-
 		[SerializeField] private ConfigurableRoot _configurableRoot;
 		[SerializeField] private LoadingController _loaderController;
 		[SerializeField] private WindowsController _windowsController;
@@ -98,8 +96,6 @@ namespace Global
 		public GlobalUI GlobalUI => _globalUI;
 		public IAdsController<GamePlacement> Ads => _adsController;
 		public AdsConditionsController AdsConditions => _adsConditions;
-
-		public GameDataManager DataManager => _gameDataManager;
 
 		public RuntimeData RuntimeData { get; private set; }
 

@@ -5,185 +5,181 @@ using System.Text;
 using Systems.SaveSystem.Serializers;
 using UnityEngine;
 
-public abstract class ACloudManager : MonoBehaviour
+namespace Systems.SaveSystem.CloudSaveSystem
 {
-	protected const string FILE_NAME = "save_data";
-	protected const string SaveDateTimeKey = "LastSaveDateTime";
-
-	[SerializeField] protected float saveTimeout = 3f;
-
-	protected SaveData _actualData;
-	protected IDataSerializer _dataSerializer;
-	protected DateTime _lastSaveData;
-
-	protected Action<byte[]> _onComplete;
-
-	public static ACloudManager Instance { get; private set; }
-
-	private void Awake()
+	public abstract class ACloudManager
 	{
-		_lastSaveData = DateTime.UnixEpoch;
+		protected const string FILE_NAME = "save_data";
+		protected const string SaveDateTimeKey = "LastSaveDateTime";
 
-		Instance = this;
-	}
+		protected float saveTimeout = 3f;
 
-	private void OnDestroy()
-	{
-		Instance = null;
-	}
+		protected SaveData _actualData;
+		protected IDataSerializer _dataSerializer;
+		protected DateTime _lastSaveData;
 
-	public void SetSerializer(IDataSerializer dataSerializer)
-	{
-		_dataSerializer = dataSerializer;
+		protected Action<byte[]> _onComplete;
 
-		if (!_dataSerializer.IsInitialized)
-			_dataSerializer.Initialize();
-	}
+		public static ACloudManager Instance { get; private set; }
 
-	public virtual void LoadFromCloud(Action<byte[]> onComplete)
-	{
-		Debug.Log("Try load from cloud");
-
-		_onComplete = onComplete;
-
-		OnPlayerDataLoaded(null);
-	}
-
-	// from js events
-	public void OnPlayerDataLoaded(string data)
-	{
-		byte[] result = null;
-		if (!string.IsNullOrEmpty(data))
+		public ACloudManager()
 		{
-			Debug.LogError($"data loaded internal {data}");
-			Debug.LogError($"callback is empty {_onComplete == null}");
-
-			try
-			{
-				result = Convert.FromBase64String(data);
-			}
-			catch (Exception ex)
-			{
-				Debug.LogError($"Failed to update player data.\n{ex.Message}");
-				result = Array.Empty<byte>();
-			}
+			_lastSaveData = DateTime.UnixEpoch;
 		}
 
-		TryInitFirstData(result);
+		public void SetSerializer(IDataSerializer dataSerializer)
+		{
+			_dataSerializer = dataSerializer;
 
-		_onComplete?.Invoke(result);
-		_onComplete = null;
-	}
+			if (!_dataSerializer.IsInitialized)
+				_dataSerializer.Initialize();
+		}
 
-	public virtual void TryInitFirstData(byte[] data)
-	{
-		_actualData = LoadDataFromFile();
-	}
+		public virtual void LoadFromCloud(Action<byte[]> onComplete)
+		{
+			Debug.Log("Try load from cloud");
 
-	protected void SaveToFile(bool force)
-	{
-		RefreshSaveDateTime();
-		var result = _dataSerializer.FromData(_actualData);
-		//TODO
-		//File.WriteAllBytes(DataStorageManager.SavePath, result);
+			_onComplete = onComplete;
+
+			OnPlayerDataLoaded(null);
+		}
+
+		// from js events
+		public void OnPlayerDataLoaded(string data)
+		{
+			byte[] result = null;
+			if (!string.IsNullOrEmpty(data))
+			{
+				Debug.LogError($"data loaded internal {data}");
+				Debug.LogError($"callback is empty {_onComplete == null}");
+
+				try
+				{
+					result = Convert.FromBase64String(data);
+				}
+				catch (Exception ex)
+				{
+					Debug.LogError($"Failed to update player data.\n{ex.Message}");
+					result = Array.Empty<byte>();
+				}
+			}
+
+			TryInitFirstData(result);
+
+			_onComplete?.Invoke(result);
+			_onComplete = null;
+		}
+
+		public virtual void TryInitFirstData(byte[] data)
+		{
+			_actualData = LoadDataFromFile();
+		}
+
+		protected void SaveToFile(bool force)
+		{
+			RefreshSaveDateTime();
+			var result = _dataSerializer.FromData(_actualData);
+			//TODO
+			//File.WriteAllBytes(DataStorageManager.SavePath, result);
 
 #if UNITY_WEBGL
-		if (!Application.isEditor)
-			JS_FileSystem_Sync();
+			if (!Application.isEditor)
+				JS_FileSystem_Sync();
 #endif
 
-		if (force)
+			if (force)
+				ForceSaveToCloud();
+			else
+				TrySaveToCloud();
+		}
+
+#if UNITY_WEBGL
+		[DllImport("__Internal")]
+		private static extern void JS_FileSystem_Sync();
+#endif
+
+		private void RefreshSaveDateTime()
+		{
+			var now = DateTime.UtcNow;
+			//_actualData.SaveDictionary[SaveDateTimeKey] = _dataSerializer.FromData(now);
+		}
+
+		private SaveData LoadDataFromFile()
+		{
+			var data = new SaveData();
+			return data;
+		}
+
+		public T GetData<T>(string key, T defaultVal)
+		{
+			//if (!HasData(key))
+			return defaultVal;
+		}
+
+		public bool HasData(string key)
+		{
+			if (_actualData == null || _actualData.SaveDictionary == null || !_actualData.SaveDictionary.ContainsKey(key))
+				return false;
+
+			return true;
+		}
+
+		public void ClearData(string key)
+		{
+			if (!HasData(key))
+				return;
+
+			_actualData.SaveDictionary.Remove(key);
+		}
+
+		public void Save(string key, string dataStr)
+		{
+			var data = Encoding.UTF8.GetBytes(dataStr);
+
+			// if (!_actualData.SaveDictionary.ContainsKey(key))
+			// 	_actualData.SaveDictionary.Add(key, data);
+			// else
+			// 	_actualData.SaveDictionary[key] = data;
+
+			SaveToFile(false);
+		}
+
+		public void Save<T>(string key, T dataMP, bool isForce = false)
+		{
+			var data = _dataSerializer.FromData(dataMP);
+
+			if (!_actualData.SaveDictionary.ContainsKey(key))
+				_actualData.SaveDictionary.Add(key, data);
+			else
+				_actualData.SaveDictionary[key] = data;
+
+			SaveToFile(isForce);
+		}
+
+		protected void TrySaveToCloud()
+		{
+			if ((DateTime.Now - _lastSaveData).TotalSeconds < saveTimeout)
+				return;
+
 			ForceSaveToCloud();
-		else
-			TrySaveToCloud();
-	}
+		}
 
-#if UNITY_WEBGL
-	[DllImport("__Internal")]
-	private static extern void JS_FileSystem_Sync();
-#endif
+		public virtual void ForceSaveToCloud()
+		{
+			_lastSaveData = DateTime.Now;
 
-	private void RefreshSaveDateTime()
-	{
-		var now = DateTime.UtcNow;
-		//_actualData.SaveDictionary[SaveDateTimeKey] = _dataSerializer.FromData(now);
-	}
+			Debug.Log("Save Sent to cloud.");
+		}
 
-	private SaveData LoadDataFromFile()
-	{
-		var data = new SaveData();
-		return data;
-	}
+		public void ResetProgress()
+		{
+			_actualData.SaveDictionary.Clear();
+			ForceSaveToCloud();
+		}
 
-	public T GetData<T>(string key, T defaultVal)
-	{
-		//if (!HasData(key))
-		return defaultVal;
-	}
-
-	public bool HasData(string key)
-	{
-		if (_actualData == null || _actualData.SaveDictionary == null || !_actualData.SaveDictionary.ContainsKey(key))
-			return false;
-
-		return true;
-	}
-
-	public void ClearData(string key)
-	{
-		if (!HasData(key))
-			return;
-
-		_actualData.SaveDictionary.Remove(key);
-	}
-
-	public void Save(string key, string dataStr)
-	{
-		var data = Encoding.UTF8.GetBytes(dataStr);
-
-		// if (!_actualData.SaveDictionary.ContainsKey(key))
-		// 	_actualData.SaveDictionary.Add(key, data);
-		// else
-		// 	_actualData.SaveDictionary[key] = data;
-
-		SaveToFile(false);
-	}
-
-	public void Save<T>(string key, T dataMP, bool isForce = false)
-	{
-		var data = _dataSerializer.FromData(dataMP);
-
-		if (!_actualData.SaveDictionary.ContainsKey(key))
-			_actualData.SaveDictionary.Add(key, data);
-		else
-			_actualData.SaveDictionary[key] = data;
-
-		SaveToFile(isForce);
-	}
-
-	protected void TrySaveToCloud()
-	{
-		if ((DateTime.Now - _lastSaveData).TotalSeconds < saveTimeout)
-			return;
-
-		ForceSaveToCloud();
-	}
-
-	public virtual void ForceSaveToCloud()
-	{
-		_lastSaveData = DateTime.Now;
-
-		Debug.Log("Save Sent to cloud.");
-	}
-
-	public void ResetProgress()
-	{
-		_actualData.SaveDictionary.Clear();
-		ForceSaveToCloud();
-	}
-
-	public class SaveData
-	{
-		public Dictionary<string, string> SaveDictionary = new();
+		public class SaveData
+		{
+			public Dictionary<string, string> SaveDictionary = new();
+		}
 	}
 }

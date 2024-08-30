@@ -23,7 +23,7 @@ namespace UI.HUD
 
 		private void OnBackButtonListener()
 		{
-			SharedContainer.Instance.DataManager.ForceSave();
+			//SharedContainer.Instance.DataManager.ForceSave();
 			SharedContainer.Instance.LoadingController.Load(Scenes.Menu);
 		}
 
