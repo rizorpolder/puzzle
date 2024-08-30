@@ -60,7 +60,7 @@ public class LoadScene : MonoBehaviour
 
 	private void LoadSceneAsync()
 	{
-		//SharedContainer.Instance.SetRuntimeData(new RuntimeData(SharedContainer.Instance.DataManager));
+		SharedContainer.Instance.SetRuntimeData(new RuntimeData(SharedContainer.Instance.DataManager));
 
 		_startLoadDate = DateTime.Now;
 

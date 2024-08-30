@@ -23,7 +23,8 @@ namespace Managers
 		{
 			// грузим из сейва
 
-			if (LoadFieldData(out var fieldData)) return fieldData;
+			if (LoadFieldData(out var fieldData))
+				return fieldData;
 
 			//грузим из выбранного уровня
 			var result = new FieldData

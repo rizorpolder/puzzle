@@ -1,4 +1,8 @@
+using System;
 using Configs.TextureRepository;
+using Data.Player;
+using Global;
+using Systems.LoadingSystem;
 using TMPro;
 using UI.Common;
 using UnityEngine;
@@ -10,6 +14,24 @@ namespace UI.Windows.LevelWindow
 	{
 		[SerializeField] private TextMeshProUGUI _textureCost;
 		[SerializeField] private Image _image;
+		[SerializeField] private Button playButton;
+
+		private void Start()
+		{
+			playButton.onClick.AddListener(OnPlayButtonClick);
+		}
+
+		private void OnPlayButtonClick()
+		{
+			SharedContainer.Instance.RuntimeData.SetGameType(GameType.Classic);
+			LoadCoreScene();
+		}
+
+		private void LoadCoreScene()
+		{
+			SharedContainer.Instance.LoadingController.Load(Scenes.Core);
+		}
+
 
 		public void SetData(TextureUnitConfig unit)
 		{

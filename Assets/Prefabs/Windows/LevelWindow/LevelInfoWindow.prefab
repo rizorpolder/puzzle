@@ -1017,6 +1017,7 @@ MonoBehaviour:
   _closableByBack: 1
   _textureCost: {fileID: 1119597453252752121}
   _image: {fileID: 1525114265746533888}
+  playButton: {fileID: 2816070147360737318}
 --- !u!95 &4212833688266899787
 Animator:
   serializedVersion: 5

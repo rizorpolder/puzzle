@@ -1,4 +1,5 @@
 using System;
+using Data;
 using Global;
 
 namespace Game.Data
@@ -6,12 +7,12 @@ namespace Game.Data
 	[Serializable]
 	public class GameData
 	{
+		public LevelUnitSaveData lastPlayedLevelData;
 		public byte[] ClassicLevelSave;
 		public bool IsClassicIncomplete;
 		public byte[] AdventureLevelSave;
 		public bool IsAdventureIncomplete;
 		public int ClassicAttempt;
-
 		public GameData()
 		{
 			ClassicLevelSave = new byte[] { };
@@ -80,8 +81,8 @@ namespace Game.Data
 					break;
 
 				default:
-					ClassicAttempt++;
 					IsClassicIncomplete = true;
+					ClassicAttempt++;
 					break;
 			}
 		}
