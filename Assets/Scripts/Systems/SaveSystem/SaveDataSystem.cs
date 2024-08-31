@@ -1,67 +1,55 @@
-using System.IO;
+using System.Collections.Generic;
 using Common;
 using Data;
-using Systems.SaveSystem.CloudSaveSystem;
+using Systems.SaveSystem.FileDataSaver;
 using Systems.SaveSystem.Serializers;
-using UnityEngine;
 
 namespace Systems.SaveSystem
 {
 	public class SaveDataSystem : ASystem
 	{
-		public static SaveDataSystem Instance;
 		private readonly IDataSerializer _dataSerializer;
 
-		private ACloudManager storageManager;
+		private List<ISaver> savers = new List<ISaver>();
+
+		private Dictionary<string, ASavedData> _dataCache = new Dictionary<string, ASavedData>();
 
 		public SaveDataSystem(IDataSerializer dataSerializer)
 		{
-			Instance = this;
-			_dataSerializer = dataSerializer;
-			GetRemoteDataManager();
-		}
-
-		private void GetRemoteDataManager()
-		{
-#if UNITY_WEBGL && YANDEX
-			storageManager = new YandexCloudManager();
-#else
-			storageManager = new EmptyCloudManager();
+			savers.Add(new LocalDataSaver(dataSerializer));
+#if UNITY_WEBGL
+#if YANDEX
+			//savers.Add(new YandexCloudSaver());
 #endif
-
-			storageManager.SetSerializer(_dataSerializer);
+#endif
 		}
 
-		//TODO  Все сейвы дублировать в облако
-		public void SaveData<T>(T data) where T : ASavedData
+		public void SaveData<T>(T data,string key) where T : ASavedData
 		{
-			var result = _dataSerializer.FromData(data);
-			File.WriteAllText(Application.persistentDataPath + data.key, result);
-		}
-
-		public T LoadData<T>() where T : ASavedData, new()
-		{
-			var data = new T();
-			var path = Application.persistentDataPath + data.key;
-			if (File.Exists(path))
+			if (!_dataCache.TryAdd(key, data))
 			{
-				var result = File.ReadAllText(path);
-				data = _dataSerializer.ToData<T>(result);
+				_dataCache[key] = data;
 			}
 
-			return data;
+			foreach (var saver in savers)
+			{
+				saver.SaveData(data,key);
+			}
 		}
 
-		public void ClearData(string key, System.Action<bool> callback = null)
+		public T LoadData<T>(string key) where T : ASavedData, new()
 		{
-			//todo пройти по папке Application.persistentDataPath и удалить все файлы
-			storageManager.ClearData(key);
-			callback?.Invoke(true);
-		}
+			if (!_dataCache.ContainsKey(key))
+			{
+				foreach (var saver in savers)
+				{
+					var data = saver.LoadData<T>(key);
+					_dataCache.Add(key, data);
+				}
+				// if cache is empty = Load cloud data -> check local data; resave
+			}
 
-		public void ForceSave()
-		{
-			storageManager.ForceSaveToCloud();
+			return (T) _dataCache[key];
 		}
 	}
 }

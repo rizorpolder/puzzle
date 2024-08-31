@@ -17,7 +17,5 @@ namespace Data
 			Puzzles = new List<PuzzleCellData>();
 			fieldSize = new Vector2Int(10, 10);
 		}
-
-		public override string key => "field_data";
 	}
 }

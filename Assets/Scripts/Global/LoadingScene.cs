@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using AudioManager.Runtime.Core.Manager;
+using Data.Player;
 using Global;
 using Systems.LoadingSystem;
 using Systems.SaveSystem;
@@ -59,7 +60,8 @@ public class LoadScene : MonoBehaviour
 	private void LoadData(Action callback)
 	{
 		//TODO load player data then load scene
-		SaveDataSystem.Instance.Initialize();
+		SharedContainer.Instance.SaveDataSystem.LoadData<PlayerData>(PlayerData.Key);
+		callback?.Invoke();
 	}
 
 	private void LoadSceneAsync()

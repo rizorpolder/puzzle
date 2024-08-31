@@ -2,10 +2,11 @@ using System;
 using System.Runtime.InteropServices;
 using Ads.Runtime;
 using Advertising;
-using Game;
 using Systems;
 using Systems.Ads.Conditions;
 using Systems.LoadingSystem;
+using Systems.SaveSystem;
+using Systems.SaveSystem.Serializers;
 using UnityEngine;
 
 namespace Global
@@ -13,6 +14,34 @@ namespace Global
 	public class SharedContainer : MonoBehaviour
 	{
 		public static SharedContainer Instance;
+
+		#region fields
+
+		[SerializeField] private ConfigurableRoot _configurableRoot;
+		[SerializeField] private LoadingController _loaderController;
+		[SerializeField] private WindowsController _windowsController;
+		[SerializeField] private GlobalUI _globalUI;
+		[SerializeField] private AdsController<GamePlacement> _adsController;
+
+		[SerializeField] private AdsConditionsController _adsConditions;
+		// [SerializeField] private AnalyticInstaller _analyticInstaller;
+		// [SerializeField] private BaseInAppManager _inAppManager;
+
+		#endregion
+
+		#region props
+
+		public ConfigurableRoot ConfigurableRoot => _configurableRoot;
+
+		public LoadingController LoadingController => _loaderController;
+		public WindowsController WindowsController => _windowsController;
+		public GlobalUI GlobalUI => _globalUI;
+		public IAdsController<GamePlacement> Ads => _adsController;
+		public AdsConditionsController AdsConditions => _adsConditions;
+
+		public RuntimeData RuntimeData { get; private set; }
+		public SaveDataSystem SaveDataSystem { get; private set; }
+		#endregion
 
 		private void Awake()
 		{
@@ -31,6 +60,7 @@ namespace Global
 		private void Start()
 		{
 			//Analytics = _analyticInstaller.AnalyticManager;
+			SaveDataSystem = new SaveDataSystem(new JsonDataSerializer());
 		}
 
 		private void InitializeLocalization()
@@ -72,33 +102,5 @@ namespace Global
 		[DllImport("__Internal")]
 		public static extern IntPtr GetLanguageCodeFromUrl();
 #endif
-
-		#region fields
-
-		[SerializeField] private ConfigurableRoot _configurableRoot;
-		[SerializeField] private LoadingController _loaderController;
-		[SerializeField] private WindowsController _windowsController;
-		[SerializeField] private GlobalUI _globalUI;
-		[SerializeField] private AdsController<GamePlacement> _adsController;
-
-		[SerializeField] private AdsConditionsController _adsConditions;
-		// [SerializeField] private AnalyticInstaller _analyticInstaller;
-		// [SerializeField] private BaseInAppManager _inAppManager;
-
-		#endregion
-
-		#region props
-
-		public ConfigurableRoot ConfigurableRoot => _configurableRoot;
-
-		public LoadingController LoadingController => _loaderController;
-		public WindowsController WindowsController => _windowsController;
-		public GlobalUI GlobalUI => _globalUI;
-		public IAdsController<GamePlacement> Ads => _adsController;
-		public AdsConditionsController AdsConditions => _adsConditions;
-
-		public RuntimeData RuntimeData { get; private set; }
-
-		#endregion
 	}
 }

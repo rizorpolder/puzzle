@@ -5,7 +5,7 @@ using Global;
 namespace Game.Data
 {
 	[Serializable]
-	public class GameData
+	public class GameData : ASavedData
 	{
 		public LevelUnitSaveData lastPlayedLevelData;
 		public byte[] ClassicLevelSave;

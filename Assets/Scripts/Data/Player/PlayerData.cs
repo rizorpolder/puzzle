@@ -8,7 +8,7 @@ namespace Data.Player
 	[Serializable]
 	public class PlayerData : ASavedData
 	{
-		public string playerID = Application.identifier;
+		public string playerID = "228";
 		public string lastPlayedLevel = "";
 		public SessionData SessionData;
 		public List<string> PurchasedIds;
@@ -22,7 +22,7 @@ namespace Data.Player
 			PurchasedIds = new List<string>();
 		}
 
-		public override string key => "player_data";
+		public new static string Key => "player_data";
 
 		public void ResetAdventureData()
 		{

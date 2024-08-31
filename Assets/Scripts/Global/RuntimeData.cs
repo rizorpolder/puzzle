@@ -23,19 +23,7 @@ namespace Global
 
 		private void LoadPlayerData()
 		{
-			throw new NotImplementedException();
-			// var dataManager = SaveDataSystem.Instance;
-			// dataManager.LoadData<PlayerData>(PlayerData.key,
-			// 	(result, data) =>
-			// 	{
-			// 		if (result)
-			// 			PlayerData = data;
-			// 		else
-			// 			PlayerData = new PlayerData();
-			//
-			// 		PlayerData.SessionData.TrackSession();
-			// 		dataManager.SaveData(PlayerData.key, PlayerData);
-			// 	});
+			PlayerData  =SharedContainer.Instance.SaveDataSystem.LoadData<PlayerData>(PlayerData.Key);
 		}
 
 		public void SetGameType(GameType type)
