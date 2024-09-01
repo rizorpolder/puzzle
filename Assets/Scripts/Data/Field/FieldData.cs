@@ -23,7 +23,7 @@ namespace Data
 		{
 			TextureData = new TextureUnitConfigData()
 			{
-				TextureName = "grid",
+				TextureName = "art_template",
 				Category = TextureCategory.Abstraction,
 				Index = 0,
 			},

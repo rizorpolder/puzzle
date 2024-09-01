@@ -29,6 +29,7 @@ namespace Managers
 			{
 				return runtime.FieldData;
 			}
+
 			if (LoadFieldData(out var fieldData))
 				return fieldData;
 
