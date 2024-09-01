@@ -21,7 +21,7 @@ namespace Field
 			_fieldData = fieldData;
 
 			var repositoryConfig = ConfigurableRoot.Instance.ImageRepositoryConfig;
-			_config = repositoryConfig.GetConfig(_fieldData.TextureData);
+			//_config = repositoryConfig.GetConfig(_fieldData.TextureData);
 
 			GenerateField();
 			Shuffle();

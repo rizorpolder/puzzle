@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Data;
+using Helpers;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,45 +12,24 @@ namespace Configs.TextureRepository
 	public class ImageRepositoryConfig : ScriptableObject // TODO RemoteConfig
 	{
 		[SerializeField] private string ShortPath;
-		[SerializeField] private List<TextureCategoryConfig> configs;
+		[SerializeField] private SerializableDictionary<TextureCategory,TextureUnitHolder> configs = new();
 
-		public TextureUnitConfig GetConfig(TextureCategory data, string textureName)
+		public TextureUnitConfig GetConfig(TextureCategory category, string textureName)
 		{
-			var category = configs.FirstOrDefault(x => x.Category.Equals(data));
-			return category?.Textures.FirstOrDefault(x => x.TextureName.Equals(textureName));
-		}
-
-		public TextureUnitConfig GetConfig(TextureUnitConfigData fieldDataTextureData)
-		{
-			return GetConfig(fieldDataTextureData.Category, fieldDataTextureData.TextureName);
+			if (!configs.ContainsKey(category)) return null;
+			var textures = configs[category];
+			return textures.Textures.FirstOrDefault(x => x.TextureName == textureName);
 		}
 
 		public List<TextureCategory> GetAllCategories()
 		{
-			return configs.Select(x=>x.Category).ToList();
+			return configs.Keys.ToList();
 		}
 
 		public List<TextureUnitConfig> GetLevelsByCategory(TextureCategory category)
 		{
-			var result = new List<TextureUnitConfig>();
-
-			if (category == TextureCategory.All)
-			{
-				foreach (var textureCategoryConfig in configs)
-				{
-					result.AddRange(textureCategoryConfig.Textures);
-				}
-
-				return result;
-			}
-
-			var config = configs.FirstOrDefault(x => x.Category.Equals(category));
-			if (config != null)
-				result = config.Textures;
-
-			return result;
+			return configs[category].Textures;
 		}
-
 
 #if UNITY_EDITOR
 
@@ -85,17 +64,10 @@ namespace Configs.TextureRepository
 					if (!Enum.TryParse<TextureCategory>(directoryInfo.Name, out var currentCategory))
 						continue;
 
-					var textureCategoryConfig =
-						_target.configs.FirstOrDefault(x => x.Category.Equals(currentCategory));
-					if (textureCategoryConfig == null)
+					if (!_target.configs.ContainsKey(currentCategory))
 					{
-						textureCategoryConfig = new TextureCategoryConfig
-						{
-							Category = currentCategory
-						};
-						_target.configs.Add(textureCategoryConfig);
+						_target.configs.Add(currentCategory,new TextureUnitHolder());
 					}
-
 
 					var files = directoryInfo.GetFiles("*.*", SearchOption.AllDirectories);
 
@@ -112,9 +84,10 @@ namespace Configs.TextureRepository
 						var unitConfig = new TextureUnitConfig(texture.name)
 						{
 							TextureName = texture.name,
-							Texture = texture
+							Texture = texture,
+							Category = currentCategory
 						};
-						textureCategoryConfig.Textures.Add(unitConfig);
+						_target.configs[currentCategory].Textures.Add(unitConfig);
 					}
 				}
 			}
@@ -123,17 +96,18 @@ namespace Configs.TextureRepository
 	}
 
 	[Serializable]
-	public class TextureCategoryConfig
+	public class TextureUnitHolder
 	{
-		public TextureCategory Category;
 		public List<TextureUnitConfig> Textures = new();
 	}
 
 	[Serializable]
 	public class TextureUnitConfig
 	{
-		public string TextureName;
 		public Texture2D Texture;
+
+		public TextureCategory Category;
+		public string TextureName;
 		public int TextureCost;
 
 		public TextureUnitConfig(string textureName)
@@ -142,6 +116,7 @@ namespace Configs.TextureRepository
 		}
 	}
 
+	[Serializable]
 	public enum TextureCategory
 	{
 		All,

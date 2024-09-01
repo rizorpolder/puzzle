@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Configs;
 using Configs.TextureRepository;
@@ -26,9 +25,9 @@ namespace UI.Windows.LevelWindow
 			_dropdown.onValueChanged.AddListener(OnDropDownValueChanged);
 		}
 
-		private void OnDropDownValueChanged(int arg)
+		private void OnDropDownValueChanged(int value)
 		{
-			_selectedCategory = arg;
+			_selectedCategory = value;
 			UpdateLevelsPanel();
 		}
 
@@ -54,16 +53,11 @@ namespace UI.Windows.LevelWindow
 			_dropdown.SetValueWithoutNotify(_selectedCategory);
 		}
 
-		// private void OnDropDownValueChanged(TextureCategory selectedCategory)
-		// {
-		// 	_selectedCategory = selectedCategory;
-		// 	UpdateLevelsPanel();
-		// }
-
 		private void UpdateLevelsPanel()
 		{
-			var categoryConfigs = _config.GetLevelsByCategory(_categoriesList[_selectedCategory]);
-			levelsPanel.Initialize(categoryConfigs);
+			var category = _categoriesList[_selectedCategory];
+			var categoryConfigs = _config.GetLevelsByCategory(category);
+			levelsPanel.UpdatePanelView(categoryConfigs);
 		}
 
 		private void CallLevelInfoWindow(TextureCategory category, string textureName)

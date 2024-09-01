@@ -11,31 +11,48 @@ namespace UI.Windows.LevelWindow
 		[SerializeField] private RectTransform root;
 		[SerializeField] private List<ItemElementView> views;
 		public Action<TextureCategory, string> OnWindowCall = (category, s) => { };
-		public void Initialize(List<TextureUnitConfig> textures)
-		{
 
-		}
-
-		private void InitializeViews(List<TextureUnitConfig> items)
+		private void Start()
 		{
-			int i = 0;
-			for (; i < items.Count; i++)
+			foreach (var view in views)
 			{
-
+				view.OnButtonClick += CallLevelInfoWindow;
 			}
-			for (; i < views.Count; i++) views[i].SetIndex(i).SetState(false);
 		}
 
-		private void SetView(int index, TextureCategory category)
+		public void UpdatePanelView(List<TextureUnitConfig> textures)
 		{
+			ResetState();
+			var i = 0;
+			for (; i < textures.Count; i++)
+			{
+				var textureUnitConfig = textures[i];
+				if (i >= views.Count)
+					AddViewToPool();
 
+				views[i].gameObject.SetActive(true);
 
+				var view = views[i];
+				view.SetIndex(i)
+					.SetName(textureUnitConfig.TextureName)
+					.SetCategory(textureUnitConfig.Category)
+					.SetLocked(true);
+			}
+		}
+
+		private void ResetState()
+		{
+			foreach (var itemElementView in views)
+			{
+				itemElementView.gameObject.SetActive(false);
+			}
 		}
 
 		private void AddViewToPool()
 		{
 			var newView = Instantiate(viewPrefab, root);
 			views.Add(newView);
+			newView.OnButtonClick += CallLevelInfoWindow;
 		}
 
 		private void CallLevelInfoWindow(TextureCategory category, string textureName)
