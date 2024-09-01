@@ -1,5 +1,6 @@
 using Data;
 using Field;
+using Global;
 using Systems;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace Managers
 			InputSystem.Instance.OnSwipe += OnSwipeAction;
 
 			//TODO LOAD
+
 			var fieldData = CreateFieldData();
 
 			_controller.CreateField(fieldData);
@@ -22,16 +24,16 @@ namespace Managers
 		private FieldData CreateFieldData()
 		{
 			// грузим из сейва
-
+			var runtime = SharedContainer.Instance.RuntimeData;
+			if (runtime.FieldData != null)
+			{
+				return runtime.FieldData;
+			}
 			if (LoadFieldData(out var fieldData))
 				return fieldData;
 
 			//грузим из выбранного уровня
-			var result = new FieldData
-			{
-				LastTextureName = "grid"
-			};
-
+			var result = FieldData.Default;
 			return result;
 		}
 

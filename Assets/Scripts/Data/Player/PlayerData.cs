@@ -9,8 +9,6 @@ namespace Data.Player
 		public string lastPlayedLevel = "";
 		public SessionData SessionData;
 
-		public int CurrentLevel;
-
 		public PlayerData()
 		{
 			SessionData = new SessionData();

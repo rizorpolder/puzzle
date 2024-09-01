@@ -14,15 +14,7 @@ namespace Systems.Ads.Conditions
 		{
 			return base.Check() && CheckAdditionalCondition();
 		}
-
-		protected override bool CheckLevelConditions()
-		{
-			if (PlayerData.CurrentLevel - 1 < Settings.AdventureLevelForStart.Interstitial)
-				return false;
-
-			return true;
-		}
-
+		
 		private bool CheckAdditionalCondition()
 		{
 			var chance = 0.3f;

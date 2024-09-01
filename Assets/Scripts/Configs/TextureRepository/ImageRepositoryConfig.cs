@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Data;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,6 +30,11 @@ namespace Configs.TextureRepository
 			if (category != null) return category.Textures.FirstOrDefault(x => x.TextureName.Equals(textureName));
 
 			return null;
+		}
+
+		public TextureUnitConfig GetConfig(TextureUnitConfigData fieldDataTextureData)
+		{
+			return GetConfig(fieldDataTextureData.Category, fieldDataTextureData.TextureName);
 		}
 
 		public List<TextureUnitConfig> GetLevelsByCategory(TextureCategory category)
@@ -124,22 +130,13 @@ namespace Configs.TextureRepository
 	public class TextureCategoryConfig
 	{
 		public TextureCategory Category;
-		public List<TextureUnitConfig> Textures;
-
-		public TextureCategoryConfig()
-		{
-			Textures = new List<TextureUnitConfig>();
-		}
+		public List<TextureUnitConfig> Textures = new();
 	}
 
 	[Serializable]
 	public class TextureUnitConfig
 	{
-		/// <summary>
-		///     Column / Row
-		/// </summary>
 		public string TextureName;
-
 		public Texture2D Texture;
 		public int TextureCost;
 

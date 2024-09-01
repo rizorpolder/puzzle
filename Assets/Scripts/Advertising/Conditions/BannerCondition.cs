@@ -19,7 +19,7 @@ namespace Systems.Ads.Conditions
 				return false;
 
 
-			return PlayerData.CurrentLevel >= Settings.AdventureLevelForStart.Banner;
+			return true;
 		}
 	}
 }

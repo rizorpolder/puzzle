@@ -14,7 +14,7 @@ namespace Systems.Ads.Conditions
 			if (Settings.MaxAmountRewardedAdvInDay <= PlayerData.SessionData.RewardedAdsWatchedToday)
 				return false;
 
-			return PlayerData.CurrentLevel >= Settings.AdventureLevelForStart.Rewarded;
+			return true;
 		}
 	}
 }
