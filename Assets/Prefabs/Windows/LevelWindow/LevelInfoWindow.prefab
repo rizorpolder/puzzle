@@ -387,7 +387,7 @@ GameObject:
   - component: {fileID: 3104999798383613468}
   - component: {fileID: 2767954360892031306}
   m_Layer: 5
-  m_Name: Background
+  m_Name: LevelView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1021,7 +1021,7 @@ MonoBehaviour:
   - {fileID: 3676532893658194254}
   _header: {fileID: 2596396190022486051}
   _textureCost: {fileID: 1119597453252752121}
-  _image: {fileID: 6275736139609193808}
+  _image: {fileID: 1525114265746533888}
   difficultPanel: {fileID: 1855735143022646214}
   buyPanel: {fileID: 3295663012294334652}
   _difficultSelectButtons:
