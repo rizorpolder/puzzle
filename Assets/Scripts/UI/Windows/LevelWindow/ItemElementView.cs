@@ -14,9 +14,7 @@ namespace UI.Windows.LevelWindow
 		[SerializeField] private Button _button;
 		[SerializeField] private TextMeshProUGUI _count;
 		[SerializeField] private StarView[] _stars; //ToDO to script for enable/initialize
-		private bool _isLocked;
 
-		private int _spriteIndex;
 		private string _textureName;
 		private TextureCategory _category;
 		public Action<TextureCategory, string> OnButtonClick = (c, n) => { };
@@ -29,7 +27,6 @@ namespace UI.Windows.LevelWindow
 		public ItemElementView SetIndex(int index)
 		{
 			_count.text = index.ToString();
-			_spriteIndex = index;
 			return this;
 		}
 
@@ -57,7 +54,6 @@ namespace UI.Windows.LevelWindow
 
 		public ItemElementView SetLocked(bool IsLocked)
 		{
-			_isLocked = IsLocked;
 			_activeRoot.SetActive(IsLocked);
 			_inactiveRoot.SetActive(!IsLocked);
 			return this;
@@ -65,9 +61,6 @@ namespace UI.Windows.LevelWindow
 
 		private void OnButtonClickHandler()
 		{
-			if (!_isLocked)
-				return;
-
 			OnButtonClick?.Invoke(_category, _textureName);
 		}
 	}

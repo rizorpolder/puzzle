@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Configs.TextureRepository;
+using Data.Player;
+using Global;
 using UnityEngine;
 
 namespace UI.Windows.LevelWindow
@@ -22,6 +24,8 @@ namespace UI.Windows.LevelWindow
 
 		public void UpdatePanelView(List<TextureUnitConfig> textures)
 		{
+			var levelsData = SharedContainer.Instance.RuntimeData.PlayerData.LevelsData;
+
 			ResetState();
 			var i = 0;
 			for (; i < textures.Count; i++)
@@ -33,10 +37,14 @@ namespace UI.Windows.LevelWindow
 				views[i].gameObject.SetActive(true);
 
 				var view = views[i];
+				var haveSavedData = levelsData.HaveLevelData(textureUnitConfig.Category,
+					textureUnitConfig.TextureName,
+					out var data);
+
 				view.SetIndex(i)
 					.SetName(textureUnitConfig.TextureName)
 					.SetCategory(textureUnitConfig.Category)
-					.SetLocked(true);
+					.SetLocked(haveSavedData);
 			}
 		}
 

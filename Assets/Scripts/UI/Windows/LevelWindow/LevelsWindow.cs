@@ -67,13 +67,8 @@ namespace UI.Windows.LevelWindow
 				{
 					var unit = _config.GetConfig(category, textureName);
 					if (window is LevelInfoWindow infoWindow)
-						infoWindow.SetData(category, unit);
+						infoWindow.SetData(unit);
 				});
-		}
-
-		protected override void OnShowAction()
-		{
-			base.OnShowAction();
 		}
 	}
 }
