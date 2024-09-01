@@ -10,26 +10,26 @@ namespace UI.Windows.LevelWindow
 		[SerializeField] private ItemElementView viewPrefab;
 		[SerializeField] private RectTransform root;
 		[SerializeField] private List<ItemElementView> views;
-		public Action<int> OnWindowCall = i => { };
-
-		public void Initialize(List<TextureUnitConfig> levels)
+		public Action<TextureCategory, string> OnWindowCall = (category, s) => { };
+		public void Initialize(List<TextureUnitConfig> textures)
 		{
-			//TODO Check save data if complete = fill stars
-			var i = 0;
-			for (; i < levels.Count; i++)
+
+		}
+
+		private void InitializeViews(List<TextureUnitConfig> items)
+		{
+			int i = 0;
+			for (; i < items.Count; i++)
 			{
-				var textureUnitConfig = levels[i];
-				if (i >= views.Count) AddViewToPool();
 
-				var view = views[i];
-				view.SetIndex(i).
-					//todo from save
-					SetState(true);
-
-				view.OnButtonClick += CallLevelInfoWindow;
 			}
-
 			for (; i < views.Count; i++) views[i].SetIndex(i).SetState(false);
+		}
+
+		private void SetView(int index, TextureCategory category)
+		{
+
+
 		}
 
 		private void AddViewToPool()
@@ -38,9 +38,9 @@ namespace UI.Windows.LevelWindow
 			views.Add(newView);
 		}
 
-		private void CallLevelInfoWindow(int index)
+		private void CallLevelInfoWindow(TextureCategory category, string textureName)
 		{
-			OnWindowCall?.Invoke(index);
+			OnWindowCall?.Invoke(category, textureName);
 		}
 	}
 }

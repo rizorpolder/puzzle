@@ -1,4 +1,5 @@
 using System;
+using Configs.TextureRepository;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,7 @@ namespace UI.Windows.LevelWindow
 		private bool _isActive;
 
 		private int _spriteIndex;
+		private TextureCategory _category;
 		public Action<int> OnButtonClick = i => { };
 
 		private void Start()
@@ -27,6 +29,12 @@ namespace UI.Windows.LevelWindow
 		{
 			_count.text = index.ToString();
 			_spriteIndex = index;
+			return this;
+		}
+
+		public ItemElementView SetCategory(TextureCategory category)
+		{
+			_category = category;
 			return this;
 		}
 

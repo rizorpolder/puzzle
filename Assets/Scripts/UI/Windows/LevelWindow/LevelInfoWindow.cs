@@ -10,13 +10,14 @@ namespace UI.Windows.LevelWindow
 {
 	public class LevelInfoWindow : BaseWindow
 	{
+		[SerializeField] private TextMeshProUGUI _header;
 		[SerializeField] private TextMeshProUGUI _textureCost;
 		[SerializeField] private Image _image;
-		[SerializeField] private Button playButton;
+		[SerializeField] private Button _playButton;
 
 		private void Start()
 		{
-			playButton.onClick.AddListener(OnPlayButtonClick);
+			_playButton.onClick.AddListener(OnPlayButtonClick);
 		}
 
 		private void OnPlayButtonClick()
@@ -29,10 +30,16 @@ namespace UI.Windows.LevelWindow
 			SharedContainer.Instance.LoadingController.Load(Scenes.Core);
 		}
 
-		public void SetData(TextureUnitConfig unit)
+		public void SetData(TextureCategory category, TextureUnitConfig unit)
 		{
 			SetView(unit.Texture);
 			SetCost(unit.TextureCost);
+			SetHeader(category.ToString());
+		}
+
+		private void SetHeader(string header)
+		{
+			_header.text = header;
 		}
 
 		private void SetCost(int unitTextureCost)

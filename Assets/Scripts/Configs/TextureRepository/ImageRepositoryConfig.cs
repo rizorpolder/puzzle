@@ -9,27 +9,15 @@ using UnityEngine;
 namespace Configs.TextureRepository
 {
 	[CreateAssetMenu(menuName = "Project/Configs/Images Repository", fileName = "ImageRepository")]
-	public class ImageRepositoryConfig : ScriptableObject
+	public class ImageRepositoryConfig : ScriptableObject // TODO RemoteConfig
 	{
 		[SerializeField] private string ShortPath;
 		[SerializeField] private List<TextureCategoryConfig> configs;
 
-		//TODO Это будет репозиторий изображений разделенных по категориям ( и с ценами на них)
-
-		//TODO Temp
-		public TextureUnitConfig GetConfigByIndex(int index)
-		{
-			var textures = configs[0].Textures;
-			if (index >= textures.Count) return textures[^1];
-			return textures[index];
-		}
-
 		public TextureUnitConfig GetConfig(TextureCategory data, string textureName)
 		{
 			var category = configs.FirstOrDefault(x => x.Category.Equals(data));
-			if (category != null) return category.Textures.FirstOrDefault(x => x.TextureName.Equals(textureName));
-
-			return null;
+			return category?.Textures.FirstOrDefault(x => x.TextureName.Equals(textureName));
 		}
 
 		public TextureUnitConfig GetConfig(TextureUnitConfigData fieldDataTextureData)
@@ -37,24 +25,32 @@ namespace Configs.TextureRepository
 			return GetConfig(fieldDataTextureData.Category, fieldDataTextureData.TextureName);
 		}
 
+		public List<TextureCategory> GetAllCategories()
+		{
+			return configs.Select(x=>x.Category).ToList();
+		}
+
 		public List<TextureUnitConfig> GetLevelsByCategory(TextureCategory category)
 		{
 			var result = new List<TextureUnitConfig>();
+
+			if (category == TextureCategory.All)
+			{
+				foreach (var textureCategoryConfig in configs)
+				{
+					result.AddRange(textureCategoryConfig.Textures);
+				}
+
+				return result;
+			}
+
 			var config = configs.FirstOrDefault(x => x.Category.Equals(category));
-			if (config != null) result = config.Textures;
+			if (config != null)
+				result = config.Textures;
 
 			return result;
 		}
 
-		public List<TextureUnitConfig> GetAllLevels()
-		{
-			var result = new List<TextureUnitConfig>();
-			foreach (var textureCategoryConfig in configs)
-			foreach (var texture in textureCategoryConfig.Textures)
-				result.Add(texture);
-
-			return result;
-		}
 
 #if UNITY_EDITOR
 
@@ -148,8 +144,11 @@ namespace Configs.TextureRepository
 
 	public enum TextureCategory
 	{
-		None,
-		Custom,
-		Abstraction
+		All,
+		Abstraction,
+		Cars,
+		Nature,
+
+		//Custom,
 	}
 }
