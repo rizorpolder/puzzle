@@ -17,9 +17,6 @@ namespace Systems.Ads.Conditions
 
 		protected override bool CheckLevelConditions()
 		{
-			if (IsClassic)
-				return base.CheckLevelConditions();
-
 			if (PlayerData.CurrentLevel - 1 < Settings.AdventureLevelForStart.Interstitial)
 				return false;
 
@@ -28,9 +25,7 @@ namespace Systems.Ads.Conditions
 
 		private bool CheckAdditionalCondition()
 		{
-			var chance = IsClassic
-				? Settings.ClassicChanceForInterstitial
-				: Settings.AdventureWinChanceForInterstitial;
+			var chance = 0.3f;
 
 
 			var rand = Random.Range(0f, 1f);

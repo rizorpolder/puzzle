@@ -29,8 +29,7 @@ namespace Managers
 			//грузим из выбранного уровня
 			var result = new FieldData
 			{
-				LastTextureName = "grid",
-				fieldSize = new Vector2Int(10, 10)
+				LastTextureName = "grid"
 			};
 
 			return result;

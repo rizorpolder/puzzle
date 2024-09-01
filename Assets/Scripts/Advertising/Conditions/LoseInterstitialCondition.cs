@@ -17,11 +17,7 @@ namespace Systems.Ads.Conditions
 
 		private bool CheckAdditionalCondition()
 		{
-			var chance = IsClassic
-				? Settings.ClassicChanceForInterstitial
-				: Settings.AdventureLoseChanceForInterstitial;
-
-
+			var chance = 0.3f;
 			var rand = Random.Range(0f, 1f);
 			return rand < chance;
 		}

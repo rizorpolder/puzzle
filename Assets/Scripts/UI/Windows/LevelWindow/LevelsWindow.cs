@@ -14,6 +14,7 @@ namespace UI.Windows.LevelWindow
 		[SerializeField] private Button closeButton;
 
 		private ImageRepositoryConfig _config;
+
 		private void Start()
 		{
 			closeButton.onClick.AddListener(Close);
@@ -38,10 +39,7 @@ namespace UI.Windows.LevelWindow
 				window =>
 				{
 					var unit = _config.GetConfigByIndex(index);
-					if (window is LevelInfoWindow infoWindow)
-					{
-						infoWindow.SetData(unit);
-					}
+					if (window is LevelInfoWindow infoWindow) infoWindow.SetData(unit);
 				});
 		}
 

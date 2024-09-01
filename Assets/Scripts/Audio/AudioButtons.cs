@@ -48,18 +48,12 @@ namespace Audio
 
 		private void UpdateMusicInterface(bool state)
 		{
-			if (targetMusic != null)
-			{
-				targetMusic.sprite = state ? targetMusicSpriteEnabled : targetMusicSpriteDisabled;
-			}
+			if (targetMusic != null) targetMusic.sprite = state ? targetMusicSpriteEnabled : targetMusicSpriteDisabled;
 		}
 
 		private void UpdateSoundInterface(bool state)
 		{
-			if (targetSound != null)
-			{
-				targetSound.sprite = state ? targetSoundSpriteEnabled : targetSoundSpriteDisabled;
-			}
+			if (targetSound != null) targetSound.sprite = state ? targetSoundSpriteEnabled : targetSoundSpriteDisabled;
 		}
 	}
 }

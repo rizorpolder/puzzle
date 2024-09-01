@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Data;
 using Systems.SaveSystem.Serializers;
@@ -13,6 +14,7 @@ namespace Systems.SaveSystem.FileDataSaver
 		{
 			SetSerializer(dataSerializer);
 		}
+
 		public void SetSerializer(IDataSerializer dataSerializer)
 		{
 			_dataSerializer = dataSerializer;
@@ -27,7 +29,7 @@ namespace Systems.SaveSystem.FileDataSaver
 
 		public T LoadData<T>(string key) where T : ASavedData, new()
 		{
-			T result = new T();
+			var result = new T();
 			var path = Application.persistentDataPath + $"/{key}";
 			if (File.Exists(path))
 			{
@@ -40,7 +42,7 @@ namespace Systems.SaveSystem.FileDataSaver
 
 		public void ForceSave()
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public void ClearData(string key)
@@ -52,11 +54,8 @@ namespace Systems.SaveSystem.FileDataSaver
 		public void ClearAllData()
 		{
 			var path = Application.persistentDataPath;
-			var files = System.IO.Directory.GetFiles(path);
-			foreach (var file in files)
-			{
-				System.IO.File.Delete(file);
-			}
+			var files = Directory.GetFiles(path);
+			foreach (var file in files) File.Delete(file);
 			PlayerPrefs.DeleteAll();
 		}
 	}

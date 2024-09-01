@@ -18,8 +18,7 @@ namespace Systems.Ads.Conditions
 			if (DateTime.Now < startTime)
 				return false;
 
-			if (IsClassic)
-				return PlayerData.GameData.ClassicAttempt >= Settings.ClassicAttemptForStart.Banner;
+
 			return PlayerData.CurrentLevel >= Settings.AdventureLevelForStart.Banner;
 		}
 	}

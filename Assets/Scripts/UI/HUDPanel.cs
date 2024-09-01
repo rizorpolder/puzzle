@@ -11,14 +11,15 @@ namespace SharedLogic.UI.Common
 	{
 		[SerializeField] private Button[] _buttons;
 
-        /// <summary>
-        ///     Задержка на показ
-        /// </summary>
-        [SerializeField] private int _delayShow = 200;
+		/// <summary>
+		///     Задержка на показ
+		/// </summary>
+		[SerializeField] private int _delayShow = 200;
 
-		private bool _isCanceledShow;
 		private readonly List<Button> _runtimeButtons = new();
 		private readonly HashSet<string> lockList = new();
+
+		private bool _isCanceledShow;
 
 		public void Reset()
 		{

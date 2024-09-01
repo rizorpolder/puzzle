@@ -20,12 +20,6 @@ namespace Systems.Ads.Conditions
 
 		protected virtual bool CheckLevelConditions()
 		{
-			if (IsClassic && PlayerData.GameData.ClassicAttempt < Settings.ClassicAttemptForStart.Interstitial)
-				return false;
-
-			if (!IsClassic && PlayerData.CurrentLevel < Settings.AdventureLevelForStart.Interstitial)
-				return false;
-
 			return true;
 		}
 

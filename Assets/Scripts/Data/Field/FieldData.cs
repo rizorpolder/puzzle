@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Data
 {
@@ -9,13 +8,14 @@ namespace Data
 	{
 		//Данные о поле и то, что в последствии будет сохраняться
 		public string LastTextureName;
-		public Vector2Int fieldSize;
+		public Difficult FieldDifficult;
 		public List<PuzzleCellData> Puzzles;
 
 		public FieldData()
 		{
 			Puzzles = new List<PuzzleCellData>();
-			fieldSize = new Vector2Int(10, 10);
+			FieldDifficult = Data.FieldDifficult.Low;
+			;
 		}
 	}
 }

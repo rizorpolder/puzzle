@@ -1,1 +1,76 @@
-{"audios":[{"path":"Sounds","name":"BubbleButton","extension":".wav","index":3},{"path":"Sounds","name":"Button","extension":".wav","index":4},{"path":"Sounds","name":"ButtonLight","extension":".wav","index":5},{"path":"Sounds","name":"Close","extension":".mp3","index":6},{"path":"Sounds","name":"Lose","extension":".wav","index":7},{"path":"Sounds","name":"Magical","extension":".wav","index":8},{"path":"Sounds","name":"Magical02","extension":".wav","index":9},{"path":"Sounds","name":"Plop","extension":".wav","index":10},{"path":"Sounds","name":"Rain","extension":".mp3","index":11},{"path":"Sounds","name":"Thunder","extension":".wav","index":12},{"path":"Sounds","name":"Win","extension":".mp3","index":13},{"path":"","name":"LoFi","extension":".mp3","index":14}]}
+{
+  "audios": [
+    {
+      "path": "Sounds",
+      "name": "BubbleButton",
+      "extension": ".wav",
+      "index": 3
+    },
+    {
+      "path": "Sounds",
+      "name": "Button",
+      "extension": ".wav",
+      "index": 4
+    },
+    {
+      "path": "Sounds",
+      "name": "ButtonLight",
+      "extension": ".wav",
+      "index": 5
+    },
+    {
+      "path": "Sounds",
+      "name": "Close",
+      "extension": ".mp3",
+      "index": 6
+    },
+    {
+      "path": "Sounds",
+      "name": "Lose",
+      "extension": ".wav",
+      "index": 7
+    },
+    {
+      "path": "Sounds",
+      "name": "Magical",
+      "extension": ".wav",
+      "index": 8
+    },
+    {
+      "path": "Sounds",
+      "name": "Magical02",
+      "extension": ".wav",
+      "index": 9
+    },
+    {
+      "path": "Sounds",
+      "name": "Plop",
+      "extension": ".wav",
+      "index": 10
+    },
+    {
+      "path": "Sounds",
+      "name": "Rain",
+      "extension": ".mp3",
+      "index": 11
+    },
+    {
+      "path": "Sounds",
+      "name": "Thunder",
+      "extension": ".wav",
+      "index": 12
+    },
+    {
+      "path": "Sounds",
+      "name": "Win",
+      "extension": ".mp3",
+      "index": 13
+    },
+    {
+      "path": "",
+      "name": "LoFi",
+      "extension": ".mp3",
+      "index": 14
+    }
+  ]
+}

@@ -7,18 +7,18 @@ namespace UI.Buttons
 	{
 		[SerializeField] private BaseWindow window;
 
+		protected override void OnValidate()
+		{
+			base.OnValidate();
+			window = gameObject.GetComponentInParent<BaseWindow>(true);
+		}
+
 		protected override void OnClickAction()
 		{
 			if (!window || window.Status != ElementStatus.Shown) return;
 
 			base.OnClickAction();
 			window.Close();
-		}
-
-		protected override void OnValidate()
-		{
-			base.OnValidate();
-			window = gameObject.GetComponentInParent<BaseWindow>(true);
 		}
 	}
 }

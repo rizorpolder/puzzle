@@ -10,7 +10,6 @@ namespace Data
 		public string LevelName;
 		public int Index;
 
-
 		public LevelUnitSaveData(TextureCategory category, string levelName, int index)
 		{
 			Category = category;

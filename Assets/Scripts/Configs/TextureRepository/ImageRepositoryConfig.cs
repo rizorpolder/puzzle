@@ -23,14 +23,10 @@ namespace Configs.TextureRepository
 			return textures[index];
 		}
 
-
 		public TextureUnitConfig GetConfig(TextureCategory data, string textureName)
 		{
 			var category = configs.FirstOrDefault(x => x.Category.Equals(data));
-			if (category != null)
-			{
-				return category.Textures.FirstOrDefault(x => x.TextureName.Equals(textureName));
-			}
+			if (category != null) return category.Textures.FirstOrDefault(x => x.TextureName.Equals(textureName));
 
 			return null;
 		}
@@ -39,10 +35,7 @@ namespace Configs.TextureRepository
 		{
 			var result = new List<TextureUnitConfig>();
 			var config = configs.FirstOrDefault(x => x.Category.Equals(category));
-			if (config != null)
-			{
-				result = config.Textures;
-			}
+			if (config != null) result = config.Textures;
 
 			return result;
 		}
@@ -51,12 +44,8 @@ namespace Configs.TextureRepository
 		{
 			var result = new List<TextureUnitConfig>();
 			foreach (var textureCategoryConfig in configs)
-			{
-				foreach (var texture in textureCategoryConfig.Textures)
-				{
-					result.Add(texture);
-				}
-			}
+			foreach (var texture in textureCategoryConfig.Textures)
+				result.Add(texture);
 
 			return result;
 		}
@@ -98,7 +87,7 @@ namespace Configs.TextureRepository
 						_target.configs.FirstOrDefault(x => x.Category.Equals(currentCategory));
 					if (textureCategoryConfig == null)
 					{
-						textureCategoryConfig = new TextureCategoryConfig()
+						textureCategoryConfig = new TextureCategoryConfig
 						{
 							Category = currentCategory
 						};
@@ -150,6 +139,7 @@ namespace Configs.TextureRepository
 		///     Column / Row
 		/// </summary>
 		public string TextureName;
+
 		public Texture2D Texture;
 		public int TextureCost;
 
@@ -163,6 +153,6 @@ namespace Configs.TextureRepository
 	{
 		None,
 		Custom,
-		Abstraction,
+		Abstraction
 	}
 }

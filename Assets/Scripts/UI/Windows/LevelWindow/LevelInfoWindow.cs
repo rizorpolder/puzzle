@@ -1,6 +1,4 @@
-using System;
 using Configs.TextureRepository;
-using Data.Player;
 using Global;
 using Systems.LoadingSystem;
 using TMPro;
@@ -23,7 +21,6 @@ namespace UI.Windows.LevelWindow
 
 		private void OnPlayButtonClick()
 		{
-			SharedContainer.Instance.RuntimeData.SetGameType(GameType.Classic);
 			LoadCoreScene();
 		}
 
@@ -31,7 +28,6 @@ namespace UI.Windows.LevelWindow
 		{
 			SharedContainer.Instance.LoadingController.Load(Scenes.Core);
 		}
-
 
 		public void SetData(TextureUnitConfig unit)
 		{

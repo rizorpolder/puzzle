@@ -11,6 +11,5 @@ namespace Systems.SaveSystem
 		public void ForceSave();
 		public void ClearData(string key);
 		public void ClearAllData();
-
 	}
 }

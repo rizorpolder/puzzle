@@ -21,7 +21,7 @@ namespace Field
 			_fieldData = fieldData;
 
 			var repositoryConfig = ConfigurableRoot.Instance.ImageRepositoryConfig;
-			_config = repositoryConfig.GetConfig(TextureCategory.Abstraction,_fieldData.LastTextureName);
+			_config = repositoryConfig.GetConfig(TextureCategory.Abstraction, _fieldData.LastTextureName);
 
 			GenerateField();
 			Shuffle();
@@ -29,7 +29,7 @@ namespace Field
 
 		private void GenerateField()
 		{
-			var fieldSize = _fieldData.fieldSize;
+			var fieldSize = _fieldData.FieldDifficult.FieldSize;
 			field = new PuzzleCell[fieldSize.x, fieldSize.y];
 
 			for (var i = 0; i < fieldSize.x; i++)
@@ -67,7 +67,7 @@ namespace Field
 			var cellCoords = puzzleCell.CellCoord;
 
 			//calculating sprite data
-			var fieldSize = _fieldData.fieldSize;
+			var fieldSize = _fieldData.FieldDifficult.FieldSize;
 			var spriteSize =
 				new Vector2Int(_config.Texture.height / fieldSize.x, _config.Texture.width / fieldSize.y);
 			var pivot = new Vector2(.5f, .5f);
@@ -90,8 +90,8 @@ namespace Field
 
 		private PuzzleCell GetRandomCell()
 		{
-			var x = Random.Range(0, _fieldData.fieldSize.x);
-			var y = Random.Range(0, _fieldData.fieldSize.y);
+			var x = Random.Range(0, _fieldData.FieldDifficult.FieldSize.x);
+			var y = Random.Range(0, _fieldData.FieldDifficult.FieldSize.y);
 			return field[x, y];
 		}
 
@@ -142,7 +142,7 @@ namespace Field
 
 				case SwipeDirection.Down:
 					newCoords.y++;
-					canMove = newCoords.y < _fieldData.fieldSize.y;
+					canMove = newCoords.y < _fieldData.FieldDifficult.FieldSize.y;
 					break;
 
 				case SwipeDirection.Left:
@@ -152,7 +152,7 @@ namespace Field
 
 				case SwipeDirection.Right:
 					newCoords.x++;
-					canMove = newCoords.x < _fieldData.fieldSize.x;
+					canMove = newCoords.x < _fieldData.FieldDifficult.FieldSize.x;
 					break;
 			}
 

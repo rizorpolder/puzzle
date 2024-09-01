@@ -15,34 +15,6 @@ namespace Global
 	{
 		public static SharedContainer Instance;
 
-		#region fields
-
-		[SerializeField] private ConfigurableRoot _configurableRoot;
-		[SerializeField] private LoadingController _loaderController;
-		[SerializeField] private WindowsController _windowsController;
-		[SerializeField] private GlobalUI _globalUI;
-		[SerializeField] private AdsController<GamePlacement> _adsController;
-
-		[SerializeField] private AdsConditionsController _adsConditions;
-		// [SerializeField] private AnalyticInstaller _analyticInstaller;
-		// [SerializeField] private BaseInAppManager _inAppManager;
-
-		#endregion
-
-		#region props
-
-		public ConfigurableRoot ConfigurableRoot => _configurableRoot;
-
-		public LoadingController LoadingController => _loaderController;
-		public WindowsController WindowsController => _windowsController;
-		public GlobalUI GlobalUI => _globalUI;
-		public IAdsController<GamePlacement> Ads => _adsController;
-		public AdsConditionsController AdsConditions => _adsConditions;
-
-		public RuntimeData RuntimeData { get; private set; }
-		public SaveDataSystem SaveDataSystem { get; private set; }
-		#endregion
-
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)
@@ -102,5 +74,34 @@ namespace Global
 		[DllImport("__Internal")]
 		public static extern IntPtr GetLanguageCodeFromUrl();
 #endif
+
+		#region fields
+
+		[SerializeField] private ConfigurableRoot _configurableRoot;
+		[SerializeField] private LoadingController _loaderController;
+		[SerializeField] private WindowsController _windowsController;
+		[SerializeField] private GlobalUI _globalUI;
+		[SerializeField] private AdsController<GamePlacement> _adsController;
+
+		[SerializeField] private AdsConditionsController _adsConditions;
+		// [SerializeField] private AnalyticInstaller _analyticInstaller;
+		// [SerializeField] private BaseInAppManager _inAppManager;
+
+		#endregion
+
+		#region props
+
+		public ConfigurableRoot ConfigurableRoot => _configurableRoot;
+
+		public LoadingController LoadingController => _loaderController;
+		public WindowsController WindowsController => _windowsController;
+		public GlobalUI GlobalUI => _globalUI;
+		public IAdsController<GamePlacement> Ads => _adsController;
+		public AdsConditionsController AdsConditions => _adsConditions;
+
+		public RuntimeData RuntimeData { get; private set; }
+		public SaveDataSystem SaveDataSystem { get; private set; }
+
+		#endregion
 	}
 }

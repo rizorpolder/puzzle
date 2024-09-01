@@ -26,6 +26,11 @@ namespace UI.Common.Animated
 			_toggle.onValueChanged.AddListener(Animate);
 		}
 
+		private void OnDestroy()
+		{
+			handle.DOKill();
+		}
+
 		private void Animate(bool isOn)
 		{
 			if (useAnimation)
@@ -39,9 +44,7 @@ namespace UI.Common.Animated
 				handle.DOAnchorMax(anchorVector, animationTime).SetEase(Ease.OutCirc);
 				handle.DOAnchorPosX(anchorPosX, animationTime).SetEase(Ease.OutCirc);
 				foreach (var coloredImage in coloredImages)
-				{
 					coloredImage.DOColor(isOn ? isOnColor : isOffColor, animationTime);
-				}
 			}
 			else
 			{
@@ -49,11 +52,6 @@ namespace UI.Common.Animated
 					inset,
 					handle.rect.width);
 			}
-		}
-
-		private void OnDestroy()
-		{
-			handle.DOKill();
 		}
 	}
 }

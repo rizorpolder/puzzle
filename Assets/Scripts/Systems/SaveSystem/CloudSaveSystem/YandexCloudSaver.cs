@@ -1,3 +1,4 @@
+using System;
 using Data;
 using Systems.SaveSystem.Serializers;
 
@@ -11,32 +12,32 @@ namespace Systems.SaveSystem.CloudSaveSystem
 
 		public void SetSerializer(IDataSerializer dataSerializer)
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public void SaveData<T>(T data, string key) where T : ASavedData
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
-		public T LoadData<T>(string key) where T : ASavedData, new ()
+		public T LoadData<T>(string key) where T : ASavedData, new()
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public void ForceSave()
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public void ClearData(string key)
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public void ClearAllData()
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 	}
 }

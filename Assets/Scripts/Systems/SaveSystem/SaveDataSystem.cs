@@ -10,9 +10,9 @@ namespace Systems.SaveSystem
 	{
 		private readonly IDataSerializer _dataSerializer;
 
-		private List<ISaver> savers = new List<ISaver>();
+		private readonly Dictionary<string, ASavedData> _dataCache = new();
 
-		private Dictionary<string, ASavedData> _dataCache = new Dictionary<string, ASavedData>();
+		private readonly List<ISaver> savers = new();
 
 		public SaveDataSystem(IDataSerializer dataSerializer)
 		{
@@ -24,31 +24,23 @@ namespace Systems.SaveSystem
 #endif
 		}
 
-		public void SaveData<T>(T data,string key) where T : ASavedData
+		public void SaveData<T>(T data, string key) where T : ASavedData
 		{
-			if (!_dataCache.TryAdd(key, data))
-			{
-				_dataCache[key] = data;
-			}
+			if (!_dataCache.TryAdd(key, data)) _dataCache[key] = data;
 
-			foreach (var saver in savers)
-			{
-				saver.SaveData(data,key);
-			}
+			foreach (var saver in savers) saver.SaveData(data, key);
 		}
 
 		public T LoadData<T>(string key) where T : ASavedData, new()
 		{
 			if (!_dataCache.ContainsKey(key))
-			{
 				foreach (var saver in savers)
 				{
 					var data = saver.LoadData<T>(key);
 					_dataCache.Add(key, data);
 				}
-				// if cache is empty = Load cloud data -> check local data; resave
-			}
 
+			// if cache is empty = Load cloud data -> check local data; resave
 			return (T) _dataCache[key];
 		}
 	}

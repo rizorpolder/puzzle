@@ -38,8 +38,6 @@ namespace Systems.Ads.Conditions
 
 		public float GetProgressForRewarded()
 		{
-			if (SharedContainer.Instance.RuntimeData.CurrentGameType == GameType.Classic)
-				return _config.Settings.ClassicProgressForRewarded;
 			return _config.Settings.AdventureProgressForRewarded;
 		}
 	}

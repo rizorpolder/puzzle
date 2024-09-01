@@ -10,7 +10,6 @@ namespace UI.Windows
 		[SerializeField] private Sprite _enabled;
 		[SerializeField] private Sprite _disabled;
 
-
 		public void SetState(bool isActive)
 		{
 			_image.sprite = isActive ? _enabled : _disabled;

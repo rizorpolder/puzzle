@@ -1,5 +1,4 @@
 using Data.Player;
-using Global;
 using Systems.Ads.Data;
 
 namespace Systems.Ads.Conditions
@@ -14,8 +13,6 @@ namespace Systems.Ads.Conditions
 			PlayerData = data;
 			Settings = settings;
 		}
-
-		protected bool IsClassic => SharedContainer.Instance.RuntimeData.CurrentGameType == GameType.Classic;
 
 		public abstract bool Check();
 	}
