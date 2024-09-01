@@ -135,23 +135,23 @@ namespace Field
 			switch (direction)
 			{
 				case SwipeDirection.Up:
-					newCoords.y--;
-					canMove = newCoords.y >= 0;
-					break;
-
-				case SwipeDirection.Down:
 					newCoords.y++;
 					canMove = newCoords.y < _fieldData.FieldDifficult.FieldSize.y;
 					break;
 
+				case SwipeDirection.Down:
+					newCoords.y--;
+					canMove = newCoords.y >= 0;
+					break;
+
 				case SwipeDirection.Left:
-					newCoords.x--;
-					canMove = newCoords.x >= 0;
+					newCoords.x++;
+					canMove = newCoords.x < _fieldData.FieldDifficult.FieldSize.x;
 					break;
 
 				case SwipeDirection.Right:
-					newCoords.x++;
-					canMove = newCoords.x < _fieldData.FieldDifficult.FieldSize.x;
+					newCoords.x--;
+					canMove = newCoords.x >= 0;
 					break;
 			}
 
