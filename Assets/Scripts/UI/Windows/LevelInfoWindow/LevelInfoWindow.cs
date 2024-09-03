@@ -1,7 +1,6 @@
-using System;
 using Configs.TextureRepository;
 using Data;
-using Extensions;
+using Data.Player;
 using Global;
 using Systems.LoadingSystem;
 using TMPro;
@@ -28,7 +27,7 @@ namespace UI.Windows.LevelWindow
 		[SerializeField] private Button _playButton;
 
 		private GameDifficult _selectedDifficult = GameDifficult.Low;
-
+		private TextureUnitConfig _config;
 		private void Start()
 		{
 			_playButton.onClick.AddListener(OnPlayButtonClick);
@@ -49,7 +48,7 @@ namespace UI.Windows.LevelWindow
 
 		private void OnBuyButtonClick()
 		{
-			//TODO Spend cost
+			SharedContainer.Instance.RuntimeData.PlayerData.SpendResource(_config.TextureCost);
 		}
 
 		private void OnPlayButtonClick()
@@ -64,7 +63,10 @@ namespace UI.Windows.LevelWindow
 			SetView(unit.Sprite);
 			SetCost(unit.TextureCost);
 			SetHeader(unit.Category.ToString());
-			//SetLockedState()
+
+			var haveSavedData = SharedContainer.Instance.RuntimeData.PlayerData.LevelsData.HaveLevelData(unit.Category, unit.TextureName, out var dataInfo);
+			SetLockedState(!haveSavedData);
+			SetStarsEnabled(0);
 		}
 
 		private void SetHeader(string header)
@@ -72,9 +74,9 @@ namespace UI.Windows.LevelWindow
 			_header.text = header;
 		}
 
-		private void SetCost(int unitTextureCost)
+		private void SetCost(Resource resource)
 		{
-			_textureCost.text = unitTextureCost.ToString();
+			_textureCost.text = resource.ToString();
 		}
 
 		private void SetView(Sprite sprite)

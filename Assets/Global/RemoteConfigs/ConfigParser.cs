@@ -17,6 +17,22 @@ public static class ConfigParser
         _ci.NumberFormat.CurrencyDecimalSeparator = ".";
     }
 
+    public static Resource ParseResource(string data)
+    {
+        var resourceData = data.Split(',');
+
+        if (resourceData.Length <= 1)
+            throw new Exception($"Error in parse resource. There must be at least 2 parameters separated by commas!{data}");
+
+        if (!Enum.TryParse(resourceData[0].Trim(), out ResourceType type))
+            throw new Exception($"Error in parse resource. Invalid resource type!\n{data}");
+
+        var count = ParseInt(resourceData[1].Trim());
+        var id = resourceData.Length > 2 ? resourceData[2].Trim() : string.Empty;
+
+        return new Resource(type, count);
+    }
+
     public static int ParseInt(string data)
     {
         if (string.IsNullOrEmpty(data))

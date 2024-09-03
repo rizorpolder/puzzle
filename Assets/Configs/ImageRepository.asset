@@ -21,13 +21,19 @@ MonoBehaviour:
       - Sprite: {fileID: 21300000, guid: 10e903d4b86f89649a47a9ff0d7ca7d5, type: 3}
         Category: 1
         TextureName: art_template
-        TextureCost: 0
+        TextureCost:
+          type: 1
+          value: 0
       - Sprite: {fileID: 21300000, guid: d95850eb7bde3e64c98910a907d139c8, type: 3}
         Category: 1
         TextureName: template_2
-        TextureCost: 300
+        TextureCost:
+          type: 1
+          value: 300
     - Textures:
       - Sprite: {fileID: 21300000, guid: 2022e05977bac084ea0b977c9203738a, type: 3}
         Category: 3
         TextureName: grid
-        TextureCost: 300
+        TextureCost:
+          type: 1
+          value: 300

@@ -17,6 +17,22 @@ namespace Configs.TextureRepository
 		[SerializeField] private string ShortPath;
 		[SerializeField] private SerializableDictionary<TextureCategory, TextureUnitHolder> configs = new();
 
+
+		public List<TextureUnitConfig> GetFreeTextures()
+		{
+			List<TextureUnitConfig> result = new List<TextureUnitConfig>();
+			foreach (var kv in configs)
+			{
+				foreach (var unit in kv.Value.Textures)
+				{
+					if(!unit.TextureCost.value.Equals(0))
+						continue;
+					result.Add(unit);
+				}
+			}
+
+			return result;
+		}
 		public TextureUnitConfig GetConfig(TextureCategory category, string textureName)
 		{
 			if (!configs.ContainsKey(category)) return null;
@@ -119,7 +135,7 @@ namespace Configs.TextureRepository
 					var textureData = textures.FirstOrDefault(x => x.TextureName.Equals(tableName));
 					if (textureData != null)
 					{
-						textureData.TextureCost = ConfigParser.ParseInt(items[3]);
+						textureData.TextureCost = ConfigParser.ParseResource(items[3]);
 					}
 				});
 
@@ -143,7 +159,7 @@ namespace Configs.TextureRepository
 		public Sprite Sprite;
 		public TextureCategory Category;
 		public string TextureName;
-		public int TextureCost;
+		public Resource TextureCost;
 
 		public TextureUnitConfig(string textureName)
 		{

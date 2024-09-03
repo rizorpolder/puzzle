@@ -19,6 +19,8 @@ namespace Managers
 			var fieldData = CreateFieldData();
 
 			_controller.CreateField(fieldData);
+			SharedContainer.Instance.GlobalUI.SetActiveHud(true);
+			//SharedContainer.Instance.GlobalUI.HUD.SetMode();
 		}
 
 		private FieldData CreateFieldData()

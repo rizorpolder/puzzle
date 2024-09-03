@@ -59,14 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.51017785, g: 1, b: 0.4292453, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7bb99d78b61db1a409fb3d93a234d1f6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7108de180469cb74d9349808cc2560ed, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_text: 3x3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e4c893a39e2efc44b9846e00a7a2a27a, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: ce20e1de282eb9c4a8424ac5b0bbcc84, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 73dfaa74660ccc541ab631892777d731, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -247,7 +247,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 230, y: 230}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8042438364256867439
 MonoBehaviour:
@@ -262,8 +262,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 2987913039240360975}
+  _image: {fileID: 6460795797640069799}
+  _buttonText: {fileID: 6227957809413943320}
   _difficult: 0
-  animationTime: 0.4
+  _selected:
+    SpriteSprite: {fileID: 21300000, guid: 7108de180469cb74d9349808cc2560ed, type: 3}
+    Material: {fileID: 2100000, guid: 73dfaa74660ccc541ab631892777d731, type: 2}
+  _deselected:
+    SpriteSprite: {fileID: 21300000, guid: ea55f6e0e04136a43b8b6c2e9bcf3228, type: 3}
+    Material: {fileID: 2100000, guid: 4dc38154fbefa0147b0bbfaf6c6ccd70, type: 2}
 --- !u!114 &2987913039240360975
 MonoBehaviour:
   m_ObjectHideFlags: 0

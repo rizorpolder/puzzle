@@ -1,6 +1,6 @@
 using System;
 using Data;
-using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +11,13 @@ namespace UI.Windows.LevelInfoWindow
 		public Action<GameDifficult> OnDifficultSelected = difficult => { };
 
 		[SerializeField] private Button _button;
+		[SerializeField] private Image _image;
+		[SerializeField] private TextMeshProUGUI _buttonText;
 		[SerializeField] private GameDifficult _difficult;
-		[SerializeField] private float animationTime = 0.4f;
+
+		[SerializeField] private ButtonStateOptions _selected;
+		[SerializeField] private ButtonStateOptions _deselected;
+
 
 		public GameDifficult GameDifficult => _difficult;
 
@@ -28,8 +33,17 @@ namespace UI.Windows.LevelInfoWindow
 
 		public void SetSelectedState(bool isSelected)
 		{
-			var scale = isSelected ? new Vector3(1.1f, 1.1f, 1.1f) : Vector3.one;
-			this.transform.DOScale(scale, animationTime);
+			var options = isSelected ? _selected : _deselected;
+			_image.sprite = options.SpriteSprite;
+			_buttonText.fontMaterial = options.Material;
 		}
+
+		[Serializable]
+		private class ButtonStateOptions
+		{
+			public Sprite SpriteSprite;
+			public Material Material;
+		}
+
 	}
 }

@@ -17,5 +17,10 @@ namespace Global
 		{
 			PlayerData = SharedContainer.Instance.SaveDataSystem.LoadData<PlayerData>(PlayerData.Key);
 		}
+
+		public void SpendResource()
+		{
+
+		}
 	}
 }
