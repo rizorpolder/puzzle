@@ -77,7 +77,7 @@ namespace Configs.TextureRepository
 						if (fileInfo.Name.Contains(".meta"))
 							continue;
 						var texturePath = $"Assets{_target.ShortPath}/{directoryInfo.Name}/{fileInfo.Name}";
-						var texture = (Texture2D) AssetDatabase.LoadAssetAtPath(texturePath, typeof(Texture2D));
+						var texture = (Sprite) AssetDatabase.LoadAssetAtPath(texturePath, typeof(Sprite));
 
 						if (!texture)
 							continue;
@@ -85,9 +85,8 @@ namespace Configs.TextureRepository
 						var unitConfig = new TextureUnitConfig(texture.name)
 						{
 							TextureName = texture.name,
-							Texture = texture,
 							Category = currentCategory,
-							Sprite = texture.CreateSprite()
+							Sprite = texture,
 						};
 						_target.configs[currentCategory].Textures.Add(unitConfig);
 					}
@@ -106,7 +105,6 @@ namespace Configs.TextureRepository
 	[Serializable]
 	public class TextureUnitConfig
 	{
-		public Texture2D Texture;
 		public Sprite Sprite;
 		public TextureCategory Category;
 		public string TextureName;

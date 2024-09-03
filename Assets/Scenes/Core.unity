@@ -363,7 +363,7 @@ MonoBehaviour:
   ID: Button
   button: {fileID: 260080630}
   clickType: 10
-  windowType: 5
+  windowType: 6
   windowName: 
   show: 1
   _requiredNetwork: 0

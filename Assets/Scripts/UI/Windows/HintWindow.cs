@@ -25,7 +25,7 @@ namespace UI.Windows
 			var fieldData = SharedContainer.Instance.RuntimeData.FieldData;
 
 			var textureUnit = _config.GetConfig(fieldData.TextureData.Category, fieldData.TextureData.TextureName);
-			_image.sprite = textureUnit.Texture.CreateSprite();
+			_image.sprite = textureUnit.Sprite;
 
 		}
 

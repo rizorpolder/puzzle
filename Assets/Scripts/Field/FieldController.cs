@@ -68,12 +68,14 @@ namespace Field
 
 			//calculating sprite data
 			var fieldSize = _fieldData.FieldDifficult.FieldSize;
-			var spriteSize =
-				new Vector2Int(_config.Texture.height / fieldSize.x, _config.Texture.width / fieldSize.y);
+
+			var spriteTexture = _config.Sprite.texture;
+
+			var spriteSize = new Vector2Int(spriteTexture.height / fieldSize.x, spriteTexture.width / fieldSize.y);
 			var pivot = new Vector2(.5f, .5f);
 
 			var rect = new Rect(cellCoords.x * spriteSize.x, cellCoords.y * spriteSize.y, spriteSize.x, spriteSize.y);
-			var sprite = _config.Texture.CreateSprite(rect, pivot);
+			var sprite = spriteTexture.CreateSprite(rect, pivot);
 			puzzleCell.CreateChip(sprite, cellCoords);
 		}
 

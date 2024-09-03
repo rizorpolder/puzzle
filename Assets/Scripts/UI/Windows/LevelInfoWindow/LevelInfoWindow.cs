@@ -61,7 +61,7 @@ namespace UI.Windows.LevelWindow
 
 		public void SetData(TextureUnitConfig unit)
 		{
-			SetView(unit.Texture);
+			SetView(unit.Sprite);
 			SetCost(unit.TextureCost);
 			SetHeader(unit.Category.ToString());
 			//SetLockedState()
@@ -77,9 +77,9 @@ namespace UI.Windows.LevelWindow
 			_textureCost.text = unitTextureCost.ToString();
 		}
 
-		private void SetView(Texture2D unitTexture)
+		private void SetView(Sprite sprite)
 		{
-			_image.sprite = unitTexture.CreateSprite();
+			_image.sprite = sprite;
 		}
 
 		private void SetLockedState(bool isLocked)
