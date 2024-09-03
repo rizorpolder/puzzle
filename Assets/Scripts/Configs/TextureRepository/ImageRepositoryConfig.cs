@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Extensions;
 using Helpers;
 using UnityEditor;
 using UnityEngine;
@@ -12,8 +11,11 @@ namespace Configs.TextureRepository
 	[CreateAssetMenu(menuName = "Project/Configs/Images Repository", fileName = "ImageRepository")]
 	public class ImageRepositoryConfig : ScriptableObject // TODO RemoteConfig
 	{
+		[SerializeField, Header("URL")] private string url;
+
+
 		[SerializeField] private string ShortPath;
-		[SerializeField] private SerializableDictionary<TextureCategory,TextureUnitHolder> configs = new();
+		[SerializeField] private SerializableDictionary<TextureCategory, TextureUnitHolder> configs = new();
 
 		public TextureUnitConfig GetConfig(TextureCategory category, string textureName)
 		{
@@ -33,6 +35,8 @@ namespace Configs.TextureRepository
 		}
 
 #if UNITY_EDITOR
+
+		#region Editor
 
 		[CustomEditor(typeof(ImageRepositoryConfig))]
 		public class ImageRepositoryConfigEditor : Editor
@@ -67,7 +71,7 @@ namespace Configs.TextureRepository
 
 					if (!_target.configs.ContainsKey(currentCategory))
 					{
-						_target.configs.Add(currentCategory,new TextureUnitHolder());
+						_target.configs.Add(currentCategory, new TextureUnitHolder());
 					}
 
 					var files = directoryInfo.GetFiles("*.*", SearchOption.AllDirectories);
@@ -93,6 +97,37 @@ namespace Configs.TextureRepository
 				}
 			}
 		}
+
+		#endregion
+
+		#region RemoteDownload
+
+		[ContextMenu("DownloadDataToConfig")]
+		public void SetupConfig()
+		{
+			ConfigLoad.SetupDownloadedItems(url,
+				(string[] items) =>
+				{
+					if (!Enum.TryParse(items[1], out TextureCategory category))
+						return;
+
+					var tableName = items[2];
+					if (!configs.ContainsKey(category))
+						return;
+
+					var textures = configs[category].Textures;
+					var textureData = textures.FirstOrDefault(x => x.TextureName.Equals(tableName));
+					if (textureData != null)
+					{
+						textureData.TextureCost = ConfigParser.ParseInt(items[3]);
+					}
+				});
+
+			EditorUtility.SetDirty(this);
+			Debug.Log($"{name} update Complited");
+		}
+
+		#endregion
 #endif
 	}
 
