@@ -49,6 +49,7 @@ namespace Configs
 		SettingsWindow = 3,
 		LevelsWindow = 4,
 		LevelInfoWindow = 5,
+		HintWindow = 6,
 
 		SupportSubmit = 99
 	}

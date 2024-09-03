@@ -1,6 +1,7 @@
 using System;
 using Configs.TextureRepository;
 using Data;
+using Extensions;
 using Global;
 using Systems.LoadingSystem;
 using TMPro;
@@ -78,10 +79,7 @@ namespace UI.Windows.LevelWindow
 
 		private void SetView(Texture2D unitTexture)
 		{
-			var pivot = new Vector2(0.5f, 0.5f);
-			var rect = new Rect(0.0f, 0.0f, unitTexture.width, unitTexture.height);
-			var sprite = Sprite.Create(unitTexture, rect, pivot);
-			_image.sprite = sprite;
+			_image.sprite = unitTexture.CreateSprite();
 		}
 
 		private void SetLockedState(bool isLocked)

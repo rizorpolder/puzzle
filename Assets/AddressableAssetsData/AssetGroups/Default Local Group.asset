@@ -37,6 +37,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b423c5116714304689dd138956da854
+    m_Address: Assets/Configs/ImageRepository.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54ac18710d1763c45ac8e5b31775b109
+    m_Address: Assets/Prefabs/Windows/HintWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 289088ab422df30449e4e356dcd686e0, type: 2}
   m_SchemaSet:

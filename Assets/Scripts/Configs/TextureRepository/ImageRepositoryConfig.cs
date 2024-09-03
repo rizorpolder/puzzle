@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Extensions;
 using Helpers;
 using UnityEditor;
 using UnityEngine;
@@ -85,7 +86,8 @@ namespace Configs.TextureRepository
 						{
 							TextureName = texture.name,
 							Texture = texture,
-							Category = currentCategory
+							Category = currentCategory,
+							Sprite = texture.CreateSprite()
 						};
 						_target.configs[currentCategory].Textures.Add(unitConfig);
 					}
@@ -105,7 +107,7 @@ namespace Configs.TextureRepository
 	public class TextureUnitConfig
 	{
 		public Texture2D Texture;
-
+		public Sprite Sprite;
 		public TextureCategory Category;
 		public string TextureName;
 		public int TextureCost;

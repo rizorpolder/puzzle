@@ -1,5 +1,6 @@
 using Configs.TextureRepository;
 using Data;
+using Extensions;
 using Global;
 using Systems;
 using UnityEngine;
@@ -72,7 +73,7 @@ namespace Field
 			var pivot = new Vector2(.5f, .5f);
 
 			var rect = new Rect(cellCoords.x * spriteSize.x, cellCoords.y * spriteSize.y, spriteSize.x, spriteSize.y);
-			var sprite = Sprite.Create(_config.Texture, rect, pivot);
+			var sprite = _config.Texture.CreateSprite(rect, pivot);
 			puzzleCell.CreateChip(sprite, cellCoords);
 		}
 

@@ -81,3 +81,20 @@ MonoBehaviour:
     IsOverrideShadowColor: 0
     ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     IsShadowUpperHUD: 0
+  - windowName: HintWindow
+    windowType: 6
+    assetReference:
+      m_AssetGUID: 54ac18710d1763c45ac8e5b31775b109
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    priority: 0
+    IsCached: 0
+    IsHideHUD: 1
+    IsHideOtherWindows: 0
+    IsShowHiddenWindowsOnEndAnimations: 0
+    IsHasShadow: 1
+    IsHideShadowOnEndAnimation: 0
+    IsOverrideShadowColor: 0
+    ShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    IsShadowUpperHUD: 0
