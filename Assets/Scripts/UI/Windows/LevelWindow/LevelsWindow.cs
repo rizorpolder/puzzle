@@ -60,14 +60,13 @@ namespace UI.Windows.LevelWindow
 			levelsPanel.UpdatePanelView(categoryConfigs);
 		}
 
-		private void CallLevelInfoWindow(TextureCategory category, string textureName)
+		private void CallLevelInfoWindow(TextureUnitConfig textureUnitConfig)
 		{
 			SharedContainer.Instance.WindowsController.Show(WindowType.LevelInfoWindow,
 				window =>
 				{
-					var unit = _config.GetConfig(category, textureName);
 					if (window is LevelInfoWindow infoWindow)
-						infoWindow.SetData(unit);
+						infoWindow.SetData(textureUnitConfig);
 				});
 		}
 	}

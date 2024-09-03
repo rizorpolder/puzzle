@@ -15,13 +15,16 @@ namespace UI.Windows.LevelWindow
 		[SerializeField] private TextMeshProUGUI _count;
 		[SerializeField] private StarView[] _stars; //ToDO to script for enable/initialize
 
-		private string _textureName;
-		private TextureCategory _category;
-		public Action<TextureCategory, string> OnButtonClick = (c, n) => { };
-
+		public Action<TextureUnitConfig> OnButtonClick = t => { };
+		private TextureUnitConfig _textureUnitConfig;
 		private void Start()
 		{
 			_button.onClick.AddListener(OnButtonClickHandler);
+		}
+
+		public void Initialize(TextureUnitConfig textureUnitConfig)
+		{
+			_textureUnitConfig = textureUnitConfig;
 		}
 
 		public ItemElementView SetIndex(int index)
@@ -30,17 +33,7 @@ namespace UI.Windows.LevelWindow
 			return this;
 		}
 
-		public ItemElementView SetName(string textureName)
-		{
-			_textureName = textureName;
-			return this;
-		}
 
-		public ItemElementView SetCategory(TextureCategory category)
-		{
-			_category = category;
-			return this;
-		}
 
 		public ItemElementView SetStars(int count)
 		{
@@ -61,7 +54,7 @@ namespace UI.Windows.LevelWindow
 
 		private void OnButtonClickHandler()
 		{
-			OnButtonClick?.Invoke(_category, _textureName);
+			OnButtonClick?.Invoke(_textureUnitConfig);
 		}
 	}
 }

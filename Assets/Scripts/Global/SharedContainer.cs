@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Ads.Runtime;
 using Advertising;
 using Systems;
 using Systems.Ads.Conditions;
+using Systems.BlockConditions;
 using Systems.LoadingSystem;
 using Systems.SaveSystem;
 using Systems.SaveSystem.Serializers;
@@ -14,7 +16,7 @@ namespace Global
 	public class SharedContainer : MonoBehaviour
 	{
 		public static SharedContainer Instance;
-
+		private List<IBlockCondition> _blockConditions = new List<IBlockCondition>();
 		#region fields
 
 		[SerializeField] private ConfigurableRoot _configurableRoot;
@@ -97,6 +99,24 @@ namespace Global
 		public void SetRuntimeData(RuntimeData data)
 		{
 			RuntimeData = data;
+		}
+
+		public void AddBlockCondition(IBlockCondition condition)
+		{
+			_blockConditions.Add(condition);
+		}
+
+		public bool HaveAnyBlockActions()
+		{
+			foreach (var condition in _blockConditions)
+			{
+				if (condition.Check())
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 #if UNITY_WEBGL

@@ -6,6 +6,7 @@ using AudioManager.Runtime.Core.Manager;
 using Common.Windows;
 using Configs;
 using Global;
+using Systems.BlockConditions;
 using UI.Common;
 using UI.Common.Animated;
 using UnityEngine;
@@ -47,6 +48,8 @@ namespace Systems
 		private void Initialize()
 		{
 			factory.Initialize(windowsConfig);
+
+			SharedContainer.Instance.AddBlockCondition(new WindowsBlockCondition(this));
 		}
 
 		private void AddToWait(WindowInstance window, Action<BaseWindow> callback)

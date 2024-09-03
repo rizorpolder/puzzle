@@ -13,13 +13,12 @@ namespace UI
 		{
 			_button.onClick.AddListener(OnContinueButtonClick);
 
-			//Check - have saved data?
+			var haveSavedGame = SharedContainer.Instance.RuntimeData.FieldData.HaveActualSaveData;
+			gameObject.SetActive(haveSavedGame);
 		}
 
 		private void OnContinueButtonClick()
 		{
-			//TODO
-			//Set saved data to runtime
 			SharedContainer.Instance.LoadingController.Load(Scenes.Core);
 		}
 	}

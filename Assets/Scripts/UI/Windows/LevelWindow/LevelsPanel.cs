@@ -12,7 +12,7 @@ namespace UI.Windows.LevelWindow
 		[SerializeField] private ItemElementView viewPrefab;
 		[SerializeField] private RectTransform root;
 		[SerializeField] private List<ItemElementView> views;
-		public Action<TextureCategory, string> OnWindowCall = (category, s) => { };
+		public Action<TextureUnitConfig> OnWindowCall = t => { };
 
 		private void Start()
 		{
@@ -41,9 +41,8 @@ namespace UI.Windows.LevelWindow
 					textureUnitConfig.TextureName,
 					out var data);
 
+				view.Initialize(textureUnitConfig);
 				view.SetIndex(i)
-					.SetName(textureUnitConfig.TextureName)
-					.SetCategory(textureUnitConfig.Category)
 					.SetLocked(haveSavedData);
 			}
 		}
@@ -63,9 +62,9 @@ namespace UI.Windows.LevelWindow
 			newView.OnButtonClick += CallLevelInfoWindow;
 		}
 
-		private void CallLevelInfoWindow(TextureCategory category, string textureName)
+		private void CallLevelInfoWindow(TextureUnitConfig textureUnitConfig)
 		{
-			OnWindowCall?.Invoke(category, textureName);
+			OnWindowCall?.Invoke(textureUnitConfig);
 		}
 	}
 }

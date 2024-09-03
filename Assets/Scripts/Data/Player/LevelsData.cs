@@ -27,7 +27,11 @@ namespace Data.Player
 
 		public void AddDataInfo(TextureCategory category, string textureName)
 		{
-			if (!_levels.TryGetValue(category, out var level)) return;
+			if (!_levels.TryGetValue(category, out var level))
+			{
+				_levels.Add(category, new List<LevelDataInfo>(){new LevelDataInfo(textureName)});
+				return;
+			}
 
 			var dataInfo = level.FirstOrDefault(x => x.TextureName.Equals(textureName));
 			if (dataInfo != null)

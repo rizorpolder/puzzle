@@ -1,12 +1,13 @@
 using System;
 using Common;
+using Global;
 using UnityEngine;
 
 namespace Systems
 {
 	public class InputSystem : Singletone<InputSystem>
 	{
-		[SerializeField] [Range(0f, 1f)] private Vector3 deadZone = new(0.1f, 0.1f, 0.1f);
+		[SerializeField] private float deadZone = 100f;
 
 		private Vector3 _endPosition;
 		private Vector3 _startPosition;
@@ -50,6 +51,9 @@ namespace Systems
 			if (!Input.GetMouseButton(0) && !Input.GetKeyUp(KeyCode.Mouse0))
 				return;
 
+			if(SharedContainer.Instance.HaveAnyBlockActions())
+				return;
+
 			var touchPosition = Input.mousePosition;
 
 			if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -66,6 +70,10 @@ namespace Systems
 
 		private void TouchUp(Vector3 touchPosition)
 		{
+			var delta = touchPosition - _startPosition;
+			if(delta.magnitude < deadZone)
+				return;
+
 			_endPosition = touchPosition;
 			var direction = GetSwipeDirection();
 			OnSwipe?.Invoke(direction);

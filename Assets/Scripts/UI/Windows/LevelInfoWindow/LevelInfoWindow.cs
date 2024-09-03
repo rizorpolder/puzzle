@@ -26,7 +26,7 @@ namespace UI.Windows.LevelWindow
 		[SerializeField] private Button buyButton;
 		[SerializeField] private Button _playButton;
 
-		private GameDifficult _selectedDifficult = GameDifficult.Low;
+		private Difficult _selectedDifficult = Difficult.Low;
 		private TextureUnitConfig _config;
 		private void Start()
 		{
@@ -54,12 +54,15 @@ namespace UI.Windows.LevelWindow
 		private void OnPlayButtonClick()
 		{
 			//Change runtimeData to settings (Categories, name, diff)
+			SharedContainer.Instance.RuntimeData.StartCoreGame(_config, _selectedDifficult);
 			SharedContainer.Instance.WindowsController.HideAllWindows();
 			SharedContainer.Instance.LoadingController.Load(Scenes.Core);
 		}
 
 		public void SetData(TextureUnitConfig unit)
 		{
+			_config = unit;
+
 			SetView(unit.Sprite);
 			SetCost(unit.TextureCost);
 			SetHeader(unit.Category.ToString());
@@ -76,7 +79,7 @@ namespace UI.Windows.LevelWindow
 
 		private void SetCost(Resource resource)
 		{
-			_textureCost.text = resource.ToString();
+			_textureCost.text = resource.value.ToString();
 		}
 
 		private void SetView(Sprite sprite)
@@ -104,12 +107,12 @@ namespace UI.Windows.LevelWindow
 			}
 		}
 
-		private void SelectGameDifficult(GameDifficult diff)
+		private void SelectGameDifficult(Difficult diff)
 		{
 			_selectedDifficult = diff;
 			foreach (var difficultSelectButton in _difficultSelectButtons)
 			{
-				var isSelected = difficultSelectButton.GameDifficult.Equals(diff);
+				var isSelected = difficultSelectButton.GameDifficult.Equals(diff.DifficultValue);
 				difficultSelectButton.SetSelectedState(isSelected);
 			}
 		}
