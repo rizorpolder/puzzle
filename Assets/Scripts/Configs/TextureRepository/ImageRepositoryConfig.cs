@@ -172,8 +172,9 @@ namespace Configs.TextureRepository
 	{
 		All,
 		Abstraction,
-		Cars,
+		Animals,
 		Nature,
+		Art,
 
 		//Custom,
 	}

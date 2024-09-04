@@ -72,8 +72,8 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
     priority: 0
-    IsCached: 0
-    IsHideHUD: 1
+    IsCached: 1
+    IsHideHUD: 0
     IsHideOtherWindows: 0
     IsShowHiddenWindowsOnEndAnimations: 0
     IsHasShadow: 1
