@@ -1,9 +1,11 @@
 using System;
+using Configs;
 using Configs.TextureRepository;
 using Data;
 using Extensions;
 using Global;
 using Systems;
+using UI.Windows;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -113,7 +115,17 @@ namespace Field
 
 			var puzzleCell = field[newCoords.x, newCoords.y];
 			SwapCellData(_emptyCell, puzzleCell);
-			if (CheckForCompletion()) Debug.LogAssertionFormat("YOU WIN");
+			if (CheckForCompletion())
+			{
+				SharedContainer.Instance.WindowsController.Show(WindowType.WinWindow,
+					window =>
+					{
+						if (window is WinWindow winWindow)
+						{
+							winWindow.Initialize();
+						}
+					} );
+			}
 		}
 
 		private void SwapCellData(PuzzleCell from, PuzzleCell to)
