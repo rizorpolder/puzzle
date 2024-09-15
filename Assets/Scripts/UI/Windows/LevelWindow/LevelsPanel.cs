@@ -42,7 +42,7 @@ namespace UI.Windows.LevelWindow
 					out var data);
 
 				view.Initialize(textureUnitConfig);
-				view.SetIndex(i)
+				view.SetIndexText(i + 1)
 					.SetLocked(haveSavedData);
 			}
 		}

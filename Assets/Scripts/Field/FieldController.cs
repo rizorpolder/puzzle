@@ -1,9 +1,11 @@
+using System;
 using Configs.TextureRepository;
 using Data;
 using Extensions;
 using Global;
 using Systems;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Field
 {
@@ -11,6 +13,7 @@ namespace Field
 	{
 		[SerializeField] private PuzzleCell prefab;
 		[SerializeField] private Transform fieldRoot;
+		[SerializeField] private Vector3[] _fieldScale;
 		private TextureUnitConfig _config;
 		private PuzzleCell _emptyCell;
 		private FieldData _fieldData;
@@ -25,6 +28,7 @@ namespace Field
 			_config = repositoryConfig.GetConfig(fieldData.TextureData.Category, fieldData.TextureData.TextureName);
 			GenerateField();
 			Shuffle();
+			UpdateFieldScale();
 		}
 
 		private void GenerateField()
@@ -159,6 +163,24 @@ namespace Field
 			}
 
 			return canMove;
+		}
+
+		private void UpdateFieldScale()
+		{
+			//TODO Refactor this
+			switch (_fieldData.FieldDifficult.DifficultValue)
+			{
+				case GameDifficult.Low:
+					fieldRoot.localScale = _fieldScale[0];
+
+					break;
+				case GameDifficult.Mid:
+					fieldRoot.localScale = _fieldScale[1];
+					break;
+				case GameDifficult.Hard:
+					fieldRoot.localScale = _fieldScale[2];
+					break;
+			}
 		}
 	}
 }

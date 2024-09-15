@@ -35,16 +35,16 @@ namespace Global
 
 			IsIos = SystemInfo.operatingSystem.ToLower().Trim().Contains("iphone");
 
-			Debug.Log($"IsDesktop:{IsDesktop}");
-			Debug.Log($"IsIos:{IsIos}");
-			Debug.Log($"SystemInfo.operatingSystem:{SystemInfo.operatingSystem}");
-			Debug.Log($"SystemInfo.operatingSystemFamily:{SystemInfo.operatingSystemFamily}");
-
-			Debug.Log($"SystemInfo.deviceType:{SystemInfo.deviceType}");
-			Debug.Log($"SystemInfo.deviceModel:{SystemInfo.deviceModel}");
-
-			Debug.Log($"SystemInfo.processorType{SystemInfo.processorType}");
-			Debug.Log($"SystemInfo.systemMemorySize:{SystemInfo.systemMemorySize}");
+			// Debug.Log($"IsDesktop:{IsDesktop}");
+			// Debug.Log($"IsIos:{IsIos}");
+			// Debug.Log($"SystemInfo.operatingSystem:{SystemInfo.operatingSystem}");
+			// Debug.Log($"SystemInfo.operatingSystemFamily:{SystemInfo.operatingSystemFamily}");
+			//
+			// Debug.Log($"SystemInfo.deviceType:{SystemInfo.deviceType}");
+			// Debug.Log($"SystemInfo.deviceModel:{SystemInfo.deviceModel}");
+			//
+			// Debug.Log($"SystemInfo.processorType{SystemInfo.processorType}");
+			// Debug.Log($"SystemInfo.systemMemorySize:{SystemInfo.systemMemorySize}");
 		}
 	}
 }

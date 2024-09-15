@@ -2,18 +2,20 @@ using Data;
 using Field;
 using Global;
 using Systems;
+using Systems.LoadingSystem;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Managers
 {
 	public class GameManager : MonoBehaviour
 	{
 		[SerializeField] private FieldController _controller;
-
+		[SerializeField] private Button _backButton;
 		private void Start()
 		{
 			InputSystem.Instance.OnSwipe += OnSwipeAction;
-
+			_backButton.onClick.AddListener(BackToMenu);
 			//TODO LOAD
 
 			var fieldData = CreateFieldData();
@@ -21,6 +23,11 @@ namespace Managers
 			_controller.CreateField(fieldData);
 			SharedContainer.Instance.GlobalUI.SetActiveHud(true);
 			//SharedContainer.Instance.GlobalUI.HUD.SetMode();
+		}
+
+		private void BackToMenu()
+		{
+			SharedContainer.Instance.LoadingController.Load(Scenes.Menu);
 		}
 
 		private FieldData CreateFieldData()

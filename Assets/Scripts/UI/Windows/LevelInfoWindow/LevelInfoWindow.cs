@@ -40,10 +40,7 @@ namespace UI.Windows.LevelWindow
 
 		protected override void OnShowAction()
 		{
-			foreach (var selectButtons in _difficultSelectButtons)
-			{
-				selectButtons.SetSelectedState(false);
-			}
+			SelectGameDifficult(_selectedDifficult);
 		}
 
 		private void OnBuyButtonClick()

@@ -27,7 +27,7 @@ namespace UI.Windows.LevelWindow
 			_textureUnitConfig = textureUnitConfig;
 		}
 
-		public ItemElementView SetIndex(int index)
+		public ItemElementView SetIndexText(int index)
 		{
 			_count.text = index.ToString();
 			return this;
