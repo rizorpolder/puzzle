@@ -1,5 +1,6 @@
 using System;
 using Global;
+using UnityEngine;
 
 namespace Data.Player
 {
@@ -22,7 +23,6 @@ namespace Data.Player
 			LevelsData = new LevelsData();
 			ResourceData = new ResourceData();
 			InitializeFreeTextures();
-
 		}
 
 		private void InitializeFreeTextures()
@@ -63,7 +63,6 @@ namespace Data.Player
 					return ResourceData.Coins;
 				case ResourceType.Hard:
 					return ResourceData.Stars;
-
 				case ResourceType.Restored:
 					return ResourceData.Hearts;
 				default:
@@ -73,8 +72,13 @@ namespace Data.Player
 
 		public void SpendResource(Resource resource)
 		{
-			if (HasResources(resource))
-				AddResource(resource);
+			if (!HasResources(resource))
+			{
+				Debug.Log("Not Enough resources, Open shop");
+				return;
+			}
+
+			AddResource(resource);
 		}
 
 		public bool HasResources(params Resource[] resources)

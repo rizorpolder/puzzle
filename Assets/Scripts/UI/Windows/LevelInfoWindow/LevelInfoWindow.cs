@@ -28,6 +28,7 @@ namespace UI.Windows.LevelWindow
 
 		private Difficult _selectedDifficult = Difficult.Low;
 		private TextureUnitConfig _config;
+		private bool _isLocked = false;
 		private void Start()
 		{
 			_playButton.onClick.AddListener(OnPlayButtonClick);
@@ -40,6 +41,7 @@ namespace UI.Windows.LevelWindow
 
 		protected override void OnShowAction()
 		{
+			_selectedDifficult = default;
 			SelectGameDifficult(_selectedDifficult);
 		}
 
@@ -50,7 +52,12 @@ namespace UI.Windows.LevelWindow
 
 		private void OnPlayButtonClick()
 		{
-			//Change runtimeData to settings (Categories, name, diff)
+			if (_isLocked)
+			{
+				//TODO Buy button beahaviour
+				return;
+			}
+
 			SharedContainer.Instance.RuntimeData.StartCoreGame(_config, _selectedDifficult);
 			SharedContainer.Instance.WindowsController.HideAllWindows();
 			SharedContainer.Instance.LoadingController.Load(Scenes.Core);
@@ -86,8 +93,9 @@ namespace UI.Windows.LevelWindow
 
 		private void SetLockedState(bool isLocked)
 		{
-			difficultPanel.gameObject.SetActive(!isLocked);
-			buyPanel.gameObject.SetActive(isLocked);
+			_isLocked = isLocked;
+			difficultPanel.gameObject.SetActive(!_isLocked);
+			buyPanel.gameObject.SetActive(_isLocked);
 		}
 
 		private void SetStarsEnabled(int count)
