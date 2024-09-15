@@ -27,7 +27,7 @@ namespace Field
 			var repositoryConfig = ConfigurableRoot.Instance.ImageRepositoryConfig;
 			_config = repositoryConfig.GetConfig(fieldData.TextureData.Category, fieldData.TextureData.TextureName);
 			GenerateField();
-			Shuffle();
+			//Shuffle();
 			UpdateFieldScale();
 		}
 
@@ -36,18 +36,19 @@ namespace Field
 			var fieldSize = _fieldData.FieldDifficult.FieldSize;
 			field = new PuzzleCell[fieldSize.x, fieldSize.y];
 
-			for (var i = 0; i < fieldSize.x; i++)
-			for (var j = 0; j < fieldSize.y; j++)
+			for (var row = 0; row < fieldSize.x; row++)
+			for (var column = 0; column < fieldSize.y; column++)
 			{
-				var cellCoords = new Vector2Int(j, i);
+				var cellCoords = new Vector2Int(column, row);
 				var cell = field[cellCoords.x, cellCoords.y];
-				if (!cell) cell = AddCell(cellCoords);
+				if (!cell)
+					cell = AddCell(cellCoords);
 
 				ChipToCell(cell);
 			}
 
 			//TODO подумать над формированием и сохранением "пустой клетки"
-			_emptyCell = field[fieldSize.x - 1, fieldSize.y - 1];
+			_emptyCell = field[fieldSize.x - 1, 0];
 			_emptyCell.Clear();
 		}
 
@@ -76,7 +77,7 @@ namespace Field
 			var spriteTexture = _config.Sprite.texture;
 
 			var spriteSize = new Vector2Int(spriteTexture.height / fieldSize.x, spriteTexture.width / fieldSize.y);
-			var pivot = new Vector2(.5f, .5f);
+			var pivot = new Vector2(0f, .5f);
 
 			var rect = new Rect(cellCoords.x * spriteSize.x, cellCoords.y * spriteSize.y, spriteSize.x, spriteSize.y);
 			var sprite = spriteTexture.CreateSprite(rect, pivot);
@@ -85,20 +86,25 @@ namespace Field
 
 		private void Shuffle()
 		{
-			var iterations = 100;
+			var iterations = 10;
+			int shuffles = 0;
 			for (var i = 0; i < iterations; i++)
 			{
-				var cell1 = GetRandomCell();
-				var cell2 = GetRandomCell();
-				SwapCellData(cell1, cell2);
-			}
-		}
+				var cell1 = _emptyCell;
 
-		private PuzzleCell GetRandomCell()
-		{
-			var x = Random.Range(0, _fieldData.FieldDifficult.FieldSize.x);
-			var y = Random.Range(0, _fieldData.FieldDifficult.FieldSize.y);
-			return field[x, y];
+				var dice = Random.Range(0, 4);
+				var direction = (SwipeDirection) dice;
+
+				if (!CanMove(direction, out var coords))
+					continue;
+
+				var cell2 = field[coords.x, coords.y];
+
+				SwapCellData(cell1, cell2);
+				Debug.Log(direction);
+			}
+
+			Debug.Log(shuffles);
 		}
 
 		public void SwitchCells(SwipeDirection direction)
@@ -138,17 +144,16 @@ namespace Field
 		{
 			var canMove = false;
 			newCoords = _emptyCell.CellCoord;
-
 			switch (direction)
 			{
 				case SwipeDirection.Up:
-					newCoords.y++;
-					canMove = newCoords.y < _fieldData.FieldDifficult.FieldSize.y;
+					newCoords.y--;
+					canMove = newCoords.y >= 0;
 					break;
 
 				case SwipeDirection.Down:
-					newCoords.y--;
-					canMove = newCoords.y >= 0;
+					newCoords.y++;
+					canMove = newCoords.y < _fieldData.FieldDifficult.FieldSize.y;
 					break;
 
 				case SwipeDirection.Left:
